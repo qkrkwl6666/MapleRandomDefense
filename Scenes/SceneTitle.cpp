@@ -17,8 +17,13 @@ void SceneTitle::Init()
 
 void SceneTitle::Update(float dt)
 {
-
 	Scene::Update(dt);
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::Enter)) 
+	{
+		std::cout << "ChangeScene!!" << std::endl;
+		SCENE_MGR.ChangeScene(SceneIds::SceneAnimatorEditer);
+	}
 
 }
 
