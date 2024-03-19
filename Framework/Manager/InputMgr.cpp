@@ -6,6 +6,9 @@ std::list<sf::Keyboard::Key> InputMgr::downList;
 std::list<sf::Keyboard::Key> InputMgr::upList;
 std::list<sf::Keyboard::Key> InputMgr::ingList;
 sf::Vector2f InputMgr::mousePos;
+std::wstring InputMgr::inputText;
+
+bool InputMgr::isInput;
 
 InputMgr::SFGM_COMBO InputMgr::combo;
 float InputMgr::comboTimer = 0.f;
@@ -75,6 +78,34 @@ void InputMgr::UpdateEvent(const sf::Event& ev)
             upList.push_back(button);
         }
         break;
+
+    case sf::Event::TextEntered:
+        {
+            if (isInput)
+            {
+                switch (ev.text.unicode)
+                {
+                    // TODO : 복붙 가능하게 변경
+                    case 0x0008:
+                        if (!inputText.empty())
+                        {
+                            inputText.pop_back();
+                        }
+                        break;
+
+                    case 0x000D: // 캐리지 리턴 (Enter)
+                        break;
+                    
+                    case 0x0016:
+                        inputText += sf::Clipboard::getString();
+                        break;
+                    default:
+                        inputText += ev.text.unicode;
+                        break;
+                }
+                    
+            }
+        }
     }
 }
 

@@ -21,6 +21,7 @@ protected:
 	RenderWindowRBR window;
 	float fixedInterval = 1.f/60.f;
 	Crosshair* mouse;
+	sf::Event event;
 
 	sf::Clock clock;
 	float timeScale = 1.f;
@@ -59,6 +60,8 @@ public:
 	virtual void Init(int width, int height, const std::string& name = "Game");
 	virtual void Do();
 	virtual void Release();
+
+	sf::Event& GetEvent() { return event; }
 
 };
 
