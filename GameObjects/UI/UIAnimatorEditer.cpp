@@ -106,16 +106,16 @@ void UIAnimatorEditer::Init()
 		FRAMEWORK.GetWindowSize().y * 0.2f, });
 	sprites["SaveSprite"]->sortLayer = 1;
 
-	std::vector<Animation> animations = 
-	{
-	   {"texture1.png", 0, 0, 100, 100},
-	   {"texture2.png", 100, 100, 200, 200},
-	   {"texture3.png", 200, 200, 150, 150}
-	};
+	//std::vector<Animation> animations = 
+	//{
+	//   {"texture1.png", 0, 0, 100, 100},
+	//   {"texture2.png", 100, 100, 200, 200},
+	//   {"texture3.png", 200, 200, 150, 150}
+	//};
 
-	std::string filename = "animations.csv";
+	//std::string filename = "animations.csv";
 
-	SaveToCSV();
+	//SaveToCSV();
 
 	UiInit();
 	ObjectsSort();
@@ -230,23 +230,39 @@ void UIAnimatorEditer::SaveToCSV()
 	{
 		// CSV 파일 헤더 작성
 		file << "ID,FPS,LOOPTYPE\n"; // \n\n
-		file << removeNewline(Utils::WSTRINGToString(idWstring)) << ","
-			<< removeNewline(Utils::WSTRINGToString(fpsWstring)) << ","
-			<< removeNewline(Utils::WSTRINGToString(loopWstring)) << "\n";
+		file << Utils::WSTRINGToString(idWstring) << ","
+			<< Utils::WSTRINGToString(fpsWstring) << ","
+			<< Utils::WSTRINGToString(loopWstring) << "\n\n";
 
 		std::wcout << idWstring << fpsWstring << loopWstring;
 
 		file << "TEXTURE,X,Y,WIDTH,HEIGHT\n";
 
-		// 애니메이션 데이터 작성
-		//for (const auto& animation : animations)
-		//{
-		//	file << animation.texture << ","
-		//		<< animation.x << ","
-		//		<< animation.y << ","
-		//		<< animation.width << ","
-		//		<< animation.height << "\n";
-		//}
+		sf::Image spriteSheet;
+		spriteSheet.loadFromFile(SpriteSheetFilePath);
+		sf::Vector2u imgSize = spriteSheet.getSize();
+	
+		for (int i = 0; i < std::stoi(Utils::WSTRINGToString(countWstring)); i++)
+		{
+			Animation ani;
+			//
+			ani.width = imgSize.x / std::stoi(Utils::WSTRINGToString(countWstring));
+			ani.height = imgSize.y;
+			ani.texture = Utils::WSTRINGToString(idWstring);
+			ani.x = i * ani.width;
+			ani.y = 0;
+			animations.push_back(ani);
+		}
+
+		 //애니메이션 데이터 작성
+		for (const auto& animation : animations)
+		{
+			file << animation.texture << ","
+				<< animation.x << ","
+				<< animation.y << ","
+				<< animation.width << ","
+				<< animation.height << "\n";
+		}
 
 		file.close();
 		std::cout << "CSV file saved successfully." << std::endl;

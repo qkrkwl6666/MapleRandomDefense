@@ -28,6 +28,7 @@ public:
 
 protected:
 	std::string SpriteSheetFilePath = "";
+	std::vector<Animation> animations;
 
 	bool isIdInput = false;
 	std::wstring idWstring = L"";

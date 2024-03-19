@@ -93,7 +93,7 @@ void InputMgr::UpdateEvent(const sf::Event& ev)
                         }
                         break;
 
-                    case 0x000D: // 캐리지 리턴 (Enter)
+                    case 0x000D: // Enter
                         break;
                     
                     case 0x0016:
