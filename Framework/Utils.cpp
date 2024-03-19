@@ -420,6 +420,39 @@ std::wstring Utils::OpenSaveFileDialog()
 	return L""; // 사용자가 취소하면 빈 문자열을 반환
 }
 
+std::vector<std::wstring> Utils::OpenFileDialog()
+{
+	OPENFILENAME ofn;
+	wchar_t szFileName[MAX_PATH] = L"";
+	wchar_t szFileNames[MAX_PATH * 100] = L""; // 여러 파일 경로를 저장할 버퍼
+
+	ZeroMemory(&ofn, sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFilter = L"PNG Files (*.png)\0*.png\0All Files (*.*)\0*.*\0";
+	ofn.lpstrFile = szFileNames;
+	ofn.nMaxFile = MAX_PATH * 100;
+	ofn.lpstrFileTitle = szFileName;
+	ofn.nMaxFileTitle = MAX_PATH;
+	ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_ALLOWMULTISELECT;
+	ofn.lpstrDefExt = L"png";
+
+	std::vector<std::wstring> filePaths;
+
+	if (GetOpenFileName(&ofn))
+	{
+		wchar_t* pFilePath = szFileNames;
+		while (*pFilePath)
+		{
+			std::wstring filePath = pFilePath;
+			filePaths.push_back(filePath);
+			pFilePath += filePath.length() + 1;
+		}
+	}
+
+	return filePaths;
+}
+
 void Utils::RemoveStringBeforeKeyWord(std::string& filePath
 	, const std::string& keyWord)
 {

@@ -2,8 +2,7 @@
 
 #include "pch.h"
 #include "UIGo.h"
-#include <ostream>
-#include <fstream>
+
 
 class UIAnimatorEditer : public UIGo
 {
@@ -56,6 +55,7 @@ public:
 	void MouseHandle(const std::string& id, Types type);
 	void InputString(const std::string& id , std::wstring& isWstring);
 
+	bool MouseSpriteMouseLeftEvent(const std::string& id);
 	void SaveToCSV();
 
 	std::string removeNewline(std::string str)

@@ -3,6 +3,8 @@
 #include "SpriteGo.h"
 #include "Crosshair.h"
 #include "TextGo.h"
+#include <ostream>
+#include <fstream>
 
 UIAnimatorEditer::UIAnimatorEditer(const std::string& name)
 {
@@ -106,17 +108,6 @@ void UIAnimatorEditer::Init()
 		FRAMEWORK.GetWindowSize().y * 0.2f, });
 	sprites["SaveSprite"]->sortLayer = 1;
 
-	//std::vector<Animation> animations = 
-	//{
-	//   {"texture1.png", 0, 0, 100, 100},
-	//   {"texture2.png", 100, 100, 200, 200},
-	//   {"texture3.png", 200, 200, 150, 150}
-	//};
-
-	//std::string filename = "animations.csv";
-
-	//SaveToCSV();
-
 	UiInit();
 	ObjectsSort();
 }
@@ -145,18 +136,15 @@ void UIAnimatorEditer::LateUpdate(float dt)
 	switch (currentType)
 	{
 		case UIAnimatorEditer::Types::NONE:
-			if (sprites["TextuerLoad"]->GetGlobalBounds().intersects
-			(FRAMEWORK.GetMouse()->GetGlobalBounds()) &&
-				InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+			
+			if(MouseSpriteMouseLeftEvent("TextuerLoad"))
 			{
 				SpriteSheetFilePath = Utils::WSTRINGToString(Utils::OpenSaveFileDialog());
 				Utils::RemoveStringBeforeKeyWord(SpriteSheetFilePath , "graphics");
 				std::cout << SpriteSheetFilePath << std::endl;
 			}
 
-			if (sprites["SaveSprite"]->GetGlobalBounds().intersects
-			(FRAMEWORK.GetMouse()->GetGlobalBounds()) &&
-				InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+			if (MouseSpriteMouseLeftEvent("SaveSprite"))
 			{
 				SaveToCSV();
 			}
@@ -217,9 +205,25 @@ void UIAnimatorEditer::InputString(const std::string& id,
 
 }
 
+bool UIAnimatorEditer::MouseSpriteMouseLeftEvent(const std::string& id)
+{
+	if (sprites[id]->GetGlobalBounds().intersects
+	(FRAMEWORK.GetMouse()->GetGlobalBounds()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void UIAnimatorEditer::SaveToCSV()
 {
 	std::wcout << idWstring << std::endl;
+
+	// TODO : 예외 처리 아직 안함
 
 	std::ofstream file("Animation/AnimatorEditer/" + 
 		Utils::WSTRINGToString(idWstring) + ".csv", std::ios::out);
