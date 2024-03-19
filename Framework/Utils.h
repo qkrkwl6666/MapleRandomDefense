@@ -58,4 +58,6 @@ public:
 	static std::string ConvertToRelativePath(const std::string& absolutePath);
 	// Windows.h
 	static std::wstring OpenSaveFileDialog();
+
+	static void RemoveStringBeforeKeyWord(std::string& filePath , const std::string& keyWord);
 };

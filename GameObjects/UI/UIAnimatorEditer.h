@@ -19,7 +19,6 @@ public:
 
 	struct Animation
 	{
-		std::string texture;
 		int x;
 		int y;
 		int width;

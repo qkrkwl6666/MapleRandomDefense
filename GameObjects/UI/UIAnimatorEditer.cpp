@@ -150,7 +150,7 @@ void UIAnimatorEditer::LateUpdate(float dt)
 				InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 			{
 				SpriteSheetFilePath = Utils::WSTRINGToString(Utils::OpenSaveFileDialog());
-
+				Utils::RemoveStringBeforeKeyWord(SpriteSheetFilePath , "graphics");
 				std::cout << SpriteSheetFilePath << std::endl;
 			}
 
@@ -184,9 +184,6 @@ void UIAnimatorEditer::LateUpdate(float dt)
 		default:
 			break;
 	}
-
-
-
 
 }
 
@@ -224,7 +221,8 @@ void UIAnimatorEditer::SaveToCSV()
 {
 	std::wcout << idWstring << std::endl;
 
-	std::ofstream file("animations.csv", std::ios::out);
+	std::ofstream file("Animation/AnimatorEditer/" + 
+		Utils::WSTRINGToString(idWstring) + ".csv", std::ios::out);
 
 	if (file.is_open())
 	{
@@ -241,14 +239,15 @@ void UIAnimatorEditer::SaveToCSV()
 		sf::Image spriteSheet;
 		spriteSheet.loadFromFile(SpriteSheetFilePath);
 		sf::Vector2u imgSize = spriteSheet.getSize();
-	
+		
+		animations.clear();
+
 		for (int i = 0; i < std::stoi(Utils::WSTRINGToString(countWstring)); i++)
 		{
 			Animation ani;
 			//
 			ani.width = imgSize.x / std::stoi(Utils::WSTRINGToString(countWstring));
 			ani.height = imgSize.y;
-			ani.texture = Utils::WSTRINGToString(idWstring);
 			ani.x = i * ani.width;
 			ani.y = 0;
 			animations.push_back(ani);
@@ -257,7 +256,7 @@ void UIAnimatorEditer::SaveToCSV()
 		 //애니메이션 데이터 작성
 		for (const auto& animation : animations)
 		{
-			file << animation.texture << ","
+			file << SpriteSheetFilePath << ","
 				<< animation.x << ","
 				<< animation.y << ","
 				<< animation.width << ","
