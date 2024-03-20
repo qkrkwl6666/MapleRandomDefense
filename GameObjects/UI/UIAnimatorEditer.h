@@ -8,19 +8,6 @@ class SpriteAnimatorGo;
 class UIAnimatorEditer : public UIGo
 {
 public:
-	enum class Angle
-	{
-		TOP,
-		TOP15,
-		TOP30,
-		TOP60,
-		RIGHT,
-		BOTTOM60,
-		BOTTOM30,
-		BOTTOM15,
-		BOTTOM,
-	};
-
 	enum class Types
 	{
 		NONE,

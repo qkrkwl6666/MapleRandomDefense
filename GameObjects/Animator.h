@@ -7,6 +7,19 @@ enum class AnimationLoopTypes
 	PINGPONG,
 };
 
+enum class Angle
+{
+	TOP,
+	TOP15,
+	TOP30,
+	TOP60,
+	RIGHT,
+	BOTTOM60,
+	BOTTOM30,
+	BOTTOM15,
+	BOTTOM,
+};
+
 struct AnimationFrame
 {
 	std::string textureId;
