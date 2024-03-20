@@ -3,6 +3,7 @@
 #include "SpriteGo.h"
 #include "Crosshair.h"
 #include "TextGo.h"
+#include "SpriteAnimatorGo.h"
 #include <ostream>
 #include <fstream>
 
@@ -96,7 +97,7 @@ void UIAnimatorEditer::Init()
 	texts["SpritesCountText"]->SetColor(sf::Color::Black);
 	texts["SpritesCountText"]->SetOrigin(Origins::MC);
 	texts["SpritesCountText"]->SetPosition({ FRAMEWORK.GetWindowSize().x
-		- (sprites["SpritesCount"]->GetGlobalBounds().width / 2)
+		- (texts["SpritesCountText"]->GetGlobalBounds().width)
 		, 50.f });
 
 	texts["SpritesCountText"]->sortLayer = 2;
@@ -107,6 +108,70 @@ void UIAnimatorEditer::Init()
 		- sprites["SaveSprite"]->GetGlobalBounds().width, 
 		FRAMEWORK.GetWindowSize().y * 0.2f, });
 	sprites["SaveSprite"]->sortLayer = 1;
+
+	NewSpriteGo("ChangeXY", "graphics/UI/button.png");
+	sprites["ChangeXY"]->SetOrigin(Origins::TL);
+	sprites["ChangeXY"]->SetPosition({ FRAMEWORK.GetWindowSize().x
+		- sprites["ChangeXY"]->GetGlobalBounds().width,
+		FRAMEWORK.GetWindowSize().y * 0.4f, });
+	sprites["ChangeXY"]->sortLayer = 1;
+
+	texts.insert({ "XYText", new TextGo("XYText") });
+	texts["XYText"]->SetFont(font);
+	texts["XYText"]->SetString("X");
+	texts["XYText"]->SetCharacterSize(30);
+	texts["XYText"]->SetColor(sf::Color::Black);
+	texts["XYText"]->SetOrigin(Origins::MC);
+	texts["XYText"]->SetPosition({ FRAMEWORK.GetWindowSize().x
+		- ((sprites["ChangeXY"]->GetGlobalBounds().width / 2))
+		, FRAMEWORK.GetWindowSize().y * 0.45f });
+
+	NewSpriteGo("AnimationView", "graphics/UI/button.png");
+	sprites["AnimationView"]->SetOrigin(Origins::TL);
+	sprites["AnimationView"]->SetPosition({ FRAMEWORK.GetWindowSize().x
+		- sprites["AnimationView"]->GetGlobalBounds().width,
+		FRAMEWORK.GetWindowSize().y * 0.6f, });
+	sprites["AnimationView"]->sortLayer = 1;
+
+	texts.insert({ "AnimationViewText", new TextGo("AnimationViewText") });
+	texts["AnimationViewText"]->SetFont(font);
+	texts["AnimationViewText"]->SetString(L"애니메이션 미리보기");
+	texts["AnimationViewText"]->SetCharacterSize(30);
+	texts["AnimationViewText"]->SetColor(sf::Color::Black);
+	texts["AnimationViewText"]->SetOrigin(Origins::MC);
+	texts["AnimationViewText"]->SetPosition({ FRAMEWORK.GetWindowSize().x
+		- ((sprites["ChangeXY"]->GetGlobalBounds().width / 2))
+		, FRAMEWORK.GetWindowSize().y * 0.65f });
+
+	NewSpriteGo("SpriteAngleCount", "graphics/UI/button.png");
+	sprites["SpriteAngleCount"]->SetOrigin(Origins::TL);
+	sprites["SpriteAngleCount"]->SetPosition({ FRAMEWORK.GetWindowSize().x
+		- sprites["SpriteAngleCount"]->GetGlobalBounds().width,
+		FRAMEWORK.GetWindowSize().y * 0.8f, });
+	sprites["SpriteAngleCount"]->sortLayer = 1;
+
+	texts.insert({ "AngleCountText", new TextGo("AngleCountText") });
+	texts["AngleCountText"]->SetFont(font);
+	texts["AngleCountText"]->SetString(L"스프라이트 시트 개수");
+	texts["AngleCountText"]->SetCharacterSize(30);
+	texts["AngleCountText"]->SetColor(sf::Color::Black);
+	texts["AngleCountText"]->SetOrigin(Origins::MC);
+	texts["AngleCountText"]->SetPosition({ FRAMEWORK.GetWindowSize().x
+		- ((sprites["SpriteAngleCount"]->GetGlobalBounds().width / 2))
+		, FRAMEWORK.GetWindowSize().y * 0.85f });
+
+	animator = std::make_shared<Animator>();
+	preViewSprite = new SpriteAnimatorGo();
+	preViewSprite->sortLayer = 5;
+	preViewSprite->SetScale({ 3.f , 3.f });
+
+	SCENE_MGR.GetScene(SceneIds::SceneAnimatorEditer)->AddGo(preViewSprite, Scene::Ui);
+
+	animator->SetTarget(preViewSprite->GetSprite());
+	preViewSprite->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.5f
+		, FRAMEWORK.GetWindowSize().y * 0.5f });
+
+	SplitSpriteSheet();
 
 	UiInit();
 	ObjectsSort();
@@ -127,6 +192,8 @@ void UIAnimatorEditer::Reset()
 void UIAnimatorEditer::Update(float dt)
 {
 	GameObject::Update(dt);
+
+	animator->Update(dt);
 }
 
 void UIAnimatorEditer::LateUpdate(float dt)
@@ -149,10 +216,31 @@ void UIAnimatorEditer::LateUpdate(float dt)
 				SaveToCSV();
 			}
 
+			if (MouseSpriteMouseLeftEvent("ChangeXY"))
+			{
+				if (isX)
+				{
+					isX = false;
+					texts["XYText"]->SetString("Y");
+				}
+				else
+				{
+					isX = true;
+					texts["XYText"]->SetString("X");
+				}
+			}
+
+			if (MouseSpriteMouseLeftEvent("AnimationView"))
+			{
+				animator->AddClip(RES_MGR_ANIMATIONCLIP.Get(CsvFilePath));
+				animator->Play(Utils::WSTRINGToString(idWstring));
+			}
+
 			MouseHandle("IdSprite", Types::ID_INPUT);
 			MouseHandle("FpsSprite", Types::FPS_INPUT);
 			MouseHandle("LoopSprite", Types::LOOPTYPE_INPUT);
 			MouseHandle("SpritesCount", Types::COUNT_INPUT);
+			MouseHandle("SpriteAngleCount", Types::SPRITE_ANGLE_COUNT);
 			break;
 
 		case UIAnimatorEditer::Types::ID_INPUT:
@@ -167,6 +255,10 @@ void UIAnimatorEditer::LateUpdate(float dt)
 
 		case UIAnimatorEditer::Types::COUNT_INPUT:
 			InputString("SpritesCountText", countWstring);
+			break;
+
+		case UIAnimatorEditer::Types::SPRITE_ANGLE_COUNT:
+			InputString("AngleCountText", spriteAngleCountWstring);
 			break;
 
 		default:
@@ -238,41 +330,79 @@ void UIAnimatorEditer::SaveToCSV()
 
 		std::wcout << idWstring << fpsWstring << loopWstring;
 
-		file << "TEXTURE,X,Y,WIDTH,HEIGHT\n";
+		file << "TEXTURE,X,Y,WIDTH,HEIGHT,ANGLE,ORIGIN\n";
 
 		sf::Image spriteSheet;
 		spriteSheet.loadFromFile(SpriteSheetFilePath);
 		sf::Vector2u imgSize = spriteSheet.getSize();
+	
+		for (int j = 0; j < std::stoi(spriteAngleCountWstring); j++)
+		{
+			animations.clear();
+
+			for (int i = 0; i < std::stoi(countWstring); i++)
+			{
+				Animation ani;
+
+				if (isX)
+				{
+					ani.width = imgSize.x / std::stoi(countWstring);
+					ani.height = imgSize.y;
+					ani.x = i * ani.width;
+					ani.y = 0;
+				}
+
+				else
+				{
+					ani.width = imgSize.x / std::stoi(spriteAngleCountWstring);
+					ani.height = imgSize.y / std::stoi(countWstring);
+					ani.x = j * ani.width;
+					ani.y = i * ani.height;
+					ani.Angle = j;
+				}
+
+				animations.push_back(ani);
+			}
+
+			//애니메이션 데이터 작성
+			for (const auto& animation : animations)
+			{
+				file << SpriteSheetFilePath << ","
+					<< animation.x << ","
+					<< animation.y << ","
+					<< animation.width << ","
+					<< animation.height << ","
+					<< animation.Angle << ","
+					<< "\n";
+			}
+
+			file << "\n\n";
+		}
 		
-		animations.clear();
-
-		for (int i = 0; i < std::stoi(Utils::WSTRINGToString(countWstring)); i++)
-		{
-			Animation ani;
-			//
-			ani.width = imgSize.x / std::stoi(Utils::WSTRINGToString(countWstring));
-			ani.height = imgSize.y;
-			ani.x = i * ani.width;
-			ani.y = 0;
-			animations.push_back(ani);
-		}
-
-		 //애니메이션 데이터 작성
-		for (const auto& animation : animations)
-		{
-			file << SpriteSheetFilePath << ","
-				<< animation.x << ","
-				<< animation.y << ","
-				<< animation.width << ","
-				<< animation.height << "\n";
-		}
-
 		file.close();
+
 		std::cout << "CSV file saved successfully." << std::endl;
+		CsvFilePath = "Animation/AnimatorEditer/" + 
+			Utils::WSTRINGToString(idWstring) + ".csv";
 	}
 	else
 	{
 		std::cout << "Unable to open file." << std::endl;
 	}
+}
+
+void UIAnimatorEditer::SplitSpriteSheet()
+{
+	/*sf::Image image;
+	image.loadFromFile("graphics/Hydralisk.png");
+	
+	SpriteGo* previewImg;
+	previewImg = new SpriteGo();
+
+	previewImg->SetTexture("graphics/Hydralisk.png");
+	previewImg->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.5f,
+		FRAMEWORK.GetWindowSize().y * 0.5f });
+
+	SCENE_MGR.GetScene(SceneIds::SceneAnimatorEditer)->AddGo(previewImg, Scene::Ui);*/
 }
 

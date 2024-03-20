@@ -56,6 +56,7 @@ protected:
 	std::list<AnimaitionEvent> eventList;
 	float speed = 1.f;
 
+
 	// 현재 재생하고있는 애니메이션 클립
 	AnimationClip* currentClip = nullptr; 
 
@@ -71,7 +72,7 @@ protected:
 
 public:
 	Animator();
-	~Animator();
+	~Animator();	
 
 	void AddEvent(const std::string& clipId, int frame , std::function<void()> action);
 	void ClearEvent();

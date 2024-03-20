@@ -95,6 +95,8 @@ void Animator::Update(float dt)
 
 void Animator::SetFrame(const AnimationFrame& frame)
 {
+
+
 	target->setTexture(frame.GetTexture());
 
 	target->setTextureRect(frame.texCoord);
