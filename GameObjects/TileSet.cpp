@@ -13,6 +13,7 @@
 #include <sstream>
 #include <Windows.h>
 #include <commdlg.h> // 공통 대화 상자 함수를 위한 헤더
+#pragma warning(disable : 4996)
 
 void TileSet::Draw(sf::RenderWindow& window)
 {
@@ -67,7 +68,7 @@ void TileSet::SaveTileMap(const std::string& filePath)
 
 	std::string sSavePath = Utils::WSTRINGToString(savePath);
 	FILE* fp = fopen(sSavePath.c_str(), "wb");
-
+	
 	char writeBuffer[65536];
 	FileWriteStream os(fp, writeBuffer, sizeof(writeBuffer));
 	PrettyWriter<FileWriteStream> writer(os);
