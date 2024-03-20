@@ -10,8 +10,6 @@ private:
 	SceneTilemapEditor(SceneTilemapEditor&&) = delete;
 	SceneTilemapEditor& operator=(const SceneTilemapEditor&) = delete;
 	SceneTilemapEditor& operator=(SceneTilemapEditor&&) = delete;
-
-	SpriteGo* tilemapSheet = nullptr;
 	
 
 public:

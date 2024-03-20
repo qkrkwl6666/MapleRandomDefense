@@ -8,10 +8,6 @@ SceneTilemapEditor::SceneTilemapEditor(SceneIds id) :Scene(id)
 
 void SceneTilemapEditor::Init()
 {
-	tilemapSheet = new SpriteGo("tilemapSheet");
-	tilemapSheet->SetTexture("graphics/Tile/Tilemap_Sheet.png");
-	tilemapSheet->SetPosition({ 50,50 });
-	AddGo(tilemapSheet,Layers::Ui);
 	Scene::Init();
 }
 
