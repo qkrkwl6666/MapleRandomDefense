@@ -4,6 +4,7 @@
 #include "Crosshair.h"
 #include "TextGo.h"
 #include "SpriteAnimatorGo.h"
+#include "SCUnit.h"
 #include <ostream>
 #include <fstream>
 
@@ -171,7 +172,13 @@ void UIAnimatorEditer::Init()
 	preViewSprite->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.5f
 		, FRAMEWORK.GetWindowSize().y * 0.5f });
 
-	SplitSpriteSheet();
+	SCUnit* sc;
+	sc = new SCUnit();
+
+	sc->Init();
+	sc->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.5f, FRAMEWORK.GetWindowSize().y * 0.5f });
+	sc->sortLayer = 22;
+	SCENE_MGR.GetScene(SceneIds::SceneAnimatorEditer)->AddGo(sc, Scene::Ui);
 
 	UiInit();
 	ObjectsSort();
@@ -323,10 +330,11 @@ void UIAnimatorEditer::SaveToCSV()
 	if (file.is_open())
 	{
 		// CSV 파일 헤더 작성
-		file << "ID,FPS,LOOPTYPE\n"; // \n\n
+		file << "ID,FPS,LOOPTYPE,FRAME\n"; // \n\n
 		file << Utils::WSTRINGToString(idWstring) << ","
 			<< Utils::WSTRINGToString(fpsWstring) << ","
-			<< Utils::WSTRINGToString(loopWstring) << "\n\n";
+			<< Utils::WSTRINGToString(loopWstring)<< ","
+			<< Utils::WSTRINGToString(countWstring) << "\n\n";
 
 		std::wcout << idWstring << fpsWstring << loopWstring;
 

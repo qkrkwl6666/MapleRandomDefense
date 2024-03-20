@@ -7,7 +7,7 @@ Crosshair::Crosshair(const std::string& name)
 	textureId = "graphics/UI/Sannabi_AimSprite_Idle (lp)_1.png";
 	SetTexture(textureId);
 	SetScale({ 2.f , 2.f });
-	SetOrigin(Origins::MC);
+	SetOrigin(Origins::TC);
 }
 
 void Crosshair::Init()

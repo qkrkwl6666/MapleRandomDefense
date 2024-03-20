@@ -44,6 +44,7 @@
     <ClCompile Include="GameObjects\UI\UIAnimatorEditer.cpp" />
     <ClCompile Include="Scenes\SceneTilemapEditor.cpp" />
     <ClCompile Include="GameObjects\TileSet.cpp" />
+    <ClCompile Include="SCUnit.cpp" />
     <ClCompile Include="TileEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -75,6 +76,7 @@
     <ClInclude Include="GameObjects\UI\UIAnimatorEditer.h" />
     <ClInclude Include="Scenes\SceneTilemapEditor.h" />
     <ClInclude Include="GameObjects\TileSet.h" />
+    <ClInclude Include="SCUnit.h" />
     <ClInclude Include="TileEditor.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
