@@ -56,6 +56,11 @@ public:
 
 	// 절대경로 to 상대경로
 	static std::string ConvertToRelativePath(const std::string& absolutePath);
-	// Windows.h
+
+	// 단일 파일
 	static std::wstring OpenSaveFileDialog();
+
+	std::vector<std::wstring> OpenFileDialog();
+
+	static void RemoveStringBeforeKeyWord(std::string& filePath , const std::string& keyWord);
 };

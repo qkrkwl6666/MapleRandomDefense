@@ -30,6 +30,7 @@ void SpriteAnimatorGo::Update(float dt)
 {
 	SpriteGo::Update(dt);
 
+
 	animator->Update(dt);
 }
 

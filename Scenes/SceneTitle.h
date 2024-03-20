@@ -1,9 +1,9 @@
 #pragma once
+
 #include "Scene.h"
 
-class Player;
 class SpriteGo;
-class UITitle;
+class TextGo;
 
 class SceneTitle : public Scene
 {
@@ -13,7 +13,8 @@ protected:
 	SceneTitle& operator=(const SceneTitle&) = delete;
 	SceneTitle& operator=(SceneTitle&&) = delete;
 
-	UITitle* uiTitle = nullptr;
+	TextGo* uiTitle = nullptr;
+	TextGo* uiTitle2 = nullptr;
 
 public:
 

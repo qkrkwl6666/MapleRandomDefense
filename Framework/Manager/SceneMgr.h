@@ -8,6 +8,8 @@ enum class SceneIds
 	None = -1,
 	SceneTitle,
 	SceneGame,
+	SceneAnimatorEditer,
+	SceneTilemapEditor,
 	Count
 };
 

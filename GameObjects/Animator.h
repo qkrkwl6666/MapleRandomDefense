@@ -7,13 +7,29 @@ enum class AnimationLoopTypes
 	PINGPONG,
 };
 
+enum class Angle
+{
+	TOP,
+	TOP15,
+	TOP30,
+	TOP60,
+	RIGHT,
+	BOTTOM60,
+	BOTTOM30,
+	BOTTOM15,
+	BOTTOM,
+
+
+};
+
 struct AnimationFrame
 {
 	std::string textureId;
 	sf::IntRect texCoord; // 텍스처의 위치 정보 저장
+	int angle = 0;
 
-	AnimationFrame(const std::string& id, const sf::IntRect& coord)
-		: textureId(id) , texCoord(coord)
+	AnimationFrame(const std::string& id, const sf::IntRect& coord , int angle)
+		: textureId(id) , texCoord(coord) , angle(angle)
 	{
 
 	}
@@ -30,6 +46,7 @@ struct AnimationClip
 	int fps = 30; // 1초에 몇프레임
 	AnimationLoopTypes loopType = AnimationLoopTypes::SINGLE;
 	std::vector<AnimationFrame> frames;
+	int frame = 0;
 
 	int GetTotalFrame() const
 	{
@@ -51,7 +68,8 @@ class Animator
 {
 protected:
 	std::unordered_map<std::string, AnimationClip> clips;
-
+	bool isAngle = false;
+	Angle beforeAngle;
 	std::queue<std::string> queue;
 	std::list<AnimaitionEvent> eventList;
 	float speed = 1.f;
@@ -71,7 +89,7 @@ protected:
 
 public:
 	Animator();
-	~Animator();
+	~Animator();	
 
 	void AddEvent(const std::string& clipId, int frame , std::function<void()> action);
 	void ClearEvent();
@@ -93,12 +111,11 @@ public:
 	void SetSpeed(float s) { speed = s; }
 
 	void Update(float dt);
-	void Play(const std::string& clipId , bool clearQueue = true);
+	void Update(float dt , Angle currentAngle);
+	void Play(const std::string& clipId, bool clearQueue = true, bool isAngle = false);
 	void PlayQueue(const std::string& clipId);
 	void Stop();
 	void SetFrame(const AnimationFrame& frame);
-
-	void Falling();
 
 	//AnimationClip* GetClip(const std::string& clipId)
 	//{

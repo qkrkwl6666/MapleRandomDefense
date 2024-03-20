@@ -33,11 +33,19 @@
     <ClCompile Include="GameObjects\Base\SpriteGo.cpp" />
     <ClCompile Include="GameObjects\Base\TextGo.cpp" />
     <ClCompile Include="GameObjects\Base\UIGo.cpp" />
+    <ClCompile Include="GameObjects\TileEditor.cpp" />
     <ClCompile Include="MapleRandomDefense.cpp" />
-    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Scenes\SceneAnimatorEditer.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Scenes\SceneGame.cpp" />
     <ClCompile Include="Scenes\SceneTitle.cpp" />
+    <ClCompile Include="GameObjects\UI\UIAnimatorEditer.cpp" />
+    <ClCompile Include="Scenes\SceneTilemapEditor.cpp" />
+    <ClCompile Include="GameObjects\TileSet.cpp" />
+    <ClCompile Include="SCUnit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Crosshair.h" />
@@ -61,9 +69,15 @@
     <ClInclude Include="GameObjects\Base\TextGo.h" />
     <ClInclude Include="GameObjects\Base\UIGo.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Scenes\SceneAnimatorEditer.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneGame.h" />
     <ClInclude Include="Scenes\SceneTitle.h" />
+    <ClInclude Include="GameObjects\UI\UIAnimatorEditer.h" />
+    <ClInclude Include="Scenes\SceneTilemapEditor.h" />
+    <ClInclude Include="GameObjects\TileSet.h" />
+    <ClInclude Include="GameObjects\TileEditor.h" />
+    <ClInclude Include="SCUnit.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -119,6 +133,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>..\$(ProjectName) Bin\</OutDir>
+    <IncludePath>..\$(ProjectName) Bin\Include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -155,6 +170,8 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>.\Scenes;.\Framework\Manager;.\Framework;.\GameObjects\Base;.\GameObjects\UI;.\GameObjects;.\DataTable;.\;.\SFML-2.6.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

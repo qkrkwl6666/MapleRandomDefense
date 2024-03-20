@@ -34,11 +34,16 @@ private:
 	InputMgr& operator=(const InputMgr&) = delete;
 	InputMgr& operator=(InputMgr&&) = delete;
 
+
 	static std::map<Axis, AxisInfo> axisInfoMap;
 
 	static std::list<sf::Keyboard::Key> downList;
 	static std::list<sf::Keyboard::Key> upList;
 	static std::list<sf::Keyboard::Key> ingList;
+
+	static bool isInput;
+
+	static std::wstring inputText;
 
 	static sf::Vector2f mousePos;
 
@@ -46,7 +51,6 @@ private:
 	static float comboTimer;
 	static float comboTimeLimit;
 	static bool doComboRecord;
-
 
 public:
 	static void Init();
@@ -83,6 +87,10 @@ public:
 		return (sf::Mouse::Button)(key - sf::Keyboard::Key::KeyCount);
 	}
 
+	static void SetIsInput(bool value) { 
+		isInput = value;
+		inputText = L""; }
+	static const std::wstring& GetInputText() { return inputText; }
 
 	//ÄÞº¸
 	static bool IsPerfectCombo(const SFGM_COMBO& combo);

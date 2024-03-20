@@ -400,18 +400,71 @@ std::wstring Utils::OpenSaveFileDialog()
 {
 	OPENFILENAME ofn; // OPENFILENAME 구조체
 	wchar_t szFileName[MAX_PATH] = L""; // 파일 이름을 저장할 배열
+
+	ZeroMemory(&ofn, sizeof(ofn));
+
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFilter = L"PNG Files (*.png)\0*.png\0All Files (*.*)\0*.*\0";
+	ofn.lpstrFile = szFileName;
+	ofn.nMaxFile = MAX_PATH;
+	// 작업 디렉토리 변경 X
+	ofn.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR;
+	ofn.lpstrDefExt = L"png";
+
+	if (GetSaveFileName(&ofn)) // 파일 저장 대화 상자를 표시
+	{
+		return ofn.lpstrFile; // 사용자가 지정한 파일 경로를 반환
+	}
+
+	return L""; // 사용자가 취소하면 빈 문자열을 반환
+}
+
+std::vector<std::wstring> Utils::OpenFileDialog()
+{
+	OPENFILENAME ofn;
+	wchar_t szFileName[MAX_PATH] = L"";
+	wchar_t szFileNames[MAX_PATH * 100] = L""; // 여러 파일 경로를 저장할 버퍼
+
 	ZeroMemory(&ofn, sizeof(ofn));
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = NULL;
-	ofn.lpstrFilter = L"JSON Files (*.json)\0*.json\0All Files (*.*)\0*.*\0";
-	ofn.lpstrFile = szFileName;
-	ofn.nMaxFile = MAX_PATH;
-	ofn.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
-	ofn.lpstrDefExt = L"json";
+	ofn.lpstrFilter = L"PNG Files (*.png)\0*.png\0All Files (*.*)\0*.*\0";
+	ofn.lpstrFile = szFileNames;
+	ofn.nMaxFile = MAX_PATH * 100;
+	ofn.lpstrFileTitle = szFileName;
+	ofn.nMaxFileTitle = MAX_PATH;
+	ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_ALLOWMULTISELECT;
+	ofn.lpstrDefExt = L"png";
 
-	if (GetSaveFileName(&ofn)) // 파일 저장 대화 상자를 표시
-		return ofn.lpstrFile; // 사용자가 지정한 파일 경로를 반환
+	std::vector<std::wstring> filePaths;
 
-	return L""; // 사용자가 취소하면 빈 문자열을 반환
+	if (GetOpenFileName(&ofn))
+	{
+		wchar_t* pFilePath = szFileNames;
+		while (*pFilePath)
+		{
+			std::wstring filePath = pFilePath;
+			filePaths.push_back(filePath);
+			pFilePath += filePath.length() + 1;
+		}
+	}
+
+	return filePaths;
+}
+
+void Utils::RemoveStringBeforeKeyWord(std::string& filePath
+	, const std::string& keyWord)
+{
+	// keyWorld 시작 위치 반환
+	// 못찾으면 std::string::npos
+
+	size_t pos = filePath.find(keyWord);
+
+	if (pos != std::string::npos)
+	{
+		filePath = filePath.substr(pos);
+		return;
+	}
 }
 
