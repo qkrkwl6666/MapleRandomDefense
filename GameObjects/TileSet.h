@@ -22,29 +22,36 @@ public:
 	struct Tile
 	{
 		// 타일 표시 테두리
+		sf::VertexArray va;
 		sf::RectangleShape shape;
 		sf::Texture texture;
 		TileType type;
-
-		Tile() : type(TileType::WATER) 
+		Tile() : type(TileType::WALL) 
 		{}
 
-		Tile(int x, int y, int type)
+		Tile(int x, int y, TileType type)
 		{
+			va.setPrimitiveType(sf::Quads);
+			va.resize(4);
+			va[0].position = sf::Vector2f(x * 32, y * 32);
+			va[1].position = sf::Vector2f((x + 1) * 32, y * 32);
+			va[2].position = sf::Vector2f((x + 1) * 32, (y + 1) * 32);
+			va[3].position = sf::Vector2f(x * 32, (y + 1) * 32);
+
 			shape.setPosition(x * 32, y * 32);
 			shape.setSize({32,32});
-			shape.setFillColor(sf::Color::Black); // 배경색
+			shape.setFillColor(sf::Color::White); // 배경색
 			shape.setOutlineThickness(0.6f);
 			shape.setOutlineColor(sf::Color::White); // 기본 WALL 색깔
-			this->type = (TileType)type;
+			this->type = type;
 		}
 	};
 
 protected:
 	std::vector<std::vector<Tile>> tiles;
-	
+	sf::Texture tileTexture;
 public:
-	TileSet() : tiles(256, std::vector<Tile>(256)) {}
+	TileSet() : tiles(100, std::vector<Tile>(100)) {}
 	~TileSet() = default;
 
 	TileSet(const TileSet&) = delete;
@@ -52,10 +59,12 @@ public:
 	TileSet& operator=(const TileSet&) = delete;
 	TileSet& operator=(TileSet&&) = delete;
 
-	void Draw(sf::RenderWindow& window) override;
+	void Draw(sf::RenderWindow& window, int x, int y);
 
-
+	void LoadTileTexture(const std::string& FilePath);
 	void SetTileTexture(int y, int x, const TileType& type);
+
+	int count;
 
 	const std::vector<std::vector<Tile>>& GetTiles()
 	{

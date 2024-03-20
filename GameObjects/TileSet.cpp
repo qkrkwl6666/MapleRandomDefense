@@ -15,23 +15,24 @@
 #include <commdlg.h> // 공통 대화 상자 함수를 위한 헤더
 #pragma warning(disable : 4996)
 
-void TileSet::Draw(sf::RenderWindow& window)
+void TileSet::Draw(sf::RenderWindow& window, int x, int y)
 {
 	GameObject::Draw(window);
-	for (const auto& row : tiles)
-	{
-		for (const auto& tile : row)
-		{
-			window.draw(tile.shape); // 각 타일의 shape를 그린다.
-		}
-	}
+	window.draw(tiles[y][x].shape);
+}
+
+
+void TileSet::LoadTileTexture(const std::string& FilePath)
+{
+	tileTexture.loadFromFile(FilePath);
 }
 
 void TileSet::SetTileTexture(int y, int x, const TileType& type)
 {
-	tiles[y][x].texture.loadFromFile("graphics/Tile/Tilemap_Sheet.png");
-	tiles[y][x].shape.setTexture(&tiles[y][x].texture);
-	tiles[y][x].shape.setTextureRect({ 0,0,32, 32 * (int)type });
+	tiles[y][x].shape.setTexture(&tileTexture);
+	tiles[y][x].shape.setTextureRect({ 0, 32*(int)type,32, 32 });
+	tiles[y][x].shape.setSize({ 32.f ,32.f });
+	tiles[y][x].shape.setPosition({ y * 32.f , x * 32.f });
 	tiles[y][x].shape.setFillColor(sf::Color::White);
 	tiles[y][x].shape.setOutlineThickness(0.6f);
 	tiles[y][x].type = type;
