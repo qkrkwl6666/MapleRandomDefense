@@ -44,7 +44,12 @@
     <ClCompile Include="GameObjects\UI\UIAnimatorEditer.cpp" />
     <ClCompile Include="Scenes\SceneTilemapEditor.cpp" />
     <ClCompile Include="GameObjects\TileSet.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="GameObjects\TileEditor.cpp" />
+=======
+    <ClCompile Include="SCUnit.cpp" />
+    <ClCompile Include="TileEditor.cpp" />
+>>>>>>> 198c24e969b9e007a91ef4b2865b5cae6f1b5bc7
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Crosshair.h" />
@@ -75,7 +80,12 @@
     <ClInclude Include="GameObjects\UI\UIAnimatorEditer.h" />
     <ClInclude Include="Scenes\SceneTilemapEditor.h" />
     <ClInclude Include="GameObjects\TileSet.h" />
+<<<<<<< HEAD
     <ClInclude Include="GameObjects\TileEditor.h" />
+=======
+    <ClInclude Include="SCUnit.h" />
+    <ClInclude Include="TileEditor.h" />
+>>>>>>> 198c24e969b9e007a91ef4b2865b5cae6f1b5bc7
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

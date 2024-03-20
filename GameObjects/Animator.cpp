@@ -55,6 +55,7 @@ void Animator::Update(float dt)
 		return;
 	}
 	accumTime = 0.f;
+
 	++currentFrame;
 
 	if (currentFrame == totalFrame)
@@ -90,24 +91,86 @@ void Animator::Update(float dt)
 		}
 	}
 
+
+	SetFrame(currentClip->frames[currentFrame]);
+}
+
+void Animator::Update(float dt, Angle currentAngle)
+{
+	if (this == nullptr)
+	{
+		return;
+	}
+
+
+	// 플레이가 아닌경우에는 return
+	if (!isPlaying)
+	{
+		return;
+	}
+	accumTime += dt * speed;
+
+	if (accumTime < clipDuration)
+	{
+		return;
+	}
+	accumTime = 0.f;
+
+	if (currentFrame == -1 || currentAngle != beforeAngle)
+	{
+		currentFrame = static_cast<int>(currentAngle) * currentClip->frame;
+		totalFrame = currentFrame + currentClip->frame - 1;
+	}
+	std::cout << currentFrame << std::endl;
+	std::cout << totalFrame << std::endl;
+
+	++currentFrame;
+
+	if (currentFrame == totalFrame)
+	{
+		if (!queue.empty())
+		{
+			std::string id = queue.front();
+			queue.pop();
+			Play(id, false);
+			return;
+		}
+
+		switch (currentClip->loopType)
+		{
+			case AnimationLoopTypes::SINGLE:
+				currentFrame = totalFrame - 1;
+				isPlaying = false;
+				break;
+			case AnimationLoopTypes::LOOP:
+				currentFrame = currentClip->frame * static_cast<int>(currentAngle);
+				break;
+		}
+	}
+
+	for (auto& event : eventList)
+	{
+		if (currentClip->id == event.clipId && currentFrame == event.frame)
+		{
+			if (event.action != nullptr)
+			{
+				event.action();
+			}
+		}
+	}
+
+	beforeAngle = currentAngle;
 	SetFrame(currentClip->frames[currentFrame]);
 }
 
 void Animator::SetFrame(const AnimationFrame& frame)
 {
-
-
 	target->setTexture(frame.GetTexture());
 
 	target->setTextureRect(frame.texCoord);
 }
 
-void Animator::Falling()
-{
-	Play("Player_Falling");
-}
-
-void Animator::Play(const std::string& clipId, bool clearQueue)
+void Animator::Play(const std::string& clipId, bool clearQueue , bool isAngle)
 {
 	if (clearQueue)
 	{
@@ -118,11 +181,22 @@ void Animator::Play(const std::string& clipId, bool clearQueue)
 	}
 
 	// clipId가 find할때만 작동
+
 	isPlaying = true;
 	accumTime = 0.f;
 	currentClip = &clips[clipId];
 	currentFrame = 0;
-	totalFrame = currentClip->GetTotalFrame();
+	if (!isAngle)
+	{
+		totalFrame = currentClip->GetTotalFrame();
+	}
+	else
+	{
+
+		totalFrame = currentClip->frame;
+		this->isAngle = isAngle;
+	}
+
 	clipDuration = 1.f / currentClip->fps; // 0.333
 	SetFrame(currentClip->frames[0]);
 	
@@ -145,12 +219,22 @@ bool AnimationClip::loadFromFile(const std::string& filePath)
 
 	loopType = (AnimationLoopTypes)doc.GetCell<int>(2, 0);
 
+	// 예외 처리
+	if (doc.GetCell<std::string>(3, 0) != "")
+	{
+		frame = doc.GetCell<int>(3, 0);
+	}
+
 	for (int i = 3; i < doc.GetRowCount(); i++)
 	{
 		auto row = doc.GetRow<std::string>(i);
 
+		if (row[0] == "")
+		{
+			continue;
+		}
 		frames.push_back({ row[0] , {std::stoi(row[1]),std::stoi(row[2]),
-			std::stoi(row[3]),std::stoi(row[4])} });
+			std::stoi(row[3]),std::stoi(row[4])}, std::stoi(row[5]) });
 	}
 
 	return true;
