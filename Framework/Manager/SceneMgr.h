@@ -9,6 +9,7 @@ enum class SceneIds
 	SceneTitle,
 	SceneGame,
 	SceneAnimatorEditer,
+	SceneTilemapEditor,
 	Count
 };
 

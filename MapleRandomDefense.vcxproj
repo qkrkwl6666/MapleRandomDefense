@@ -42,6 +42,7 @@
     <ClCompile Include="Scenes\SceneGame.cpp" />
     <ClCompile Include="Scenes\SceneTitle.cpp" />
     <ClCompile Include="GameObjects\UI\UIAnimatorEditer.cpp" />
+    <ClCompile Include="Scenes\SceneTilemapEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Crosshair.h" />
@@ -70,6 +71,7 @@
     <ClInclude Include="Scenes\SceneGame.h" />
     <ClInclude Include="Scenes\SceneTitle.h" />
     <ClInclude Include="GameObjects\UI\UIAnimatorEditer.h" />
+    <ClInclude Include="Scenes\SceneTilemapEditor.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
