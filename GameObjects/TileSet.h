@@ -22,28 +22,15 @@ public:
 	struct Tile
 	{
 		// 타일 표시 테두리
-		sf::VertexArray va;
-		sf::RectangleShape shape;
 		sf::Texture texture;
 		TileType type;
+		int index = 0;
 		Tile() : type(TileType::WALL) 
 		{}
-
-		Tile(int x, int y, TileType type)
+		Tile(TileType type, int i)
 		{
-			va.setPrimitiveType(sf::Quads);
-			va.resize(4);
-			va[0].position = sf::Vector2f(x * 32, y * 32);
-			va[1].position = sf::Vector2f((x + 1) * 32, y * 32);
-			va[2].position = sf::Vector2f((x + 1) * 32, (y + 1) * 32);
-			va[3].position = sf::Vector2f(x * 32, (y + 1) * 32);
-
-			shape.setPosition(x * 32, y * 32);
-			shape.setSize({32,32});
-			shape.setFillColor(sf::Color::White); // 배경색
-			shape.setOutlineThickness(0.6f);
-			shape.setOutlineColor(sf::Color::White); // 기본 WALL 색깔
 			this->type = type;
+			index = i;
 		}
 	};
 
@@ -62,7 +49,7 @@ public:
 	void Draw(sf::RenderWindow& window, int x, int y);
 
 	void LoadTileTexture(const std::string& FilePath);
-	void SetTileTexture(int y, int x, const TileType& type);
+	void SetTileTexture(int x, int y, const TileType& type);
 
 	int count;
 

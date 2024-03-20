@@ -19,6 +19,8 @@ protected:
     SceneTilemapEditor* sceneTilemapEditor;
     TileSet* tileSet;
 
+	sf::VertexArray va;
+
     sf::Vector2i screenPos;
     sf::Vector2f worldPos;
     sf::Vector2i tilePos;

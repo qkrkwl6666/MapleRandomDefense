@@ -18,6 +18,47 @@ TileEditor::TileEditor(const std::string& name) : UIGo(name), font(RES_MGR_FONT.
 
 void TileEditor::Init()
 {
+	//vertexArray
+
+	va.resize(4 * 256 * 256);
+	int index = 0;
+	std::list<int> list;
+	for (int i = 0; i < list.size(); i++)
+	{
+		va[i * 4 + 0].texCoords = { 0,0 };
+		va[i * 4 + 1].texCoords = { 32,0 };
+		va[i * 4 + 2].texCoords = { 32,32 };
+		va[i * 4 + 3].texCoords = { 0,32 };
+
+		va[i * 4 + 0].position = { 0,0 };
+		va[i * 4 + 1].position = { 32,0 };
+		va[i * 4 + 2].position = { 32,32 };
+		va[i * 4 + 3].position = { 0,32 };
+
+	}
+	tiles.clear();
+		for (int i = 0; i < 256 * 256; i++)
+		{
+			tiles.pushback({ i, TileSet::TileType::WALL });
+		}
+
+
+		///위에까지가 초기화
+	sf::RenderStates rs;
+	rs.texture = &RES_MGR_TEXTURE.Get("graphics/Tile/Tilemap_Sheet.png");
+	FRAMEWORK.GetWindow().draw(va, rs);
+	
+
+	//변경
+	
+	va[tiles[][].index * 4 + 0].texCoords = { 0,0 };
+	va[i * 4 + 1].texCoords = { 32,0 };
+	va[i * 4 + 2].texCoords = { 32,32 };
+	va[i * 4 + 3].texCoords = { 0,32 };
+
+
+
+	///기존 코드
 	sceneTilemapEditor = dynamic_cast<SceneTilemapEditor*>(SCENE_MGR.GetScene(SceneIds::SceneTilemapEditor));
 	tileSet = sceneTilemapEditor->GetTileSet();
 	tileSet->LoadTileTexture("graphics/Tile/Tilemap_Sheet.png");
@@ -95,13 +136,13 @@ void TileEditor::Update(float dt)
 void TileEditor::Draw(sf::RenderWindow& window)
 {
 	GameObject::Draw(window);
-	for (size_t y = 0; y < tilesInit.size(); ++y)
-	{
-		for (size_t x = 0; x < tilesInit[y].size(); ++x)
-		{
-			tileSet->Draw(window,x,y);
-		}
-	}
+	//for (size_t y = 0; y < tilesInit.size(); ++y)
+	//{
+	//	for (size_t x = 0; x < tilesInit[y].size(); ++x)
+	//	{
+	//		tileSet->Draw(window,x,y);
+	//	}
+	//}
 	UiDraw(window);
 	window.draw(selectBox);
 }
