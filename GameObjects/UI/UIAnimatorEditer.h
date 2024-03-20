@@ -3,10 +3,24 @@
 #include "pch.h"
 #include "UIGo.h"
 
+class SpriteAnimatorGo;
 
 class UIAnimatorEditer : public UIGo
 {
 public:
+	enum class Angle
+	{
+		TOP,
+		TOP15,
+		TOP30,
+		TOP60,
+		RIGHT,
+		BOTTOM60,
+		BOTTOM30,
+		BOTTOM15,
+		BOTTOM,
+	};
+
 	enum class Types
 	{
 		NONE,
@@ -14,6 +28,7 @@ public:
 		FPS_INPUT,
 		LOOPTYPE_INPUT,
 		COUNT_INPUT,
+		SPRITE_ANGLE_COUNT,
 	};
 
 	struct Animation
@@ -22,19 +37,28 @@ public:
 		int y;
 		int width;
 		int height;
+		int Angle;
 	};
 
 protected:
 	std::string SpriteSheetFilePath = "";
+	std::string CsvFilePath = "";
 	std::vector<Animation> animations;
+	SpriteAnimatorGo* preViewSprite;
+
+	std::shared_ptr<Animator> animator;
 
 	bool isIdInput = false;
 	std::wstring idWstring = L"";
 	std::wstring fpsWstring = L"";
 	std::wstring loopWstring = L"";
 	std::wstring countWstring = L"";
+	std::wstring spriteAngleCountWstring = L"";
 
 	Types currentType = Types::NONE;
+	
+	bool isX = true;
+
 
 public:
 	UIAnimatorEditer(const std::string& name = "");
@@ -57,6 +81,8 @@ public:
 
 	bool MouseSpriteMouseLeftEvent(const std::string& id);
 	void SaveToCSV();
+
+	void SplitSpriteSheet();
 
 	std::string removeNewline(std::string str)
 	{
