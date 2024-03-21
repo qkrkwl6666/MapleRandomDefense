@@ -13,8 +13,10 @@ protected:
 	SceneTitle& operator=(const SceneTitle&) = delete;
 	SceneTitle& operator=(SceneTitle&&) = delete;
 
+	SpriteGo* TitleImage = nullptr;
 	TextGo* uiTitle = nullptr;
 	TextGo* uiTitle2 = nullptr;
+	TextGo* uiTitle3 = nullptr;
 
 public:
 
