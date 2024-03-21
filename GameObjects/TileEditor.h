@@ -41,9 +41,9 @@ public:
 	TileEditor& operator=(const TileEditor&) = delete;
 	TileEditor& operator=(TileEditor&&) = delete;
 
-	void Init() override;
+	//void Init() override;
 
-	void Update(float dt) override;
+	//void Update(float dt) override;
 
 	void Draw(sf::RenderWindow& window) override;
 

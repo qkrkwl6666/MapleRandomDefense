@@ -68,6 +68,7 @@
     <ClInclude Include="GameObjects\Base\SpriteGo.h" />
     <ClInclude Include="GameObjects\Base\TextGo.h" />
     <ClInclude Include="GameObjects\Base\UIGo.h" />
+    <ClInclude Include="GameObjects\TileEditor.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Scenes\SceneAnimatorEditer.h" />
     <ClInclude Include="Scenes\Scene.h" />
@@ -76,7 +77,6 @@
     <ClInclude Include="GameObjects\UI\UIAnimatorEditer.h" />
     <ClInclude Include="Scenes\SceneTilemapEditor.h" />
     <ClInclude Include="GameObjects\TileSet.h" />
-    <ClInclude Include="GameObjects\TileEditor.h" />
     <ClInclude Include="SCUnit.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

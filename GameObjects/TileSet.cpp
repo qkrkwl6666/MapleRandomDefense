@@ -16,9 +16,9 @@
 #pragma warning(disable : 4996)
 
 void TileSet::Draw(sf::RenderWindow& window, int x, int y)
-{
+{/*
 	GameObject::Draw(window);
-	window.draw(tiles[y][x].va);
+	window.draw(tiles[y][x].va);*/
 }
 
 
