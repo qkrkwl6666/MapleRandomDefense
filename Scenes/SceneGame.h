@@ -1,12 +1,27 @@
 #pragma once
 #include "Scene.h"
+#include "ShapeGo.h"
 
+class TileSet;
 
 class SceneGame : public Scene
 {
 protected:
+	TileSet* tileSet = nullptr;
+
+	ShapeGo<sf::RectangleShape>* leftFiller;
+	ShapeGo<sf::RectangleShape>* rightFiller;
+
+	Crosshair* mouse = nullptr;
+	sf::Vector2i screenPos;
+	sf::Vector2f worldPos;
+	sf::Vector2i tilePos;
+	sf::Vector2f lastMouseWorldPos;
+	sf::Vector2f delta;
 
 public:
+
+
 
 	SceneGame(SceneIds id);
 	~SceneGame() override = default;

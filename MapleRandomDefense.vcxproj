@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Crosshair.cpp" />
+    <ClCompile Include="GameObjects\UI\Crosshair.cpp" />
     <ClCompile Include="Framework\Framework.cpp" />
     <ClCompile Include="Framework\Manager\DataTableMgr.cpp" />
     <ClCompile Include="Framework\Manager\InputMgr.cpp" />
@@ -27,13 +27,13 @@
     <ClCompile Include="Framework\Manager\SoundMgr.cpp" />
     <ClCompile Include="Framework\RenderWindowRBR.cpp" />
     <ClCompile Include="Framework\Utils.cpp" />
-    <ClCompile Include="GameObjects\Animator.cpp" />
+    <ClCompile Include="GameObjects\Base\Animator.cpp" />
     <ClCompile Include="GameObjects\Base\GameObject.cpp" />
     <ClCompile Include="GameObjects\Base\SpriteAnimatorGo.cpp" />
     <ClCompile Include="GameObjects\Base\SpriteGo.cpp" />
     <ClCompile Include="GameObjects\Base\TextGo.cpp" />
     <ClCompile Include="GameObjects\Base\UIGo.cpp" />
-    <ClCompile Include="GameObjects\TileEditor.cpp" />
+    <ClCompile Include="GameObjects\Base\TileEditor.cpp" />
     <ClCompile Include="MapleRandomDefense.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -45,10 +45,10 @@
     <ClCompile Include="GameObjects\UI\UIAnimatorEditer.cpp" />
     <ClCompile Include="Scenes\SceneTilemapEditor.cpp" />
     <ClCompile Include="SCUnit.cpp" />
-    <ClCompile Include="GameObjects\TileSet.cpp" />
+    <ClCompile Include="GameObjects\Base\TileSet.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Crosshair.h" />
+    <ClInclude Include="GameObjects\UI\Crosshair.h" />
     <ClInclude Include="DataTable\DataTable.h" />
     <ClInclude Include="Framework\Defines.h" />
     <ClInclude Include="Framework\Framework.h" />
@@ -61,14 +61,14 @@
     <ClInclude Include="Framework\RenderWindowRBR.h" />
     <ClInclude Include="Framework\Singleton.h" />
     <ClInclude Include="Framework\Utils.h" />
-    <ClInclude Include="GameObjects\Animator.h" />
+    <ClInclude Include="GameObjects\Base\Animator.h" />
     <ClInclude Include="GameObjects\Base\GameObject.h" />
     <ClInclude Include="GameObjects\Base\ShapeGo.h" />
     <ClInclude Include="GameObjects\Base\SpriteAnimatorGo.h" />
     <ClInclude Include="GameObjects\Base\SpriteGo.h" />
     <ClInclude Include="GameObjects\Base\TextGo.h" />
     <ClInclude Include="GameObjects\Base\UIGo.h" />
-    <ClInclude Include="GameObjects\TileEditor.h" />
+    <ClInclude Include="GameObjects\Base\TileEditor.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Scenes\SceneAnimatorEditer.h" />
     <ClInclude Include="Scenes\Scene.h" />
@@ -77,7 +77,7 @@
     <ClInclude Include="GameObjects\UI\UIAnimatorEditer.h" />
     <ClInclude Include="Scenes\SceneTilemapEditor.h" />
     <ClInclude Include="SCUnit.h" />
-    <ClInclude Include="GameObjects\TileSet.h" />
+    <ClInclude Include="GameObjects\Base\TileSet.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

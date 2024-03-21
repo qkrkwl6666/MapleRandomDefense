@@ -3,13 +3,15 @@
 template <typename T>
 class ShapeGo : public GameObject
 {
+
+	bool active = true;
 public:
 	ShapeGo(const std::string name) : GameObject(name)
 	{
 
 	}
-
-	virtual ~ShapeGo()
+	
+	~ShapeGo()
 	{
 
 	}
@@ -62,9 +64,25 @@ public:
 		shape.setOrigin(newOrigin);
 	}
 
+	void SetOutlineThickness(float thickness)
+	{
+		shape.setOutlineThickness(thickness);
+	}
+	void SetOutlineColor(sf::Color color)
+	{
+		shape.setOutlineColor(color);
+	}
+
 	void SetSize(const sf::Vector2f& size)
 	{
-		shape.setSize(size);
+		if constexpr (std::is_same_v<T, sf::CircleShape>)
+		{
+			shape.setRadius(size.x);
+		}
+		else
+		{
+			shape.setSize(size);
+		}
 	}
 
 	sf::Vector2f GetSize()
@@ -86,3 +104,4 @@ protected:
 	T shape;
 
 };
+
