@@ -15,8 +15,8 @@ void SCUnit::Init()
 {
 	SpriteAnimatorGo::Init();
 
-	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/Hydralisk.csv"));
-	animator->Play("Hydralisk");
+	//animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/Hydralisk.csv"));
+	//animator->Play("Hydralisk");
 
 }
 
