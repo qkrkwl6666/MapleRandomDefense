@@ -22,6 +22,7 @@ void Hydralisk::Init()
 	GetSprite()->setTextureRect({ 0, 174, 45, 58});
 
 	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/Hydralisk.csv"));
+	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/HydraliskAttack.csv"));
 	
 	SetScale({ 3.f , 3.f });
 	SetOrigin(Origins::MC);
@@ -40,7 +41,7 @@ void Hydralisk::Update(float dt)
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num1))
 	{
 		currentAngle = Angle::TOP;
-		SetStatus(Status::MOVE);
+		SetStatus(Status::ATTACK);
 	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num2))

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SCUnit.h"
 #include "Crosshair.h"
+#include "ShapeGo.h"
 
 SCUnit::SCUnit(const std::string& name , const std::string& animationName) 
 	: SpriteAnimatorGo(name) , animationName(animationName)
@@ -17,6 +18,7 @@ void SCUnit::Init()
 {
 	SpriteAnimatorGo::Init();
 	float aniangle = -157.5;
+
 	while (aniangle <= 180)
 	{
 		AnimationAngle.push_back(aniangle);
@@ -53,8 +55,6 @@ void SCUnit::Update(float dt)
 		{
 			SetFlipX(false);
 		}
-		
-
 	}
 
 	switch (currentStatus)
@@ -100,4 +100,8 @@ void SCUnit::Draw(sf::RenderWindow& window)
 void SCUnit::SetStatus(Status status)
 {
 	currentStatus = status;
+	if (status == Status::ATTACK)
+	{
+		animator->Stop();
+	}
 }
