@@ -468,3 +468,40 @@ void Utils::RemoveStringBeforeKeyWord(std::string& filePath
 	}
 }
 
+float Utils::FindNearestAngleconst(const std::vector<float>& angles, float target)
+{
+	int left = 0;
+	int right = angles.size() - 1;
+
+	while (left < right)
+	{
+		int mid = left + (right - left) / 2;
+
+		if (angles[mid] == target)
+		{
+			return angles[mid];
+		}
+
+		if (mid > 0 && target < angles[mid] && target > angles[mid - 1])
+		{
+			return (std::abs(target - angles[mid]) < std::abs(target - angles[mid - 1])) ? angles[mid] : angles[mid - 1];
+		}
+
+		if (mid < angles.size() - 1 && target > angles[mid] && target < angles[mid + 1])
+		{
+			return (std::abs(target - angles[mid]) < std::abs(target - angles[mid + 1])) ? angles[mid] : angles[mid + 1];
+		}
+
+		if (target < angles[mid])
+		{
+			right = mid - 1;
+		}
+		else
+		{
+			left = mid + 1;
+		}
+	}
+
+	return (std::abs(target - angles[left]) < std::abs(target - angles[right])) ? angles[left] : angles[right];
+}
+
