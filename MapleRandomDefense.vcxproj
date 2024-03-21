@@ -34,6 +34,7 @@
     <ClCompile Include="GameObjects\Base\TextGo.cpp" />
     <ClCompile Include="GameObjects\Base\UIGo.cpp" />
     <ClCompile Include="GameObjects\TileEditor.cpp" />
+    <ClCompile Include="GameObjects\Hydralisk.cpp" />
     <ClCompile Include="MapleRandomDefense.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -44,8 +45,13 @@
     <ClCompile Include="Scenes\SceneTitle.cpp" />
     <ClCompile Include="GameObjects\UI\UIAnimatorEditer.cpp" />
     <ClCompile Include="Scenes\SceneTilemapEditor.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="SCUnit.cpp" />
     <ClCompile Include="GameObjects\TileSet.cpp" />
+=======
+    <ClCompile Include="GameObjects\TileSet.cpp" />
+    <ClCompile Include="GameObjects\SCUnit.cpp" />
+>>>>>>> feature/Hydralisk
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Crosshair.h" />
@@ -69,6 +75,7 @@
     <ClInclude Include="GameObjects\Base\TextGo.h" />
     <ClInclude Include="GameObjects\Base\UIGo.h" />
     <ClInclude Include="GameObjects\TileEditor.h" />
+    <ClInclude Include="GameObjects\Hydralisk.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Scenes\SceneAnimatorEditer.h" />
     <ClInclude Include="Scenes\Scene.h" />
@@ -76,8 +83,13 @@
     <ClInclude Include="Scenes\SceneTitle.h" />
     <ClInclude Include="GameObjects\UI\UIAnimatorEditer.h" />
     <ClInclude Include="Scenes\SceneTilemapEditor.h" />
+<<<<<<< HEAD
     <ClInclude Include="SCUnit.h" />
     <ClInclude Include="GameObjects\TileSet.h" />
+=======
+    <ClInclude Include="GameObjects\TileSet.h" />
+    <ClInclude Include="GameObjects\SCUnit.h" />
+>>>>>>> feature/Hydralisk
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

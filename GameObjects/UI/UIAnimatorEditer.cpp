@@ -5,6 +5,7 @@
 #include "TextGo.h"
 #include "SpriteAnimatorGo.h"
 #include "SCUnit.h"
+#include "Hydralisk.h"
 #include <ostream>
 #include <fstream>
 
@@ -161,24 +162,32 @@ void UIAnimatorEditer::Init()
 		- ((sprites["SpriteAngleCount"]->GetGlobalBounds().width / 2))
 		, FRAMEWORK.GetWindowSize().y * 0.85f });
 
-	animator = std::make_shared<Animator>();
-	preViewSprite = new SpriteAnimatorGo();
-	preViewSprite->sortLayer = 5;
-	preViewSprite->SetScale({ 3.f , 3.f });
+	//animator = std::make_shared<Animator>();
+	//preViewSprite = new SpriteAnimatorGo();
+	//preViewSprite->sortLayer = 5;
+	//preViewSprite->SetScale({ 3.f , 3.f });
 
-	SCENE_MGR.GetScene(SceneIds::SceneAnimatorEditer)->AddGo(preViewSprite, Scene::Ui);
+	//SCENE_MGR.GetScene(SceneIds::SceneAnimatorEditer)->AddGo(preViewSprite, Scene::Ui);
 
-	animator->SetTarget(preViewSprite->GetSprite());
-	preViewSprite->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.5f
-		, FRAMEWORK.GetWindowSize().y * 0.5f });
+	//animator->SetTarget(preViewSprite->GetSprite());
+	//preViewSprite->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.5f
+	//	, FRAMEWORK.GetWindowSize().y * 0.5f });
 
-	SCUnit* sc;
+	/*SCUnit* sc;
 	sc = new SCUnit();
 
 	sc->Init();
 	sc->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.5f, FRAMEWORK.GetWindowSize().y * 0.5f });
 	sc->sortLayer = 22;
-	SCENE_MGR.GetScene(SceneIds::SceneAnimatorEditer)->AddGo(sc, Scene::Ui);
+	SCENE_MGR.GetScene(SceneIds::SceneAnimatorEditer)->AddGo(sc, Scene::Ui);*/
+
+	Hydralisk* hydralisk;
+	hydralisk = new Hydralisk("Hydralisk");
+	hydralisk->Init();
+	hydralisk->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.5f,
+	FRAMEWORK.GetWindowSize().y * 0.5f });
+
+	SCENE_MGR.GetScene(SceneIds::SceneAnimatorEditer)->AddGo(hydralisk, Scene::Ui);
 
 	UiInit();
 	ObjectsSort();
