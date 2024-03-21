@@ -4,10 +4,10 @@
 Crosshair::Crosshair(const std::string& name)
 {
 	sortLayer = 20;
-	textureId = "graphics/UI/Sannabi_AimSprite_Idle (lp)_1.png";
+	textureId = "graphics/UI/cursor.png";
 	SetTexture(textureId);
 	SetScale({ 2.f , 2.f });
-	SetOrigin(Origins::TC);
+	SetOrigin(Origins::TL);
 }
 
 void Crosshair::Init()

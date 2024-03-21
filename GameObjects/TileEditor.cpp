@@ -50,7 +50,7 @@ void TileEditor::Update(float dt)
 	screenPos = SCENE_MGR.GetCurrentScene()->UiToScreen((sf::Vector2f)mouse->GetPosition());
 	worldPos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(screenPos);
 
-	//std::cout << worldPos.x << " " << worldPos.y << std::endl;
+
 	isMouseOutsideAllBoxes = true; // 타일박스에 커서 올라가있는것 판단
 
 	for (int i = 0; i < 9; ++i) {
@@ -72,9 +72,14 @@ void TileEditor::Update(float dt)
 	{
 		if (InputMgr::GetMouseButton(sf::Mouse::Left))
 		{
+			if (worldPos.x / 32 < 0 || worldPos.x / 32 > 256 || worldPos.y / 32 < 0 || worldPos.y / 32 > 256)
+			{
+				return;
+			}
 			tileSet->SetTileType(worldPos.x / 32 , worldPos.y / 32 , currentType);
 		}
 	}
+	std::cout << (int)worldPos.x /32 << " " << (int)worldPos.y /32 << std::endl;
 
 	//마우스로 뷰 이동
 
