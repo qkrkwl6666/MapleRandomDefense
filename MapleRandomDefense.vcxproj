@@ -45,13 +45,8 @@
     <ClCompile Include="Scenes\SceneTitle.cpp" />
     <ClCompile Include="GameObjects\UI\UIAnimatorEditer.cpp" />
     <ClCompile Include="Scenes\SceneTilemapEditor.cpp" />
-<<<<<<< HEAD
-    <ClCompile Include="SCUnit.cpp" />
-    <ClCompile Include="GameObjects\TileSet.cpp" />
-=======
     <ClCompile Include="GameObjects\TileSet.cpp" />
     <ClCompile Include="GameObjects\SCUnit.cpp" />
->>>>>>> feature/Hydralisk
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Crosshair.h" />
@@ -83,13 +78,9 @@
     <ClInclude Include="Scenes\SceneTitle.h" />
     <ClInclude Include="GameObjects\UI\UIAnimatorEditer.h" />
     <ClInclude Include="Scenes\SceneTilemapEditor.h" />
-<<<<<<< HEAD
     <ClInclude Include="SCUnit.h" />
     <ClInclude Include="GameObjects\TileSet.h" />
-=======
-    <ClInclude Include="GameObjects\TileSet.h" />
     <ClInclude Include="GameObjects\SCUnit.h" />
->>>>>>> feature/Hydralisk
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
