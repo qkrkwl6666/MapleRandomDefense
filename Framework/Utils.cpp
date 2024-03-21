@@ -420,6 +420,32 @@ std::wstring Utils::OpenSaveFileDialog()
 	return L""; // 사용자가 취소하면 빈 문자열을 반환
 }
 
+
+
+std::wstring Utils::OpenSaveFileDialogToJson()
+{
+	OPENFILENAME ofn; // OPENFILENAME 구조체
+	wchar_t szFileName[MAX_PATH] = L""; // 파일 이름을 저장할 배열
+
+	ZeroMemory(&ofn, sizeof(ofn));
+
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFilter = L"JSON Files (*.json)\0*.json\0All Files (*.*)\0*.*\0";
+	ofn.lpstrFile = szFileName;
+	ofn.nMaxFile = MAX_PATH;
+	// 작업 디렉토리 변경 X
+	ofn.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR;
+	ofn.lpstrDefExt = L"json";
+
+	if (GetSaveFileName(&ofn)) // 파일 저장 대화 상자를 표시
+	{
+		return ofn.lpstrFile; // 사용자가 지정한 파일 경로를 반환
+	}
+
+	return L""; // 사용자가 취소하면 빈 문자열을 반환
+}
+
 std::vector<std::wstring> Utils::OpenFileDialog()
 {
 	OPENFILENAME ofn;
