@@ -102,7 +102,6 @@ void Animator::Update(float dt, Angle currentAngle)
 		return;
 	}
 
-
 	// 플레이가 아닌경우에는 return
 	if (!isPlaying)
 	{
@@ -121,8 +120,6 @@ void Animator::Update(float dt, Angle currentAngle)
 		currentFrame = static_cast<int>(currentAngle) * currentClip->frame;
 		totalFrame = currentFrame + currentClip->frame - 1;
 	}
-	std::cout << currentFrame << std::endl;
-	std::cout << totalFrame << std::endl;
 
 	++currentFrame;
 
@@ -132,7 +129,7 @@ void Animator::Update(float dt, Angle currentAngle)
 		{
 			std::string id = queue.front();
 			queue.pop();
-			Play(id, false);
+			Play(id, true , true);
 			return;
 		}
 
@@ -192,7 +189,6 @@ void Animator::Play(const std::string& clipId, bool clearQueue , bool isAngle)
 	}
 	else
 	{
-
 		totalFrame = currentClip->frame;
 		this->isAngle = isAngle;
 	}
@@ -200,6 +196,26 @@ void Animator::Play(const std::string& clipId, bool clearQueue , bool isAngle)
 	clipDuration = 1.f / currentClip->fps; // 0.333
 	SetFrame(currentClip->frames[0]);
 	
+}
+
+void Animator::PlayIdle(const std::string& clipId, bool clearQueue, Angle currentAngle)
+{
+	if (clearQueue)
+	{
+		while (!queue.empty())
+		{
+			queue.pop();
+		}
+	}
+
+	// clipId가 find할때만 작동
+	accumTime = 0.f;
+	isPlaying = true;
+
+	currentClip = &clips[clipId];
+	clipDuration = 1.f / currentClip->fps; // 0.333
+	SetFrame(currentClip->frames[static_cast<int>(currentClip->frame) 
+		* static_cast<int>(currentAngle)]);
 }
 
 void Animator::PlayQueue(const std::string& clipId)

@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameObjects\Hydralisk.cpp" />
+    <ClCompile Include="GameObjects\SCUnit.cpp" />
     <ClCompile Include="GameObjects\UI\Crosshair.cpp" />
     <ClCompile Include="Framework\Framework.cpp" />
     <ClCompile Include="Framework\Manager\DataTableMgr.cpp" />
@@ -44,10 +46,11 @@
     <ClCompile Include="Scenes\SceneTitle.cpp" />
     <ClCompile Include="GameObjects\UI\UIAnimatorEditer.cpp" />
     <ClCompile Include="Scenes\SceneTilemapEditor.cpp" />
-    <ClCompile Include="SCUnit.cpp" />
     <ClCompile Include="GameObjects\Base\TileSet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameObjects\Hydralisk.h" />
+    <ClInclude Include="GameObjects\SCUnit.h" />
     <ClInclude Include="GameObjects\UI\Crosshair.h" />
     <ClInclude Include="DataTable\DataTable.h" />
     <ClInclude Include="Framework\Defines.h" />
@@ -76,7 +79,6 @@
     <ClInclude Include="Scenes\SceneTitle.h" />
     <ClInclude Include="GameObjects\UI\UIAnimatorEditer.h" />
     <ClInclude Include="Scenes\SceneTilemapEditor.h" />
-    <ClInclude Include="SCUnit.h" />
     <ClInclude Include="GameObjects\Base\TileSet.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
