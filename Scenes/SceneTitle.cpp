@@ -12,17 +12,30 @@ SceneTitle::SceneTitle(SceneIds id)
 
 void SceneTitle::Init()
 {
-	uiTitle = new TextGo("uiTitle");
-	uiTitle->Set(RES_MGR_FONT.Get("font/NotoSansKR-Regular.otf"), "Press Enter to Animation Editor", 40, sf::Color::White);
+	TitleImage = new SpriteGo("titleImage");
+	TitleImage->SetTexture("graphics/Title.png");
+	TitleImage->SetOrigin(Origins::MC);
+	TitleImage->SetPosition({ GetViewCenter().x, GetViewCenter().y - 150 });
+	AddGo(TitleImage);
+
+	uiTitle = new TextGo("ToAnimation");
+	uiTitle->Set(RES_MGR_FONT.Get("font/NotoSansKR-Regular.otf"), "Press F1 to Animation Editor", 40, sf::Color::White);
 	uiTitle->SetOrigin(Origins::MC);
-	uiTitle->SetPosition(GetViewCenter());
+	uiTitle->SetPosition({ GetViewCenter().x, GetViewCenter().y + 90 });
 	AddGo(uiTitle);
 
-	uiTitle2 = new TextGo("uiTitle2");
+	uiTitle2 = new TextGo("ToMap");
 	uiTitle2->Set(RES_MGR_FONT.Get("font/NotoSansKR-Regular.otf"), "Press F2 to Map Editor", 40, sf::Color::White);
 	uiTitle2->SetOrigin(Origins::MC);
-	uiTitle2->SetPosition({ GetViewCenter().x, GetViewCenter().y + 90});
+	uiTitle2->SetPosition({ GetViewCenter().x, GetViewCenter().y + 170});
 	AddGo(uiTitle2);
+	Scene::Init();
+
+	uiTitle3 = new TextGo("ToGame");
+	uiTitle3->Set(RES_MGR_FONT.Get("font/NotoSansKR-Regular.otf"), "Press Enter to Game", 70, sf::Color::White);
+	uiTitle3->SetOrigin(Origins::MC);
+	uiTitle3->SetPosition({ GetViewCenter().x, GetViewCenter().y + 280 });
+	AddGo(uiTitle3);
 	Scene::Init();
 }
 
@@ -30,7 +43,7 @@ void SceneTitle::Update(float dt)
 {
 	Scene::Update(dt);
 
-	if (InputMgr::GetKeyDown(sf::Keyboard::Enter)) 
+	if (InputMgr::GetKeyDown(sf::Keyboard::F1)) 
 	{
 		std::cout << "ChangeScene!!" << std::endl;
 		SCENE_MGR.ChangeScene(SceneIds::SceneAnimatorEditer);
@@ -40,6 +53,12 @@ void SceneTitle::Update(float dt)
 	{
 		std::cout << "ChangeScene!!" << std::endl;
 		SCENE_MGR.ChangeScene(SceneIds::SceneTilemapEditor);
+	}
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
+	{
+		std::cout << "ChangeScene!!" << std::endl;
+		SCENE_MGR.ChangeScene(SceneIds::SceneGame);
 	}
 }
 
