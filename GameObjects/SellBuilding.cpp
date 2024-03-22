@@ -1,8 +1,14 @@
 #include "pch.h"
 #include "SellBuilding.h"
+#include "SceneGame.h"
 
 SellBuilding::SellBuilding(const std::string& name) : Building(name)
 {
+}
+
+void SellBuilding::Sell(SCUnit::Type t, SCUnit::Rarity r)
+{
+	sceneGame->SellUnit(t, r);
 }
 
 void SellBuilding::Init()

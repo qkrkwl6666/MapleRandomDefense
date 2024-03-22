@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "ShapeGo.h"
+#include "SCUnit.h"
 
 class Hydralisk;
 class Dragoon;
@@ -65,6 +66,8 @@ public:
 	const int GetHydraliskUpgrade() const { return hydraliskUpgrade; }
 	const int GetDragoonUpgrade() const { return dragoonUpgrade; }
 	const int GetGhostUpgrade() const { return ghostUpgrade; }
+
+	void SellUnit(SCUnit::Type t, SCUnit::Rarity r);
 
 	void SetMineral(int m) { mineral = m; }
 	const int GetMineral() const { return mineral; }

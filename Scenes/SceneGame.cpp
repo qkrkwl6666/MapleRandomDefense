@@ -15,6 +15,26 @@ SceneGame::SceneGame(SceneIds id) : Scene(id)
 }
 
 
+void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
+{
+	switch (t)
+	{
+	case SCUnit::Type::Hydralisk:
+		for (auto go : HydraliskList)
+		{
+			SCUnit* hydralisk = dynamic_cast<SCUnit*>(go);
+
+		}
+		break;
+	case SCUnit::Type::Dragoon:
+		break;
+	case SCUnit::Type::Ghost:
+		break;
+	default:
+		break;
+	}
+}
+
 void SceneGame::message(MessageType m)
 {
 	switch (m)

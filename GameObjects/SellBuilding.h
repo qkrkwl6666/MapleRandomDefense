@@ -1,5 +1,7 @@
 #pragma once
 #include "Building.h"
+#include "SCUnit.h"
+
 class SellBuilding :
     public Building
 {
@@ -9,7 +11,7 @@ public:
 	SellBuilding(const std::string& name = "");
 	~SellBuilding() = default;
 
-	void SellUnit();
+	void Sell(SCUnit::Type t , SCUnit::Rarity r);
 
 	void Init() override;
 	void Reset() override;
