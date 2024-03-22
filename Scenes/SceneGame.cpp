@@ -199,7 +199,6 @@ void SceneGame::Init()
 
 	AddGo(mainInterface, Layers::Ui);
 
-
 	UpgradeBuilding* TerranBuilding = new UpgradeBuilding("terranBuilding", Building::Races::Terran);
 	TerranBuilding->SetPosition({ 12 * 32 , 27 * 32 });
 	AddGo(TerranBuilding, Layers::World);
@@ -267,6 +266,8 @@ void SceneGame::Update(float dt)
 			return;
 		}
 	}
+
+	//std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
 
 	if (modeDeveloper)
 	{

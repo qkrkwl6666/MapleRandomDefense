@@ -28,11 +28,12 @@ void SCUnit::Init()
 		aniangle += 22.5;
 	}
 
-	// ¼±ÅÃ ½ºÇÁ¶óÀÌÆ®
+	// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 	isSelectSprite = std::make_shared<SpriteGo>();
 	isSelectSprite->SetTexture("graphics/UI/cursorsSelect.png");
+	isSelectSprite->SetOrigin(Origins::MC);
+	isSelectSprite->SetScale({ 2.f , 2.f });
 	isSelectSprite->SetActive(false);
-	isSelectSprite->GetActive();
 
 }
 
@@ -44,11 +45,22 @@ void SCUnit::Reset()
 void SCUnit::Update(float dt)
 {
 	SpriteGo::Update(dt);
+	if (InputMgr::GetKeyUp(sf::Keyboard::Space))
+	{
+		if (isSelectSprite->GetActive() && isSelect)
+		{
+			SetSelect(false);
+		}
+		else
+		{
+			SetSelect(true);
+		}
+	}
 
-	//if (isSelectSprite->GetActive() && isSelect == true)
-	//{
-
-	//}
+	if (isSelectSprite->GetActive() && isSelect)
+	{
+		isSelectSprite->SetPosition({ GetPosition().x + 5.f, GetPosition().y + 30.f });
+	}
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right))
 	{
@@ -108,13 +120,18 @@ void SCUnit::LateUpdate(float dt)
 
 void SCUnit::Draw(sf::RenderWindow& window)
 {
+	if (isSelectSprite->GetActive() && isSelect == true)
+	{
+		isSelectSprite->Draw(window);
+	}
+
 	SpriteAnimatorGo::Draw(window);
 }
 
 void SCUnit::SellThis()
 {
-	//TO-DO º»ÀÎÀÇ Á×À½ ¾Ö´Ï¸ÞÀÌ¼Ç Àç»ý
-	sceneGame->SetMineral(sceneGame->GetMineral() + sellingValue); // ÀÚ½ÅÀÇ ÆÇ¸Å°¡°Ý
+	//TO-DO ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½
+	sceneGame->SetMineral(sceneGame->GetMineral() + sellingValue); // ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½Ç¸Å°ï¿½ï¿½ï¿½
 	sceneGame->message(SceneGame::MessageType::SellUnit);
 	sceneGame->message(sellingValue);
 
@@ -128,4 +145,10 @@ void SCUnit::SetStatus(Status status)
 	{
 		animator->Stop();
 	}
+}
+
+void SCUnit::SetSelect(bool isSelect)
+{
+	this->isSelect = isSelect;
+	isSelectSprite->SetActive(isSelect);
 }

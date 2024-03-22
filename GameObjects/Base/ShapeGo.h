@@ -100,6 +100,11 @@ public:
 		return shape.getGlobalBounds();
 	}
 
+	void SetRectOutLine(sf::Color color)
+	{
+		shape.setOutlineColor(color);
+	}
+
 protected:
 	T shape;
 

@@ -96,6 +96,10 @@ public:
 	const Angle& GetCurrentAngle() const { return currentAngle; }
 	void SetStatus(Status status);
 	void SetUpgrade(int u) { UpgradeCount = u; }
+
 	const Rarity& GetRarity() const { return rarity; }
+
+	void SetSelect(bool isSelect);
+
 };
 
