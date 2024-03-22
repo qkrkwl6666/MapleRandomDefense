@@ -5,11 +5,29 @@
 #include "ShapeGo.h"
 #include <Windows.h>
 #include "Crosshair.h"
+#include "UpgradeBuilding.h"
 
 
 SceneGame::SceneGame(SceneIds id) : Scene(id)
 {
 
+}
+
+
+void SceneGame::message(MessageType m)
+{
+	switch (m)
+	{
+	case SceneGame::MessageType::NONE:
+		break;
+	case SceneGame::MessageType::NotEnoughMinerals:
+		std::cout << "미네랄 부족" << std::endl;
+		break;
+	case SceneGame::MessageType::count:
+		break;
+	default:
+		break;
+	}
 }
 
 void SceneGame::Init()
@@ -32,6 +50,21 @@ void SceneGame::Init()
 	rightFiller->SetColor(sf::Color::Black);
 	AddGo(leftFiller, Layers::Ui);
 	AddGo(rightFiller, Layers::Ui);
+
+	UpgradeBuilding* TerranBuilding = new UpgradeBuilding("terranBuilding", Building::Races::Terran);
+	TerranBuilding->Init();
+	TerranBuilding->SetPosition({ 12 * 32 , 27 * 32 });
+	AddGo(TerranBuilding, Layers::World);
+
+	UpgradeBuilding* ZergBuilding = new UpgradeBuilding("zergBuilding", Building::Races::Zerg);
+	ZergBuilding->Init();
+	ZergBuilding->SetPosition({ 16 * 32 , 27 * 32 });
+	AddGo(ZergBuilding, Layers::World);
+
+	UpgradeBuilding* ProtossBuilding = new UpgradeBuilding("protossBuilding", Building::Races::Protoss);
+	ProtossBuilding->Init();
+	ProtossBuilding->SetPosition({ 19 * 32 , 27 * 32 });
+	AddGo(ProtossBuilding, Layers::World);
 }
 
 void SceneGame::Release()
@@ -42,7 +75,9 @@ void SceneGame::Release()
 
 void SceneGame::Reset()
 {
-	
+	hydraliskUpgrade = 0;
+	dragoonUpgrade = 0;
+	ghostUpgrade = 0;
 }
 
 void SceneGame::Enter()
@@ -60,11 +95,14 @@ void SceneGame::Exit()
 void SceneGame::Update(float dt)
 {
 	Scene::Update(dt);
-
-
 	screenPos = SCENE_MGR.GetCurrentScene()->UiToScreen((sf::Vector2f)mouse->GetPosition());
 	worldPos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(screenPos);
 
+	FindGoAll("hydralisk", HydraliskList, Scene::Layers::World);
+	FindGoAll("dragoon", DragoonList, Scene::Layers::World);
+	FindGoAll("ghost", GhostList, Scene::Layers::World);
+
+	std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
 
 	//마우스로 뷰 이동
 
