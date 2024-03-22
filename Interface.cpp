@@ -72,6 +72,8 @@ void Interface::Update(float dt)
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left) && !isSelecting)
 	{
+		isSelectList.clear();
+
 		isSelecting = true;
 
 		selectStartPos = worldMousePos;
@@ -84,7 +86,22 @@ void Interface::Update(float dt)
 	{
 		isSelecting = false;
 		selectBox->SetActive(false);
+		std::list<SCUnit*> allUnit = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetAllUnitList();
+		auto it = allUnit.begin();
+		while (it != allUnit.end())
+		{
+			 
+			if (selectBox->GetGlobalBounds().contains
+				(dynamic_cast<SCUnit*>(*it)->GetPosition()))
+			{
+				isSelectList.push_back(*it);
+				dynamic_cast<SCUnit*>(*it)->SetSelect(true);
+			}
+			
+			it++;
+		}
 		
+
 		std::cout << selectBox->GetGlobalBounds().left << 
 			" " << selectBox->GetGlobalBounds().top << std::endl;
 	}

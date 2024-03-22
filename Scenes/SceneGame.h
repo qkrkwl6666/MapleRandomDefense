@@ -41,6 +41,8 @@ protected:
 	std::list<SCUnit*> DragoonList;
 	std::list<SCUnit*> GhostList;
 
+	std::list<SCUnit*> AllUnitList;
+
 	int hydraliskUpgrade = 0;
 	int dragoonUpgrade = 0;
 	int ghostUpgrade = 0;
@@ -63,6 +65,7 @@ public:
 	const std::list<SCUnit*>& GetHydraliskList() const { return HydraliskList; }
 	const std::list<SCUnit*>& GetDragoonList() const { return DragoonList; }
 	const std::list<SCUnit*>& GetGhostList() const { return GhostList; }
+	const std::list<SCUnit*>& GetAllUnitList() const { return AllUnitList; }
 
 	void SetHydraliskUpgrade(int h) { hydraliskUpgrade = h; }
 	void SetDragoonUpgrade(int d) { dragoonUpgrade = d; }

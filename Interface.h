@@ -10,6 +10,8 @@ protected:
 	ShapeGo<sf::RectangleShape>* selectBox;
 	sf::Vector2f selectStartPos;
 	bool isSelecting = false;
+	
+	std::list<SCUnit*> isSelectList;
 
 	sf::Vector2f worldMousePos;
 	

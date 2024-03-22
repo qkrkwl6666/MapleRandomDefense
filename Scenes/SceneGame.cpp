@@ -27,11 +27,14 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 			SCUnit* hydralisk = *it;
 			if (hydralisk && hydralisk->GetRarity() == r)
 			{
+				//TODO : 터지면 여기다
 				HydraliskList.erase(it);
+				AllUnitList.erase(it); // << 이곳이야
 				hydralisk->SellThis();
 				return;
 			}
 		}
+
 		break;
 	case SCUnit::Type::Dragoon:
 		for (auto it = DragoonList.begin(); it != DragoonList.end();)
@@ -340,6 +343,7 @@ void SceneGame::Update(float dt)
 			AddGo(hydralisk, Layers::World);
 			hydralisk->Init();
 			HydraliskList.push_back(hydralisk);
+			AllUnitList.push_back(hydralisk);
 			message(MessageType::BuyUnit, SCUnit::Type::Hydralisk, randomrarity);
 		}
 			break;

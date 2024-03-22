@@ -44,6 +44,7 @@ protected:
 
 	std::shared_ptr<SpriteGo> isSelectSprite;
 	bool isSelect = false;
+	sf::Vector2f direction;
 
 	Angle currentAngle = Angle::TOP;
 	float currentDegreeAngle = 0.f;
