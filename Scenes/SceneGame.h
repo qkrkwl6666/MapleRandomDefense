@@ -8,6 +8,7 @@ class Dragoon;
 class Ghost;
 
 class TileSet;
+class Interface;
 
 class SceneGame : public Scene
 {
@@ -25,6 +26,7 @@ public:
 protected:
 	TileSet* tileSet = nullptr;
 
+	Interface* mainInterface = nullptr;
 	ShapeGo<sf::RectangleShape>* leftFiller;
 	ShapeGo<sf::RectangleShape>* rightFiller;
 
@@ -34,7 +36,7 @@ protected:
 	sf::Vector2i tilePos;
 	sf::Vector2f lastMouseWorldPos;
 	sf::Vector2f delta;
-
+	
 	std::list<GameObject*> HydraliskList;
 	std::list<GameObject*> DragoonList;
 	std::list<GameObject*> GhostList;
@@ -47,8 +49,6 @@ protected:
 	int gas = 0;
 
 public:
-
-
 
 	SceneGame(SceneIds id);
 	~SceneGame() override = default;

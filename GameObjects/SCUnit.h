@@ -2,6 +2,7 @@
 #include "SpriteAnimatorGo.h"
 
 class SceneGame;
+class SpriteGo;
 
 class SCUnit : public SpriteAnimatorGo
 {
@@ -36,8 +37,15 @@ public:
 		Mythic,
 		Primeval,
 	};
+
 protected:
+<<<<<<< HEAD
 	SceneGame* sceneGame = nullptr;
+=======
+	std::shared_ptr<SpriteGo> isSelectSprite;
+
+	bool isSelect = false;
+>>>>>>> feature/Interface
 
 	Angle currentAngle = Angle::TOP;
 	float currentDegreeAngle = 0.f;
@@ -64,15 +72,15 @@ protected:
 		{157.5f , Angle::BOTTOM60},
 		{180.f , Angle::RIGHT},
 	};
-	///////////////////////// ¾Ö´Ï¸ÞÀÌ¼Ç ¸â¹ö º¯¼ö
+	///////////////////////// ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 	Type type = Type::NONE;
 	Rarity rarity = Rarity::NONE;
 	float Damage = 3.f;
 	float attackRange = 3.f;
 	int UpgradeCount = 0;
-	int sellingValue = 0; // ÆÇ¸Å°¡
-	bool sellable = true; // ÆÇ¸Å °¡´É ¿©ºÎ - Àü¼³ ½ÅÈ­ ÅÂÃÊ¸¸ false
+	int sellingValue = 0; // ï¿½Ç¸Å°ï¿½
+	bool sellable = true; // ï¿½Ç¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­ ï¿½ï¿½ï¿½Ê¸ï¿½ false
 
 public:
 	SCUnit(const std::string& name = "" , 

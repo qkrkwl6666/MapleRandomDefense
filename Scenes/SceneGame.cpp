@@ -5,9 +5,9 @@
 #include "ShapeGo.h"
 #include <Windows.h>
 #include "Crosshair.h"
+#include "Interface.h"
 #include "UpgradeBuilding.h"
 #include "SCUnit.h"
-
 
 SceneGame::SceneGame(SceneIds id) : Scene(id)
 {
@@ -64,7 +64,7 @@ void SceneGame::message(MessageType m)
 	case SceneGame::MessageType::NONE:
 		break;
 	case SceneGame::MessageType::NotEnoughMinerals:
-		std::cout << "¹Ì³×¶ö ºÎÁ·" << std::endl;
+		std::cout << "ï¿½Ì³×¶ï¿½ ï¿½ï¿½ï¿½ï¿½" << std::endl;
 		break;
 	case SceneGame::MessageType::count:
 		break;
@@ -145,37 +145,51 @@ void SceneGame::Init()
 {
 	tileSet = new TileSet();
 	AddGo(tileSet, Scene::World);
-	tileSet->LoadTileMap("tilejson/Map.json", 0.5f);
-	tileSet->VaSet();
+
 	mouse = FRAMEWORK.GetMouse();
+
+	mainInterface = new Interface("Interface");
+
+	mainInterface->sortLayer = 10;
 
 	leftFiller = new ShapeGo<sf::RectangleShape>("leftFiller");
 	rightFiller = new ShapeGo<sf::RectangleShape>("rightFiller");
 
-	worldView.setSize(1365.33, 768);
-	leftFiller->SetSize({ (FRAMEWORK.GetWindowSize().x - worldView.getSize().x) / 4, (float) FRAMEWORK.GetWindowSize().y });
-	rightFiller->SetSize({ (FRAMEWORK.GetWindowSize().x - worldView.getSize().x) / 4, (float)FRAMEWORK.GetWindowSize().y });
+	leftFiller->SetSize({ 
+		((float)FRAMEWORK.GetWindowSize().x / 8),
+		(float) FRAMEWORK.GetWindowSize().y });
+
+	rightFiller->SetSize({ 
+		((float)FRAMEWORK.GetWindowSize().x / 8),
+		(float)FRAMEWORK.GetWindowSize().y });
+
 	leftFiller->SetPosition({ 0,0 });
 	rightFiller->SetPosition({ FRAMEWORK.GetWindowSize().x - rightFiller->GetSize().x, 0 });
 	leftFiller->SetColor(sf::Color::Black);
 	rightFiller->SetColor(sf::Color::Black);
+
 	AddGo(leftFiller, Layers::Ui);
 	AddGo(rightFiller, Layers::Ui);
 
+	AddGo(mainInterface, Layers::Ui);
+
+
 	UpgradeBuilding* TerranBuilding = new UpgradeBuilding("terranBuilding", Building::Races::Terran);
-	TerranBuilding->Init();
 	TerranBuilding->SetPosition({ 12 * 32 , 27 * 32 });
 	AddGo(TerranBuilding, Layers::World);
 
 	UpgradeBuilding* ZergBuilding = new UpgradeBuilding("zergBuilding", Building::Races::Zerg);
-	ZergBuilding->Init();
 	ZergBuilding->SetPosition({ 16 * 32 , 27 * 32 });
 	AddGo(ZergBuilding, Layers::World);
 
 	UpgradeBuilding* ProtossBuilding = new UpgradeBuilding("protossBuilding", Building::Races::Protoss);
-	ProtossBuilding->Init();
 	ProtossBuilding->SetPosition({ 19 * 32 , 27 * 32 });
 	AddGo(ProtossBuilding, Layers::World);
+
+	Scene::Init();
+
+	tileSet->LoadTileMap("tilejson/Map.json", 0.5f);
+	tileSet->VaSet();
 }
 
 void SceneGame::Release()
@@ -215,23 +229,23 @@ void SceneGame::Update(float dt)
 
 	std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
 
-	//¸¶¿ì½º·Î ºä ÀÌµ¿
+	//ï¿½ï¿½ï¿½ì½ºï¿½ï¿½ ï¿½ï¿½ ï¿½Ìµï¿½
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Middle))
 	{
-		lastMouseWorldPos = worldPos; // ÇöÀç ¸¶¿ì½º À§Ä¡¸¦ ÀúÀåÇÕ´Ï´Ù.
+		lastMouseWorldPos = worldPos; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ì½º ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
 	}
 
-	// ¸¶¿ì½º ÈÙÀÌ ´­¸° »óÅÂ À¯Áö Àü¿¡ delta¶û À§Ä¡°¡ °°Áö ¾ÊÀ»¶§¸¸
+	// ï¿½ï¿½ï¿½ì½º ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ deltaï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (InputMgr::GetMouseButton(sf::Mouse::Middle) &&
 		delta != lastMouseWorldPos - worldPos)
 	{
-		delta = lastMouseWorldPos - worldPos; // ÀÌµ¿·®.
+		delta = lastMouseWorldPos - worldPos; // ï¿½Ìµï¿½ï¿½ï¿½.
 
 		GetWorldView().move(delta);
 	}
 
-	// Å¸¿ö »Ì±â - ¼Â Áß ÇÏ³ª
+	// Å¸ï¿½ï¿½ ï¿½Ì±ï¿½ - ï¿½ï¿½ ï¿½ï¿½ ï¿½Ï³ï¿½
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
 		ShapeGo<sf::CircleShape>* tower = new ShapeGo<sf::CircleShape>("tower");

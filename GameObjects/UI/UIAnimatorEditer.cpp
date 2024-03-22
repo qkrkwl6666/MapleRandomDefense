@@ -197,7 +197,6 @@ void UIAnimatorEditer::Release()
 {
 	GameObject::Release();
 
-	UiDelete();
 }
 
 void UIAnimatorEditer::Reset()
