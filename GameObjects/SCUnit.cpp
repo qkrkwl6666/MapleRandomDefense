@@ -64,7 +64,7 @@ void SCUnit::Update(float dt)
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right))
 	{
-		sf::Vector2f direction = FRAMEWORK.GetMouse()->GetPosition() - GetPosition();
+		sf::Vector2f direction = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos() - GetPosition();
 
 		Utils::Normalize(direction);
 
