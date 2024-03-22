@@ -12,6 +12,7 @@ public:
 		ATTACK,
 		COUNT,
 	};
+
 protected:
 	Angle currentAngle = Angle::TOP;
 	float currentDegreeAngle = 0.f;
