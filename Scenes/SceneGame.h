@@ -48,6 +48,8 @@ protected:
 	int mineral = 0;
 	int gas = 0;
 
+	bool modeDeveloper = false;
+
 public:
 
 	SceneGame(SceneIds id);

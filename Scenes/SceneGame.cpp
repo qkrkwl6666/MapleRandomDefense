@@ -249,8 +249,24 @@ void SceneGame::Update(float dt)
 	FindGoAll("dragoon", DragoonList, Scene::Layers::World);
 	FindGoAll("ghost", GhostList, Scene::Layers::World);
 
-	std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
+	if (InputMgr::GetKeyDown(sf::Keyboard::D))
+	{
+		if (!modeDeveloper)
+		{
+			modeDeveloper = true;
+			return;
+		}
+		if (modeDeveloper)
+		{
+			modeDeveloper = false;
+			return;
+		}
+	}
 
+	if (modeDeveloper)
+	{
+		std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
+	}
 	//���콺�� �� �̵�
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Middle))
@@ -268,7 +284,7 @@ void SceneGame::Update(float dt)
 	}
 
 	// Ÿ�� �̱� - �� �� �ϳ�
-	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	if (InputMgr::GetKeyDown(sf::Keyboard::Q))
 	{
 		ShapeGo<sf::CircleShape>* tower = new ShapeGo<sf::CircleShape>("tower");
 		int randomTower = -1;
@@ -283,6 +299,7 @@ void SceneGame::Update(float dt)
 			Hydralisk* hydralisk = new Hydralisk("hydralisk",randomrarity);
 			hydralisk->SetPosition(worldPos);
 			AddGo(hydralisk, Layers::World);
+			hydralisk->Init();
 			HydraliskList.push_back(hydralisk);
 			message(MessageType::BuyUnit, SCUnit::Type::Hydralisk, randomrarity);
 		}
