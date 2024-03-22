@@ -20,15 +20,37 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 	switch (t)
 	{
 	case SCUnit::Type::Hydralisk:
-		for (auto go : HydraliskList)
+		for (auto it = HydraliskList.begin(); it != HydraliskList.end();)
 		{
-			SCUnit* hydralisk = dynamic_cast<SCUnit*>(go);
-
+			SCUnit* hydralisk = dynamic_cast<SCUnit*>(*it);
+			if (hydralisk && hydralisk->GetRarity() == r)
+			{
+				HydraliskList.erase(it);
+				hydralisk->SellThis();
+			}
 		}
 		break;
 	case SCUnit::Type::Dragoon:
+		for (auto it = DragoonList.begin(); it != DragoonList.end();)
+		{
+			SCUnit* dragoon = dynamic_cast<SCUnit*>(*it);
+			if (dragoon && dragoon->GetRarity() == r)
+			{
+				DragoonList.erase(it);
+				dragoon->SellThis();
+			}
+		}
 		break;
 	case SCUnit::Type::Ghost:
+		for (auto it = GhostList.begin(); it != GhostList.end();)
+		{
+			SCUnit* ghost = dynamic_cast<SCUnit*>(*it);
+			if (ghost && ghost->GetRarity() == r)
+			{
+				GhostList.erase(it);
+				ghost->SellThis();
+			}
+		}
 		break;
 	default:
 		break;
@@ -49,6 +71,53 @@ void SceneGame::message(MessageType m)
 	default:
 		break;
 	}
+}
+
+void SceneGame::message(MessageType m, SCUnit::Type t, SCUnit::Rarity r)
+{
+	std::string type;
+	switch (t)
+	{
+	case SCUnit::Type::Hydralisk:
+		type = "히드라 ";
+		break;
+	case SCUnit::Type::Dragoon:
+		type = "드라군 ";
+		break;
+	case SCUnit::Type::Ghost:
+		type = "고스트 ";
+		break;
+	default:
+		break;
+	}
+
+	std::string rarity;
+	switch (r)
+	{
+
+	case SCUnit::Rarity::Common:
+		rarity = "일반]";
+		break;
+	case SCUnit::Rarity::Rare:
+		rarity = "레어]";
+		break;
+	case SCUnit::Rarity::Ancient:
+		rarity = "고대]";
+		break;
+	case SCUnit::Rarity::Artifact:
+		rarity = "유물]";
+		break;
+	case SCUnit::Rarity::Saga:
+		rarity = "서사]";
+		break;
+	}
+
+	std::cout << "[유닛을 판매했습니다 : " << type << rarity << std::endl;
+}
+
+void SceneGame::message(int i)
+{
+	std::cout << "+ " << i << "원" << std::endl;
 }
 
 void SceneGame::UpgradeUpdate()

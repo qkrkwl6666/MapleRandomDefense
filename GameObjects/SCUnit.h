@@ -1,6 +1,8 @@
 #pragma once
 #include "SpriteAnimatorGo.h"
 
+class SceneGame;
+
 class SCUnit : public SpriteAnimatorGo
 {
 public:
@@ -35,6 +37,8 @@ public:
 		Primeval,
 	};
 protected:
+	SceneGame* sceneGame = nullptr;
+
 	Angle currentAngle = Angle::TOP;
 	float currentDegreeAngle = 0.f;
 	Status currentStatus = Status::NONE;
@@ -80,6 +84,8 @@ public:
 	void Update(float dt) override;
 	void LateUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
+
+	void SellThis();
 
 	const Angle& GetCurrentAngle() const { return currentAngle; }
 	void SetStatus(Status status);

@@ -16,7 +16,9 @@ public:
 	enum class MessageType
 	{
 		NONE = -1,
+		BuyUnit,
 		NotEnoughMinerals,
+		SellUnit,
 		count,
 	};
 
@@ -73,6 +75,9 @@ public:
 	const int GetMineral() const { return mineral; }
 
 	void message(MessageType m);
+	void message(MessageType m, SCUnit::Type t, SCUnit::Rarity r);
+	void message(int i);
+
 	void UpgradeUpdate();
 
 	void Init() override;

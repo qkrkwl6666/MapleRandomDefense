@@ -2,6 +2,7 @@
 #include "SCUnit.h"
 #include "Crosshair.h"
 #include "ShapeGo.h"
+#include "SceneGame.h"
 
 SCUnit::SCUnit(const std::string& name , const std::string& animationName) 
 	: SpriteAnimatorGo(name) , animationName(animationName)
@@ -17,6 +18,8 @@ SCUnit::~SCUnit()
 void SCUnit::Init()
 {
 	SpriteAnimatorGo::Init();
+	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame));
+
 	float aniangle = -157.5;
 
 	while (aniangle <= 180)
@@ -95,6 +98,16 @@ void SCUnit::LateUpdate(float dt)
 void SCUnit::Draw(sf::RenderWindow& window)
 {
 	SpriteAnimatorGo::Draw(window);
+}
+
+void SCUnit::SellThis()
+{
+	//TO-DO 본인의 죽음 애니메이션 재생
+	sceneGame->SetMineral(sceneGame->GetMineral() + sellingValue); // 자신의 판매가격
+	sceneGame->message(SceneGame::MessageType::SellUnit);
+	sceneGame->message(sellingValue);
+
+	sceneGame->RemoveGo(this);
 }
 
 void SCUnit::SetStatus(Status status)
