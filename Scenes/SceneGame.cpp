@@ -24,7 +24,7 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 	case SCUnit::Type::Hydralisk:
 		for (auto it = HydraliskList.begin(); it != HydraliskList.end();)
 		{
-			SCUnit* hydralisk = dynamic_cast<SCUnit*>(*it);
+			SCUnit* hydralisk = *it;
 			if (hydralisk && hydralisk->GetRarity() == r)
 			{
 				HydraliskList.erase(it);
@@ -36,7 +36,7 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 	case SCUnit::Type::Dragoon:
 		for (auto it = DragoonList.begin(); it != DragoonList.end();)
 		{
-			SCUnit* dragoon = dynamic_cast<SCUnit*>(*it);
+			SCUnit* dragoon = *it;
 			if (dragoon && dragoon->GetRarity() == r)
 			{
 				DragoonList.erase(it);
@@ -48,7 +48,7 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 	case SCUnit::Type::Ghost:
 		for (auto it = GhostList.begin(); it != GhostList.end();)
 		{
-			SCUnit* ghost = dynamic_cast<SCUnit*>(*it);
+			SCUnit* ghost = *it;
 			if (ghost && ghost->GetRarity() == r)
 			{
 				GhostList.erase(it);
@@ -116,12 +116,21 @@ void SceneGame::message(MessageType m, SCUnit::Type t, SCUnit::Rarity r)
 	case SCUnit::Rarity::Saga:
 		rarity = "서사]";
 		break;
+	case SCUnit::Rarity::Legendary:
+		rarity = "전설]";
+		break;
+	case SCUnit::Rarity::Mythic:
+		rarity = "신화]";
+		break;
+	case SCUnit::Rarity::Primeval:
+		rarity = "태초]";
+		break;
 	}
 
 	switch (m)
 	{
 	case SceneGame::MessageType::BuyUnit:
-		std::cout << "[: " << type << rarity << std::endl;
+		std::cout << "[" << type << rarity << std::endl;
 		break;
 	case SceneGame::MessageType::SellUnit:
 		std::cout << "[유닛을 판매했습니다 : " << type << rarity << std::endl;
@@ -141,19 +150,19 @@ void SceneGame::UpgradeUpdate()
 {
 	for (auto go : HydraliskList)
 	{
-		SCUnit* hydralisk = dynamic_cast<SCUnit*>(go);
+		SCUnit* hydralisk = go;
 		hydralisk->SetUpgrade(hydraliskUpgrade);
 	}
 
 	for (auto go : GhostList)
 	{
-		SCUnit* ghost = dynamic_cast<SCUnit*>(go);
+		SCUnit* ghost = go;
 		ghost->SetUpgrade(ghostUpgrade);
 	}
 
 	for (auto go : DragoonList)
 	{
-		SCUnit* dragoon = dynamic_cast<SCUnit*>(go);
+		SCUnit* dragoon = go;
 		dragoon->SetUpgrade(dragoonUpgrade);
 	}
 }
@@ -245,10 +254,6 @@ void SceneGame::Update(float dt)
 	screenPos = SCENE_MGR.GetCurrentScene()->UiToScreen((sf::Vector2f)mouse->GetPosition());
 	worldPos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(screenPos);
 
-	FindGoAll("hydralisk", HydraliskList, Scene::Layers::World);
-	FindGoAll("dragoon", DragoonList, Scene::Layers::World);
-	FindGoAll("ghost", GhostList, Scene::Layers::World);
-
 	if (InputMgr::GetKeyDown(sf::Keyboard::D))
 	{
 		if (!modeDeveloper)
@@ -290,8 +295,41 @@ void SceneGame::Update(float dt)
 		int randomTower = -1;
 		randomTower = Utils::RandomRange(0, 1);
 		int randomint = -1;
-		randomint = Utils::RandomRange(0, 5);
-		SCUnit::Rarity randomrarity = static_cast<SCUnit::Rarity>(randomint);
+		randomint = Utils::RandomRange(0, 10000);
+		SCUnit::Rarity randomrarity = SCUnit::Rarity::NONE;
+		if (randomint < 5000)
+		{
+			randomrarity = SCUnit::Rarity::Common;
+		}
+		if (randomint >= 5000 && randomint < 8310)
+		{
+			randomrarity = SCUnit::Rarity::Rare;
+		}
+		if (randomint >= 8310 && randomint < 9330)
+		{
+			randomrarity = SCUnit::Rarity::Ancient;
+		}
+		if (randomint >= 9330 && randomint < 9840)
+		{
+			randomrarity = SCUnit::Rarity::Artifact;
+		}
+		if (randomint >= 9840 && randomint < 9920)
+		{
+			randomrarity = SCUnit::Rarity::Saga;
+		}
+		if (randomint >= 9920 && randomint < 9970)
+		{
+			randomrarity = SCUnit::Rarity::Legendary;
+		}
+		if (randomint >= 9970 && randomint < 9988)
+		{
+			randomrarity = SCUnit::Rarity::Mythic;
+		}
+		if (randomint >= 9988 && randomint < 10000)
+		{
+			randomrarity = SCUnit::Rarity::Primeval;
+		}
+
 		switch (randomTower)
 		{
 		case 0:
@@ -324,6 +362,16 @@ void SceneGame::Update(float dt)
 			break;
 		default:
 			break;
+		}
+	}
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::W))
+	{
+		for (auto it = HydraliskList.begin(); it != HydraliskList.end();)
+		{
+			SCUnit* hydralisk = *it;
+			hydralisk->SellThis();
+			it = HydraliskList.erase(it);
 		}
 	}
 

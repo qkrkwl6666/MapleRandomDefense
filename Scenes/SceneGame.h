@@ -37,9 +37,9 @@ protected:
 	sf::Vector2f lastMouseWorldPos;
 	sf::Vector2f delta;
 	
-	std::list<GameObject*> HydraliskList;
-	std::list<GameObject*> DragoonList;
-	std::list<GameObject*> GhostList;
+	std::list<SCUnit*> HydraliskList;
+	std::list<SCUnit*> DragoonList;
+	std::list<SCUnit*> GhostList;
 
 	int hydraliskUpgrade = 0;
 	int dragoonUpgrade = 0;
@@ -60,9 +60,9 @@ public:
 	SceneGame& operator=(const SceneGame&) = delete;
 	SceneGame& operator=(SceneGame&&) = delete;
 
-	const std::list<GameObject*>& GetHydraliskList() const { return HydraliskList; }
-	const std::list<GameObject*>& GetDragoonList() const { return DragoonList; }
-	const std::list<GameObject*>& GetGhostList() const { return GhostList; }
+	const std::list<SCUnit*>& GetHydraliskList() const { return HydraliskList; }
+	const std::list<SCUnit*>& GetDragoonList() const { return DragoonList; }
+	const std::list<SCUnit*>& GetGhostList() const { return GhostList; }
 
 	void SetHydraliskUpgrade(int h) { hydraliskUpgrade = h; }
 	void SetDragoonUpgrade(int d) { dragoonUpgrade = d; }
