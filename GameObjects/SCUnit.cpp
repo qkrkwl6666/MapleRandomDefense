@@ -45,10 +45,10 @@ void SCUnit::Update(float dt)
 {
 	SpriteGo::Update(dt);
 
-	if (isSelectSprite->GetActive() && isSelect == true)
-	{
+	//if (isSelectSprite->GetActive() && isSelect == true)
+	//{
 
-	}
+	//}
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right))
 	{

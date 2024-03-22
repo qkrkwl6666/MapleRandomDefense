@@ -7,7 +7,9 @@
 #include "Crosshair.h"
 #include "Interface.h"
 #include "UpgradeBuilding.h"
+#include "SellBuilding.h"
 #include "SCUnit.h"
+#include "Hydralisk.h"
 
 SceneGame::SceneGame(SceneIds id) : Scene(id)
 {
@@ -27,6 +29,7 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 			{
 				HydraliskList.erase(it);
 				hydralisk->SellThis();
+				return;
 			}
 		}
 		break;
@@ -38,6 +41,7 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 			{
 				DragoonList.erase(it);
 				dragoon->SellThis();
+				return;
 			}
 		}
 		break;
@@ -49,12 +53,14 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 			{
 				GhostList.erase(it);
 				ghost->SellThis();
+				return;
 			}
 		}
 		break;
 	default:
 		break;
 	}
+	std::cout << "À¯´Ö ¾øÀ½" << std::endl;
 }
 
 void SceneGame::message(MessageType m)
@@ -64,7 +70,7 @@ void SceneGame::message(MessageType m)
 	case SceneGame::MessageType::NONE:
 		break;
 	case SceneGame::MessageType::NotEnoughMinerals:
-		std::cout << "ï¿½Ì³×¶ï¿½ ï¿½ï¿½ï¿½ï¿½" << std::endl;
+		std::cout << "¹Ì³×¶ö ºÎÁ·" << std::endl;
 		break;
 	case SceneGame::MessageType::count:
 		break;
@@ -75,6 +81,7 @@ void SceneGame::message(MessageType m)
 
 void SceneGame::message(MessageType m, SCUnit::Type t, SCUnit::Rarity r)
 {
+
 	std::string type;
 	switch (t)
 	{
@@ -94,7 +101,6 @@ void SceneGame::message(MessageType m, SCUnit::Type t, SCUnit::Rarity r)
 	std::string rarity;
 	switch (r)
 	{
-
 	case SCUnit::Rarity::Common:
 		rarity = "ÀÏ¹Ý]";
 		break;
@@ -112,8 +118,19 @@ void SceneGame::message(MessageType m, SCUnit::Type t, SCUnit::Rarity r)
 		break;
 	}
 
-	std::cout << "[À¯´ÖÀ» ÆÇ¸ÅÇß½À´Ï´Ù : " << type << rarity << std::endl;
+	switch (m)
+	{
+	case SceneGame::MessageType::BuyUnit:
+		std::cout << "[: " << type << rarity << std::endl;
+		break;
+	case SceneGame::MessageType::SellUnit:
+		std::cout << "[À¯´ÖÀ» ÆÇ¸ÅÇß½À´Ï´Ù : " << type << rarity << std::endl;
+		break;
+	default:
+		break;
+	}
 }
+
 
 void SceneGame::message(int i)
 {
@@ -186,6 +203,11 @@ void SceneGame::Init()
 	ProtossBuilding->SetPosition({ 19 * 32 , 27 * 32 });
 	AddGo(ProtossBuilding, Layers::World);
 
+	SellBuilding* sellbuilding = new SellBuilding("sellBuilding");
+	sellbuilding->SetPosition({ 26 * 32 , 24 * 32 });
+	sellbuilding->SetScale({ 0.25, 0.23});
+	AddGo(sellbuilding, Layers::World);
+
 	Scene::Init();
 
 	tileSet->LoadTileMap("tilejson/Map.json", 0.5f);
@@ -250,18 +272,20 @@ void SceneGame::Update(float dt)
 	{
 		ShapeGo<sf::CircleShape>* tower = new ShapeGo<sf::CircleShape>("tower");
 		int randomTower = -1;
-		randomTower = Utils::RandomRange(0, 3);
-
+		randomTower = Utils::RandomRange(0, 1);
+		int randomint = -1;
+		randomint = Utils::RandomRange(0, 5);
+		SCUnit::Rarity randomrarity = static_cast<SCUnit::Rarity>(randomint);
 		switch (randomTower)
 		{
 		case 0:
-			tower->SetColor(sf::Color::White);
-			tower->SetSize({ 15,0 });
-			tower->SetOrigin(Origins::MC);
-			tower->SetOutlineThickness(2.f);
-			tower->SetOutlineColor(sf::Color::Black);
-			tower->SetPosition(worldPos);
-			AddGo(tower, Layers::World);
+		{
+			Hydralisk* hydralisk = new Hydralisk("hydralisk",randomrarity);
+			hydralisk->SetPosition(worldPos);
+			AddGo(hydralisk, Layers::World);
+			HydraliskList.push_back(hydralisk);
+			message(MessageType::BuyUnit, SCUnit::Type::Hydralisk, randomrarity);
+		}
 			break;
 		case 1:
 			tower->SetColor(sf::Color::Red);

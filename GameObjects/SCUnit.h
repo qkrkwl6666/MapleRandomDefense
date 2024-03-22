@@ -39,13 +39,11 @@ public:
 	};
 
 protected:
-<<<<<<< HEAD
-	SceneGame* sceneGame = nullptr;
-=======
-	std::shared_ptr<SpriteGo> isSelectSprite;
 
+	SceneGame* sceneGame = nullptr;
+
+	std::shared_ptr<SpriteGo> isSelectSprite;
 	bool isSelect = false;
->>>>>>> feature/Interface
 
 	Angle currentAngle = Angle::TOP;
 	float currentDegreeAngle = 0.f;
@@ -72,15 +70,15 @@ protected:
 		{157.5f , Angle::BOTTOM60},
 		{180.f , Angle::RIGHT},
 	};
-	///////////////////////// �ִϸ��̼� ��� ����
+	///////////////////////// 애니메이션 관련
 
 	Type type = Type::NONE;
 	Rarity rarity = Rarity::NONE;
 	float Damage = 3.f;
 	float attackRange = 3.f;
 	int UpgradeCount = 0;
-	int sellingValue = 0; // �ǸŰ�
-	bool sellable = true; // �Ǹ� ���� ���� - ���� ��ȭ ���ʸ� false
+	int sellingValue = 0; // 판매 가격
+	bool sellable = true; // 전설 신화 태초만 false
 
 public:
 	SCUnit(const std::string& name = "" , 

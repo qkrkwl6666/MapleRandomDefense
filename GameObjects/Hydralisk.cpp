@@ -2,10 +2,10 @@
 #include "Hydralisk.h"
 #include "Crosshair.h"
 
-Hydralisk::Hydralisk(const std::string& name) 
+Hydralisk::Hydralisk(const std::string& name, SCUnit::Rarity r)
 	: SCUnit(name, "Hydralisk")
 {
-
+	rarity = r;
 }
 
 Hydralisk::~Hydralisk()
@@ -27,6 +27,7 @@ void Hydralisk::Init()
 	SetScale({ 3.f , 3.f });
 	SetOrigin(Origins::MC);
 
+	type = SCUnit::Type::Hydralisk;
 }
 
 void Hydralisk::Reset()
