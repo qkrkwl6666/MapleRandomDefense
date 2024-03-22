@@ -1,10 +1,13 @@
 #pragma once
 #include "UIGo.h"
+#include "ShapeGo.h"
 
 class Interface : public UIGo
 {
 protected:
-
+	ShapeGo<sf::RectangleShape>* selectBox;
+	sf::Vector2f selectStartPos;
+	bool isSelecting = false;
 public:
 	Interface(const std::string& name = "");
 	~Interface() override;

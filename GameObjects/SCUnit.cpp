@@ -28,8 +28,9 @@ void SCUnit::Init()
 	// 선택 스프라이트
 	isSelectSprite = std::make_shared<SpriteGo>();
 	isSelectSprite->SetTexture("graphics/UI/cursorsSelect.png");
+	isSelectSprite->SetOrigin(Origins::MC);
+	isSelectSprite->SetScale({ 2.f , 2.f });
 	isSelectSprite->SetActive(false);
-	isSelectSprite->GetActive();
 
 }
 
@@ -42,9 +43,21 @@ void SCUnit::Update(float dt)
 {
 	SpriteGo::Update(dt);
 
-	if (isSelectSprite->GetActive() && isSelect == true)
+	if (InputMgr::GetKeyUp(sf::Keyboard::Space))
 	{
+		if (isSelectSprite->GetActive() && isSelect)
+		{
+			SetSelect(false);
+		}
+		else
+		{
+			SetSelect(true);
+		}
+	}
 
+	if (isSelectSprite->GetActive() && isSelect)
+	{
+		isSelectSprite->SetPosition({ GetPosition().x + 5.f, GetPosition().y + 30.f });
 	}
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right))
@@ -105,6 +118,11 @@ void SCUnit::LateUpdate(float dt)
 
 void SCUnit::Draw(sf::RenderWindow& window)
 {
+	if (isSelectSprite->GetActive() && isSelect == true)
+	{
+		isSelectSprite->Draw(window);
+	}
+
 	SpriteAnimatorGo::Draw(window);
 }
 
@@ -115,4 +133,10 @@ void SCUnit::SetStatus(Status status)
 	{
 		animator->Stop();
 	}
+}
+
+void SCUnit::SetSelect(bool isSelect)
+{
+	this->isSelect = isSelect;
+	isSelectSprite->SetActive(isSelect);
 }

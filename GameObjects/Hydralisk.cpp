@@ -24,7 +24,7 @@ void Hydralisk::Init()
 	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/Hydralisk.csv"));
 	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/HydraliskAttack.csv"));
 	
-	SetScale({ 3.f , 3.f });
+	SetScale({ 2.f , 2.f });
 	SetOrigin(Origins::MC);
 
 }

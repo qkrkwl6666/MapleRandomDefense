@@ -8,6 +8,7 @@
 #include "Interface.h"
 #include "UpgradeBuilding.h"
 #include "SCUnit.h"
+#include "Hydralisk.h"
 
 SceneGame::SceneGame(SceneIds id) : Scene(id)
 {
@@ -22,7 +23,7 @@ void SceneGame::message(MessageType m)
 	case SceneGame::MessageType::NONE:
 		break;
 	case SceneGame::MessageType::NotEnoughMinerals:
-		std::cout << "�̳׶� ����" << std::endl;
+		std::cout << "미네랄이 부족합니다." << std::endl;
 		break;
 	case SceneGame::MessageType::count:
 		break;
@@ -84,7 +85,6 @@ void SceneGame::Init()
 
 	AddGo(mainInterface, Layers::Ui);
 
-
 	UpgradeBuilding* TerranBuilding = new UpgradeBuilding("terranBuilding", Building::Races::Terran);
 	TerranBuilding->SetPosition({ 12 * 32 , 27 * 32 });
 	AddGo(TerranBuilding, Layers::World);
@@ -96,6 +96,13 @@ void SceneGame::Init()
 	UpgradeBuilding* ProtossBuilding = new UpgradeBuilding("protossBuilding", Building::Races::Protoss);
 	ProtossBuilding->SetPosition({ 19 * 32 , 27 * 32 });
 	AddGo(ProtossBuilding, Layers::World);
+
+	Hydralisk* hydralisk;
+	hydralisk = new Hydralisk("Hydralisk");
+	hydralisk->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.5f,
+	FRAMEWORK.GetWindowSize().y * 0.5f });
+
+	AddGo(hydralisk, Scene::World);
 
 	Scene::Init();
 

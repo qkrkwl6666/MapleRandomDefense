@@ -92,5 +92,6 @@ public:
 	void SetStatus(Status status);
 	void SetUpgrade(int u) { UpgradeCount = u; }
 
+	void SetSelect(bool isSelect);
 };
 

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Interface.h"
 #include "SpriteGo.h"
+#include "Crosshair.h"
 
 Interface::Interface(const std::string& name)
 {
@@ -39,6 +40,12 @@ void Interface::Init()
 	sprites["VespeneGas"]->SetScale({ 1.0f , 1.0f });
 	sprites["VespeneGas"]->sortLayer = 10;
 
+	selectBox = new ShapeGo<sf::RectangleShape>("SelectBox");
+
+
+	SCENE_MGR.GetScene(SceneIds::SceneGame)->AddGo(selectBox, Scene::Ui);
+
+
 	UiInit();
 	ObjectsSort();
 }
@@ -57,6 +64,24 @@ void Interface::Reset()
 void Interface::Update(float dt)
 {
 	UIGo::Update(dt);
+
+	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left) && !isSelecting)
+	{
+		isSelecting = true;
+		selectStartPos = FRAMEWORK.GetMouse()->GetPosition();
+		selectBox->SetPosition(selectStartPos); // 시작 위치
+	}
+
+	else if (InputMgr::GetMouseButtonUp(sf::Mouse::Left) && isSelecting)
+	{
+		isSelecting = false;
+	}
+
+	if (isSelecting)
+	{
+		selectBox->SetSize(FRAMEWORK.GetMouse()->GetPosition() - selectStartPos);
+
+	}
 }
 
 void Interface::LateUpdate(float dt)

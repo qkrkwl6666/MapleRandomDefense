@@ -45,7 +45,7 @@
     <ClCompile Include="GameObjects\Projectile.cpp" />
     <ClCompile Include="Scenes\SceneAnimatorEditer.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
-    <ClCompile Include="GameObjects\SceneGame.cpp" />
+    <ClCompile Include="Scenes\SceneGame.cpp" />
     <ClCompile Include="Scenes\SceneTitle.cpp" />
     <ClCompile Include="GameObjects\UI\UIAnimatorEditer.cpp" />
     <ClCompile Include="Scenes\SceneTilemapEditor.cpp" />
