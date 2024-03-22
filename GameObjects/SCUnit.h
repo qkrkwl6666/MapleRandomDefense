@@ -1,6 +1,8 @@
 #pragma once
 #include "SpriteAnimatorGo.h"
 
+class SpriteGo;
+
 class SCUnit : public SpriteAnimatorGo
 {
 public:
@@ -36,6 +38,10 @@ public:
 	};
 
 protected:
+	std::shared_ptr<SpriteGo> isSelectSprite;
+
+	bool isSelect = false;
+
 	Angle currentAngle = Angle::TOP;
 	float currentDegreeAngle = 0.f;
 	Status currentStatus = Status::NONE;

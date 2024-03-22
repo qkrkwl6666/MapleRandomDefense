@@ -56,8 +56,7 @@ void SceneGame::Init()
 {
 	tileSet = new TileSet();
 	AddGo(tileSet, Scene::World);
-	tileSet->LoadTileMap("tilejson/Map.json", 0.5f);
-	tileSet->VaSet();
+
 	mouse = FRAMEWORK.GetMouse();
 
 	mainInterface = new Interface("Interface");
@@ -82,27 +81,26 @@ void SceneGame::Init()
 
 	AddGo(leftFiller, Layers::Ui);
 	AddGo(rightFiller, Layers::Ui);
-<<<<<<< HEAD:Scenes/SceneGame.cpp
+
 	AddGo(mainInterface, Layers::Ui);
 
-	Scene::Init();
-=======
 
 	UpgradeBuilding* TerranBuilding = new UpgradeBuilding("terranBuilding", Building::Races::Terran);
-	TerranBuilding->Init();
 	TerranBuilding->SetPosition({ 12 * 32 , 27 * 32 });
 	AddGo(TerranBuilding, Layers::World);
 
 	UpgradeBuilding* ZergBuilding = new UpgradeBuilding("zergBuilding", Building::Races::Zerg);
-	ZergBuilding->Init();
 	ZergBuilding->SetPosition({ 16 * 32 , 27 * 32 });
 	AddGo(ZergBuilding, Layers::World);
 
 	UpgradeBuilding* ProtossBuilding = new UpgradeBuilding("protossBuilding", Building::Races::Protoss);
-	ProtossBuilding->Init();
 	ProtossBuilding->SetPosition({ 19 * 32 , 27 * 32 });
 	AddGo(ProtossBuilding, Layers::World);
->>>>>>> SceneGame:GameObjects/SceneGame.cpp
+
+	Scene::Init();
+
+	tileSet->LoadTileMap("tilejson/Map.json", 0.5f);
+	tileSet->VaSet();
 }
 
 void SceneGame::Release()

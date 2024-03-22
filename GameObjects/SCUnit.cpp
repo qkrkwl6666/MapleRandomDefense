@@ -25,6 +25,12 @@ void SCUnit::Init()
 		aniangle += 22.5;
 	}
 
+	// 선택 스프라이트
+	isSelectSprite = std::make_shared<SpriteGo>();
+	isSelectSprite->SetTexture("graphics/UI/cursorsSelect.png");
+	isSelectSprite->SetActive(false);
+	isSelectSprite->GetActive();
+
 }
 
 void SCUnit::Reset()
@@ -35,6 +41,11 @@ void SCUnit::Reset()
 void SCUnit::Update(float dt)
 {
 	SpriteGo::Update(dt);
+
+	if (isSelectSprite->GetActive() && isSelect == true)
+	{
+
+	}
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right))
 	{

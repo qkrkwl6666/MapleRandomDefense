@@ -23,6 +23,7 @@ public:
 protected:
 	TileSet* tileSet = nullptr;
 
+	Interface* mainInterface = nullptr;
 	ShapeGo<sf::RectangleShape>* leftFiller;
 	ShapeGo<sf::RectangleShape>* rightFiller;
 
@@ -45,8 +46,6 @@ protected:
 	int gas = 0;
 
 public:
-
-
 
 	SceneGame(SceneIds id);
 	~SceneGame() override = default;
