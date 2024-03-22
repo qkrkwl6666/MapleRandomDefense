@@ -2,12 +2,18 @@
 #include "UIGo.h"
 #include "ShapeGo.h"
 
+class SCUnit;
+
 class Interface : public UIGo
 {
 protected:
 	ShapeGo<sf::RectangleShape>* selectBox;
 	sf::Vector2f selectStartPos;
 	bool isSelecting = false;
+
+	sf::Vector2f worldMousePos;
+	
+
 public:
 	Interface(const std::string& name = "");
 	~Interface() override;

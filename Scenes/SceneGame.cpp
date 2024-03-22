@@ -145,7 +145,7 @@ void SceneGame::Update(float dt)
 	FindGoAll("dragoon", DragoonList, Scene::Layers::World);
 	FindGoAll("ghost", GhostList, Scene::Layers::World);
 
-	std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
+	//std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
 
 	//���콺�� �� �̵�
 

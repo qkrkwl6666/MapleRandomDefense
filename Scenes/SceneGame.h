@@ -85,5 +85,7 @@ public:
 	void DebugUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
+	sf::Vector2f GetWorldMousePos() { return worldPos; }
+
 };
 

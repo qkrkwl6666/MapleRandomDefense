@@ -2,6 +2,7 @@
 #include "Interface.h"
 #include "SpriteGo.h"
 #include "Crosshair.h"
+#include "SceneGame.h"
 
 Interface::Interface(const std::string& name)
 {
@@ -42,9 +43,11 @@ void Interface::Init()
 
 	selectBox = new ShapeGo<sf::RectangleShape>("SelectBox");
 
+	selectBox->SetColor(sf::Color::Transparent);
+	selectBox->SetOutlineColor(sf::Color::Green);
+	selectBox->SetOutlineThickness(0.6f);
 
-	SCENE_MGR.GetScene(SceneIds::SceneGame)->AddGo(selectBox, Scene::Ui);
-
+	SCENE_MGR.GetScene(SceneIds::SceneGame)->AddGo(selectBox, Scene::World);
 
 	UiInit();
 	ObjectsSort();
@@ -65,21 +68,30 @@ void Interface::Update(float dt)
 {
 	UIGo::Update(dt);
 
+	worldMousePos = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos();
+
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left) && !isSelecting)
 	{
 		isSelecting = true;
-		selectStartPos = FRAMEWORK.GetMouse()->GetPosition();
+
+		selectStartPos = worldMousePos;
+		selectBox->SetActive(true);
+
 		selectBox->SetPosition(selectStartPos); // 시작 위치
 	}
 
 	else if (InputMgr::GetMouseButtonUp(sf::Mouse::Left) && isSelecting)
 	{
 		isSelecting = false;
+		selectBox->SetActive(false);
+		
+		std::cout << selectBox->GetGlobalBounds().left << 
+			" " << selectBox->GetGlobalBounds().top << std::endl;
 	}
 
 	if (isSelecting)
 	{
-		selectBox->SetSize(FRAMEWORK.GetMouse()->GetPosition() - selectStartPos);
+		selectBox->SetSize(worldMousePos - selectStartPos);
 
 	}
 }
