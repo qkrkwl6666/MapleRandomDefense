@@ -5,6 +5,7 @@
 #include "ShapeGo.h"
 #include <Windows.h>
 #include "Crosshair.h"
+#include "Interface.h"
 
 
 SceneGame::SceneGame(SceneIds id) : Scene(id)
@@ -20,18 +21,31 @@ void SceneGame::Init()
 	tileSet->VaSet();
 	mouse = FRAMEWORK.GetMouse();
 
+	mainInterface = new Interface("Interface");
+
+	mainInterface->sortLayer = 10;
+
 	leftFiller = new ShapeGo<sf::RectangleShape>("leftFiller");
 	rightFiller = new ShapeGo<sf::RectangleShape>("rightFiller");
 
-	worldView.setSize(1365.33, 768);
-	leftFiller->SetSize({ (FRAMEWORK.GetWindowSize().x - worldView.getSize().x) / 4, (float) FRAMEWORK.GetWindowSize().y });
-	rightFiller->SetSize({ (FRAMEWORK.GetWindowSize().x - worldView.getSize().x) / 4, (float)FRAMEWORK.GetWindowSize().y });
+	leftFiller->SetSize({ 
+		((float)FRAMEWORK.GetWindowSize().x / 8),
+		(float) FRAMEWORK.GetWindowSize().y });
+
+	rightFiller->SetSize({ 
+		((float)FRAMEWORK.GetWindowSize().x / 8),
+		(float)FRAMEWORK.GetWindowSize().y });
+
 	leftFiller->SetPosition({ 0,0 });
 	rightFiller->SetPosition({ FRAMEWORK.GetWindowSize().x - rightFiller->GetSize().x, 0 });
 	leftFiller->SetColor(sf::Color::Black);
 	rightFiller->SetColor(sf::Color::Black);
+
 	AddGo(leftFiller, Layers::Ui);
 	AddGo(rightFiller, Layers::Ui);
+	AddGo(mainInterface, Layers::Ui);
+
+	Scene::Init();
 }
 
 void SceneGame::Release()

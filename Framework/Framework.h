@@ -57,7 +57,8 @@ public:
 
 	Crosshair* GetMouse() { return mouse; }
 
-	virtual void Init(int width, int height, const std::string& name = "Game");
+	virtual void Init(int width, int height, const std::string& name = "Game" , 
+		sf::Uint64 style = sf::Style::Default);
 	virtual void Do();
 	virtual void Release();
 

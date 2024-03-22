@@ -3,6 +3,7 @@
 #include "ShapeGo.h"
 
 class TileSet;
+class Interface;
 
 class SceneGame : public Scene
 {
@@ -18,6 +19,8 @@ protected:
 	sf::Vector2i tilePos;
 	sf::Vector2f lastMouseWorldPos;
 	sf::Vector2f delta;
+
+	Interface* mainInterface;
 
 public:
 

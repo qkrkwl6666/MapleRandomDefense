@@ -1,7 +1,10 @@
 #pragma once
 #include "UIGo.h"
+
 class Interface : public UIGo
 {
+protected:
+
 public:
 	Interface(const std::string& name = "");
 	~Interface() override;
