@@ -39,6 +39,7 @@ void UpgradeBuilding::Upgrade()
 	default:
 		break;
 	}
+	sceneGame->UpgradeUpdate();
 }
 
 void UpgradeBuilding::Init()

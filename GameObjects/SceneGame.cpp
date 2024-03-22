@@ -6,6 +6,7 @@
 #include <Windows.h>
 #include "Crosshair.h"
 #include "UpgradeBuilding.h"
+#include "SCUnit.h"
 
 
 SceneGame::SceneGame(SceneIds id) : Scene(id)
@@ -27,6 +28,27 @@ void SceneGame::message(MessageType m)
 		break;
 	default:
 		break;
+	}
+}
+
+void SceneGame::UpgradeUpdate()
+{
+	for (auto go : HydraliskList)
+	{
+		SCUnit* hydralisk = dynamic_cast<SCUnit*>(go);
+		hydralisk->SetUpgrade(hydraliskUpgrade);
+	}
+
+	for (auto go : GhostList)
+	{
+		SCUnit* ghost = dynamic_cast<SCUnit*>(go);
+		ghost->SetUpgrade(ghostUpgrade);
+	}
+
+	for (auto go : DragoonList)
+	{
+		SCUnit* dragoon = dynamic_cast<SCUnit*>(go);
+		dragoon->SetUpgrade(dragoonUpgrade);
 	}
 }
 

@@ -70,6 +70,7 @@ public:
 	const int GetMineral() const { return mineral; }
 
 	void message(MessageType m);
+	void UpgradeUpdate();
 
 	void Init() override;
 	void Release() override;
