@@ -44,6 +44,8 @@ void UpgradeBuilding::Upgrade()
 
 void UpgradeBuilding::Init()
 {
+	type = Building::BuildingType::UPGRADE;
+
 	Building::Init();
 	switch (races)
 	{

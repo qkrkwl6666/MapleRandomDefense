@@ -177,10 +177,6 @@ void SceneGame::Init()
 
 	mouse = FRAMEWORK.GetMouse();
 
-	mainInterface = new Interface("Interface");
-
-	mainInterface->sortLayer = 10;
-
 	leftFiller = new ShapeGo<sf::RectangleShape>("leftFiller");
 	rightFiller = new ShapeGo<sf::RectangleShape>("rightFiller");
 
@@ -199,25 +195,29 @@ void SceneGame::Init()
 
 	AddGo(leftFiller, Layers::Ui);
 	AddGo(rightFiller, Layers::Ui);
+	
+	buildings["TerranBuilding"] = new UpgradeBuilding("terranBuilding", Building::Races::Terran);
+	buildings["TerranBuilding"]->SetPosition({ 12 * 32 , 27 * 32 });
+	AddGo(buildings["TerranBuilding"], Layers::World);
+
+	buildings["ZergBuilding"] = new UpgradeBuilding("zergBuilding", Building::Races::Zerg);
+	buildings["ZergBuilding"]->SetPosition({ 16 * 32 , 27 * 32 });
+	AddGo(buildings["ZergBuilding"], Layers::World);
+	
+	buildings["ProtossBuilding"] = new UpgradeBuilding("protossBuilding", Building::Races::Protoss);
+	buildings["ProtossBuilding"]->SetPosition({ 19 * 32 , 27 * 32 });
+	AddGo(buildings["ProtossBuilding"], Layers::World);
+
+	buildings["Sellbuilding"] = new SellBuilding("sellBuilding");
+	buildings["Sellbuilding"]->SetPosition({ 26 * 32 , 24 * 32 });
+	buildings["Sellbuilding"]->SetScale({ 0.25, 0.23});
+	AddGo(buildings["Sellbuilding"], Layers::World);
+
+	mainInterface = new Interface("Interface");
+
+	mainInterface->sortLayer = 10;
 
 	AddGo(mainInterface, Layers::Ui);
-
-	UpgradeBuilding* TerranBuilding = new UpgradeBuilding("terranBuilding", Building::Races::Terran);
-	TerranBuilding->SetPosition({ 12 * 32 , 27 * 32 });
-	AddGo(TerranBuilding, Layers::World);
-
-	UpgradeBuilding* ZergBuilding = new UpgradeBuilding("zergBuilding", Building::Races::Zerg);
-	ZergBuilding->SetPosition({ 16 * 32 , 27 * 32 });
-	AddGo(ZergBuilding, Layers::World);
-
-	UpgradeBuilding* ProtossBuilding = new UpgradeBuilding("protossBuilding", Building::Races::Protoss);
-	ProtossBuilding->SetPosition({ 19 * 32 , 27 * 32 });
-	AddGo(ProtossBuilding, Layers::World);
-
-	SellBuilding* sellbuilding = new SellBuilding("sellBuilding");
-	sellbuilding->SetPosition({ 26 * 32 , 24 * 32 });
-	sellbuilding->SetScale({ 0.25, 0.23});
-	AddGo(sellbuilding, Layers::World);
 
 	Scene::Init();
 

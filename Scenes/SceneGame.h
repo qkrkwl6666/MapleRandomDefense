@@ -9,6 +9,7 @@ class Ghost;
 
 class TileSet;
 class Interface;
+class Building;
 
 class SceneGame : public Scene
 {
@@ -43,6 +44,9 @@ protected:
 
 	std::list<SCUnit*> AllUnitList;
 
+	// ºôµù 
+	std::unordered_map<std::string, Building*> buildings;
+
 	int hydraliskUpgrade = 0;
 	int dragoonUpgrade = 0;
 	int ghostUpgrade = 0;
@@ -53,7 +57,6 @@ protected:
 	bool modeDeveloper = false;
 
 public:
-
 	SceneGame(SceneIds id);
 	~SceneGame() override = default;
 
@@ -66,6 +69,8 @@ public:
 	const std::list<SCUnit*>& GetDragoonList() const { return DragoonList; }
 	const std::list<SCUnit*>& GetGhostList() const { return GhostList; }
 	const std::list<SCUnit*>& GetAllUnitList() const { return AllUnitList; }
+
+	std::unordered_map<std::string, Building*>& GetBuildings() { return buildings; }
 
 	void SetHydraliskUpgrade(int h) { hydraliskUpgrade = h; }
 	void SetDragoonUpgrade(int d) { dragoonUpgrade = d; }
@@ -99,6 +104,7 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 
 	sf::Vector2f GetWorldMousePos() { return worldPos; }
+
 
 };
 

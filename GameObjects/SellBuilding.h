@@ -2,10 +2,10 @@
 #include "Building.h"
 #include "SCUnit.h"
 
-class SellBuilding :
-    public Building
+class SellBuilding : public Building
 {
 protected:
+
 
 public:
 	SellBuilding(const std::string& name = "");
