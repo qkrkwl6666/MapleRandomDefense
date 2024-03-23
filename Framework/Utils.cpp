@@ -3,6 +3,8 @@
 #include <string>
 #include <Windows.h>
 
+#pragma warning(disable : 4996)
+
 float Utils::Clamp(float v, float min, float max)
 {
 	if (v < min)
