@@ -12,6 +12,7 @@ void Framework::Init(int width, int height, const std::string& name  , sf::Uint6
 	window.create(sf::VideoMode(windowSize.x, windowSize.y), name , style);
 	//window.setFramerateLimit(15);
 	window.setMouseCursorVisible(false);
+	
 
 	window.setPosition(sf::Vector2i((sf::VideoMode::getDesktopMode().width - window.getSize().x) / 2,
 		(sf::VideoMode::getDesktopMode().height - window.getSize().y) / 2 ));
