@@ -46,6 +46,6 @@ public:
 	void SaveTileMap(const std::string& filePath);
 	void LoadTileMap(const std::string& filePath, const float setOutlineThickness);
 
-
+	std::vector<std::vector<Tile>>& GetTiles() { return tiles; }
 };
 

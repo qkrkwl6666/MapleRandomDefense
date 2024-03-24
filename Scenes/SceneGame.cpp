@@ -285,7 +285,7 @@ void SceneGame::Update(float dt)
 		}
 	}
 
-	//std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
+	std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
 
 	if (modeDeveloper)
 	{
