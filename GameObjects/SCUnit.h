@@ -159,8 +159,8 @@ protected:
 	sf::Vector2i pos;
 
 	bool isAster = false;
-	float isMovingDt = 0.f;
-	float isMovingDuration = 0.5f;
+
+	float moveSpeed = 100.f;
 
 	
 public:

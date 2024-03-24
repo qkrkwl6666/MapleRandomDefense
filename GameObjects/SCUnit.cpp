@@ -108,24 +108,32 @@ void SCUnit::Update(float dt)
 			{
 				animator->Play(animationName + "Move", true, true);
 			}
-			isMovingDt += dt;
 
-			if (isMovingDt >= isMovingDuration)
+			if (!path.empty())
 			{
-				isMovingDt = 0.f;
+				if (pathIndex < path.size())
+				{
+					sf::Vector2f targetPosition = sf::Vector2f(path[pathIndex].x * 32, path[pathIndex].y * 32);
 
-				if (pathIndex >= path.size())
+					sf::Vector2f direction = Utils::GetNormalize(targetPosition - GetPosition());
+					
+					float distance = Utils::Distance(targetPosition, GetPosition());
+
+					if (distance > 0.1f)
+					{
+						Translate(direction * moveSpeed * dt);
+					}
+					else
+					{
+						pathIndex++;
+					}
+				}
+				else
 				{
 					pathIndex = 0;
-					isMovingDt = 0.f;
 					isAster = false;
 					SetStatus(Status::IDLE);
-					break;
 				}
-
-				SetPosition({ (float)path[pathIndex].x * 32, (float)path[pathIndex].y * 32 });
-
-				pathIndex++;
 			}
 
 			animator->Update(dt, currentAngle);
