@@ -47,8 +47,6 @@ void SCUnit::Update(float dt)
 {
 	SpriteGo::Update(dt);
 
-	
-
 	if (InputMgr::GetKeyUp(sf::Keyboard::Space))
 	{
 		if (isSelectSprite->GetActive() && isSelect)
@@ -71,8 +69,6 @@ void SCUnit::Update(float dt)
 		direction = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos() - GetPosition();
 
 		Utils::Normalize(direction);
-
-		//std::cout << Utils::Angle(direction) << std::endl;
 	
 		float aniAngle = Utils::FindNearestAngleconst(AnimationAngle, Utils::Angle(direction));
 		//std::cout << aniAngle << std::endl;
@@ -116,8 +112,20 @@ void SCUnit::Update(float dt)
 					sf::Vector2f targetPosition = sf::Vector2f(path[pathIndex].x * 32, path[pathIndex].y * 32);
 
 					sf::Vector2f direction = Utils::GetNormalize(targetPosition - GetPosition());
-					
+
+					float aniAngle = Utils::FindNearestAngleconst(AnimationAngle, Utils::Angle(direction));
+
 					float distance = Utils::Distance(targetPosition, GetPosition());
+
+					currentAngle = angleMap[aniAngle];
+					if (aniAngle < -90 || aniAngle > 90)
+					{
+						SetFlipX(true);
+					}
+					else
+					{
+						SetFlipX(false);
+					}
 
 					if (distance > 0.1f)
 					{
