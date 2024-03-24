@@ -6,6 +6,7 @@
 class Hydralisk;
 class Dragoon;
 class Ghost;
+class Enemy;
 
 class TileSet;
 class Interface;
@@ -44,6 +45,8 @@ protected:
 
 	std::list<SCUnit*> AllUnitList;
 
+	std::list<Enemy*> EnemyList;
+
 	// ºôµù 
 	std::unordered_map<std::string, Building*> buildings;
 
@@ -80,6 +83,7 @@ public:
 	const int GetGhostUpgrade() const { return ghostUpgrade; }
 
 	void SellUnit(SCUnit::Type t, SCUnit::Rarity r);
+	Enemy* FindEnemy(sf::Vector2f pos, float range);
 
 	void SetMineral(int m) { mineral = m; }
 	const int GetMineral() const { return mineral; }

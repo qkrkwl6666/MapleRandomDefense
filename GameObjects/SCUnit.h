@@ -3,6 +3,7 @@
 
 class SceneGame;
 class SpriteGo;
+class Enemy;
 
 class SCUnit : public SpriteAnimatorGo
 {
@@ -41,6 +42,7 @@ public:
 protected:
 
 	SceneGame* sceneGame = nullptr;
+	Enemy* target = nullptr;
 
 	std::shared_ptr<SpriteGo> isSelectSprite;
 	bool isSelect = false;
@@ -73,13 +75,18 @@ protected:
 	};
 	///////////////////////// 애니메이션 관련
 
+	float speed = 100.f;
+
+
 	Type type = Type::NONE;
 	Rarity rarity = Rarity::NONE;
 	float Damage = 3.f;
-	float attackRange = 3.f;
+	float attackRange = 10.f;
 	int UpgradeCount = 0;
-	int sellingValue = 0; // 판매 가격
+	int sellingValue = 0; // TO-DO 판매 가격
 	bool sellable = true; // 전설 신화 태초만 false
+	float attackInterval = 1.f;
+	float attackTimer = 0.f;
 
 public:
 	SCUnit(const std::string& name = "" , 
@@ -97,6 +104,8 @@ public:
 	const Angle& GetCurrentAngle() const { return currentAngle; }
 	void SetStatus(Status status);
 	void SetUpgrade(int u) { UpgradeCount = u; }
+	Enemy* GetTarget() { return target; }
+	void SetTarget(Enemy* e) { target = e; }
 
 	const Rarity& GetRarity() const { return rarity; }
 

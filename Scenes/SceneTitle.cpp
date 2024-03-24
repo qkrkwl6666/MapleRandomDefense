@@ -12,6 +12,8 @@ SceneTitle::SceneTitle(SceneIds id)
 
 void SceneTitle::Init()
 {
+	worldView.zoom(1.0f / 0.65f);
+
 	TitleImage = new SpriteGo("titleImage");
 	TitleImage->SetTexture("graphics/Title.png");
 	TitleImage->SetOrigin(Origins::MC);

@@ -10,6 +10,7 @@
 #include "SellBuilding.h"
 #include "SCUnit.h"
 #include "Hydralisk.h"
+#include "Enemy.h"
 
 SceneGame::SceneGame(SceneIds id) : Scene(id)
 {
@@ -66,6 +67,20 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 	std::cout << "유닛 없음" << std::endl;
 }
 
+Enemy* SceneGame::FindEnemy(sf::Vector2f pos, float range)
+{
+	float distance;
+	for (auto go : EnemyList)
+	{
+		distance = Utils::Distance(pos, go->GetPosition());
+		if (distance < range * 32)
+		{
+			return go;
+		}
+	}
+	return nullptr;
+}
+
 void SceneGame::message(MessageType m)
 {
 	switch (m)
@@ -120,13 +135,13 @@ void SceneGame::message(MessageType m, SCUnit::Type t, SCUnit::Rarity r)
 		rarity = "서사]";
 		break;
 	case SCUnit::Rarity::Legendary:
-		rarity = "전설]";
+		rarity = "전설] **************";
 		break;
 	case SCUnit::Rarity::Mythic:
-		rarity = "신화]";
+		rarity = "신화] *********************";
 		break;
 	case SCUnit::Rarity::Primeval:
-		rarity = "태초]";
+		rarity = "태초] ***************************** ";
 		break;
 	}
 
@@ -377,6 +392,25 @@ void SceneGame::Update(float dt)
 			SCUnit* hydralisk = *it;
 			hydralisk->SellThis();
 			it = HydraliskList.erase(it);
+		}
+	}
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::E))
+	{
+		Enemy* enemy = new Enemy("snail");
+		enemy->SetPosition(worldPos);
+		AddGo(enemy, Layers::World);
+		enemy->Init();
+		EnemyList.push_back(enemy);
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::R))
+	{
+		for (auto it = EnemyList.begin(); it != EnemyList.end();)
+		{
+			Enemy* enemy = *it;
+			RemoveGo(enemy);
+			delete(enemy);
+			it = EnemyList.erase(it);
 		}
 	}
 

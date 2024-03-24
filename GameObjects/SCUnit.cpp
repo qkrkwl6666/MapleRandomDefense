@@ -3,6 +3,7 @@
 #include "Crosshair.h"
 #include "ShapeGo.h"
 #include "SceneGame.h"
+#include "Enemy.h"
 
 SCUnit::SCUnit(const std::string& name , const std::string& animationName) 
 	: SpriteAnimatorGo(name) , animationName(animationName)
@@ -69,7 +70,7 @@ void SCUnit::Update(float dt)
 
 		Utils::Normalize(direction);
 
-		std::cout << Utils::Angle(direction) << std::endl;
+		//std::cout << Utils::Angle(direction) << std::endl;
 	
 		float aniAngle = Utils::FindNearestAngleconst(AnimationAngle, Utils::Angle(direction));
 		std::cout << aniAngle << std::endl;
@@ -110,6 +111,30 @@ void SCUnit::Update(float dt)
 			break;
 		default:
 			break;
+	}
+
+	if (target == nullptr)
+	{
+		target = sceneGame->FindEnemy(GetPosition(), attackRange);
+	}
+	else
+	{
+		direction = target->GetPosition() - GetPosition();
+		Utils::Normalize(direction);
+		float aniAngle = Utils::FindNearestAngleconst(AnimationAngle, Utils::Angle(direction));
+		currentAngle = angleMap[aniAngle];
+		if (aniAngle < -90 || aniAngle > 90)
+		{
+			SetFlipX(true);
+		}
+		else
+		{
+			SetFlipX(false);
+		}
+		if ((Utils::Distance(GetPosition(), target->GetPosition()) > attackRange * 32))
+		{
+			target = nullptr;
+		}
 	}
 
 }
