@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Hydralisk.h"
 #include "Crosshair.h"
+#include "SceneGame.h"
 
 Hydralisk::Hydralisk(const std::string& name, SCUnit::Rarity r)
 	: SCUnit(name, "Hydralisk")
@@ -24,7 +25,7 @@ void Hydralisk::Init()
 	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/Hydralisk.csv"));
 	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/HydraliskAttack.csv"));
 	
-	SetScale({ 2.f , 2.f });
+	SetScale({ 1.f , 1.f });
 	SetOrigin(Origins::MC);
 
 	type = SCUnit::Type::Hydralisk;
@@ -38,6 +39,11 @@ void Hydralisk::Reset()
 void Hydralisk::Update(float dt)
 {
 	SCUnit::Update(dt);
+
+	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right))
+	{
+		Astar(dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos());
+	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num1))
 	{
