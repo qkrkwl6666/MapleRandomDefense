@@ -40,7 +40,7 @@ void Hydralisk::Update(float dt)
 {
 	SCUnit::Update(dt);
 
-	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right))
+	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right) && isSelect)
 	{
 		Astar(dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos());
 	}

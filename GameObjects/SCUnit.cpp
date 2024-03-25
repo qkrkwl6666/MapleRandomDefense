@@ -34,7 +34,7 @@ void SCUnit::Init()
 	isSelectSprite = std::make_shared<SpriteGo>();
 	isSelectSprite->SetTexture("graphics/UI/cursorsSelect.png");
 	isSelectSprite->SetOrigin(Origins::MC);
-	isSelectSprite->SetScale({ 2.f , 2.f });
+	isSelectSprite->SetScale({ 1.f , 1.f });
 	isSelectSprite->SetActive(false);
 
 }
@@ -62,10 +62,10 @@ void SCUnit::Update(float dt)
 
 	if (isSelectSprite->GetActive() && isSelect)
 	{
-		isSelectSprite->SetPosition({ GetPosition().x + 5.f, GetPosition().y + 30.f });
+		isSelectSprite->SetPosition({ GetPosition().x, GetPosition().y + 10.f});
 	}
 
-	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right))
+	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right) && isSelect)
 	{
 		direction = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos() - GetPosition();
 
