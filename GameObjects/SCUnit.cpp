@@ -5,6 +5,7 @@
 #include "SceneGame.h"
 #include "Enemy.h"
 #include "Projectile.h"
+#include "TileSet.h"
 
 SCUnit::SCUnit(const std::string& name , const std::string& animationName)
 	: SpriteAnimatorGo(name) , animationName(animationName)
@@ -21,6 +22,7 @@ void SCUnit::Init()
 {
 	SpriteAnimatorGo::Init();
 	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame));
+	tiles = sceneGame->GetTileSet()->GetTiles();
 
 	float aniangle = -157.5;
 
@@ -324,6 +326,11 @@ void SCUnit::Astar(sf::Vector2f dest)
 		}
 	}
 
+	if (closed[dest.x][dest.y] == false)
+	{
+		return;
+	}
+
 	path.clear();
 	pos = destIndex;
 
@@ -345,8 +352,14 @@ void SCUnit::Astar(sf::Vector2f dest)
 
 bool SCUnit::CanGo(sf::Vector2i pos)
 {
-	// 여기서 타일의 타입 && 인덱스 예외처리
-	
+	if (tiles[pos.x][pos.y].type == TileType::WALL)
+	{
+		return false;
+	}
+	if (tiles[pos.x][pos.y].type == TileType::SPACE)
+	{
+		return false;
+	}
 	if (pos.x < 0 || pos.x > size || pos.y < 0 || pos.y > size)
 	{
 		return false;

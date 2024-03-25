@@ -8,7 +8,6 @@ class SpriteGo;
 class Enemy;
 class Projectile;
 
-
 class SCUnit : public SpriteAnimatorGo
 {
 public:
@@ -59,6 +58,7 @@ public:
 
 protected:
 
+	std::vector<std::vector<TileSet::Tile>> tiles;
 	SceneGame* sceneGame = nullptr;
 	Enemy* target = nullptr;
 	std::shared_ptr<Projectile> projectile = nullptr;
