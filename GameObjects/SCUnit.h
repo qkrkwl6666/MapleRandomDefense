@@ -129,6 +129,8 @@ protected:
 		}
 	};
 
+	
+
 	// ******************Astar******************
 	std::vector<sf::Vector2i> front =
 	{
@@ -163,9 +165,9 @@ protected:
 	bool CanGo(sf::Vector2i pos);
 
 	// 길찾기 경로
-	std::vector<sf::Vector2i> path;
+	std::vector<sf::Vector2f> path;
 	int pathIndex = 0;
-	sf::Vector2i pos;
+	sf::Vector2f pos;
 
 	bool isAster = false;
 

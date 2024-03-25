@@ -119,7 +119,7 @@ void SCUnit::Update(float dt)
 			{
 				if (pathIndex < path.size())
 				{
-					sf::Vector2f targetPosition = sf::Vector2f(path[pathIndex].x * 32, path[pathIndex].y * 32);
+					sf::Vector2f targetPosition = sf::Vector2f(path[pathIndex].x , path[pathIndex].y );
 
 					sf::Vector2f direction = Utils::GetNormalize(targetPosition - GetPosition());
 
@@ -253,8 +253,8 @@ void SCUnit::Astar(sf::Vector2f dest)
 		(size, std::vector<int>(size, INT32_MAX));
 
 	// 부모 노드 추적 기본값 -1 ,-1
-	std::vector<std::vector<sf::Vector2i>> parent
-		(size, std::vector<sf::Vector2i>(size, {-1, -1}));
+	std::vector<std::vector<sf::Vector2f>> parent
+		(size, std::vector<sf::Vector2f>(size, {-1.f, -1.f}));
 
 	// CLOSED LIST 방문 여부 [x][y] = 방문 했는지
 	std::vector<std::vector<bool>> closed
@@ -266,16 +266,17 @@ void SCUnit::Astar(sf::Vector2f dest)
 	// 목적지 인덱스 변환
 	sf::Vector2i destIndex = { (int)dest.x / 32 , (int)dest.y / 32 };
 	sf::Vector2i startIndex = { (int)GetPosition().x / 32 ,(int)GetPosition().y / 32 };
+	sf::Vector2f startPosition = { GetPosition().x  , GetPosition().y };
 
 	// 초기값 
 	{
 		int g = 0;
-		int h = { std::abs((destIndex.x - startIndex.x)) + 
+		int h = { std::abs((destIndex.x - startIndex.x)) +
 			std::abs((destIndex.y - startIndex.y)) };
 
 		openList.push(Node(g + h , g , startIndex));
 		best[startIndex.x][startIndex.y] = g + h;
-		parent[startIndex.x][startIndex.y] = startIndex;
+		parent[startIndex.x][startIndex.y] = startPosition;
 	}
 
 	while (!openList.empty())
@@ -311,8 +312,8 @@ void SCUnit::Astar(sf::Vector2f dest)
 				continue;
 
 			int g = node.g + cost[dir];
-			int h = { std::abs((destIndex.x - startIndex.x)) +
-				std::abs((nextPos.y - nextPos.y)) };
+			int h = { std::abs((destIndex.x - nextPos.x)) +
+				std::abs((destIndex.y - nextPos.y)) };
 
 			if (best[nextPos.x][nextPos.y] <= g + h)
 				continue;
@@ -321,29 +322,29 @@ void SCUnit::Astar(sf::Vector2f dest)
 
 			// open list 에 추가
 			openList.push(Node(g + h, g, nextPos));
-			parent[nextPos.x][nextPos.y] = node.pos;
-
+			parent[nextPos.x][nextPos.y] = sf::Vector2f
+				{ (float)node.pos.x * 32 , (float)node.pos.y * 32 };
 		}
 	}
 
-	if (closed[dest.x][dest.y] == false)
+	if (closed[destIndex.x][destIndex.y] == false)
 	{
 		return;
 	}
 
 	path.clear();
 	
-	pos = destIndex;
+	pos = dest;
 
 	while (true)
 	{
 		path.push_back(pos);
 
 		// 시작점 일경우
-		if (pos == startIndex)
+		if (pos == startPosition)
 			break;
 
-		pos = parent[pos.x][pos.y];
+		pos = parent[(int)pos.x / 32][pos.y / 32];
 	}
 
 	std::reverse(path.begin() , path.end());

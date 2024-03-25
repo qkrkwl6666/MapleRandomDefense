@@ -41,7 +41,7 @@ void Dragoon::Update(float dt)
 {
 	SpriteGo::Update(dt);
 
-	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right))
+	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right) && isSelect)
 	{
 		Astar(dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos());
 		animator->Stop();
@@ -96,7 +96,7 @@ void Dragoon::Update(float dt)
 		{
 			if (pathIndex < path.size())
 			{
-				sf::Vector2f targetPosition = sf::Vector2f(path[pathIndex].x * 32, path[pathIndex].y * 32);
+				sf::Vector2f targetPosition = sf::Vector2f(path[pathIndex].x, path[pathIndex].y);
 
 				sf::Vector2f direction = Utils::GetNormalize(targetPosition - GetPosition());
 
