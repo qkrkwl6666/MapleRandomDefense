@@ -311,102 +311,23 @@ void SceneGame::Update(float dt)
 	{
 		std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
 	}
-	//���콺�� �� �̵�
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Middle))
 	{
-		lastMouseWorldPos = worldPos; // ���� ���콺 ��ġ�� �����մϴ�.
+		lastMouseWorldPos = worldPos;
 	}
 
-	// ���콺 ���� ���� ���� ���� ���� delta�� ��ġ�� ���� ��������
 	if (InputMgr::GetMouseButton(sf::Mouse::Middle) &&
 		delta != lastMouseWorldPos - worldPos)
 	{
-		delta = lastMouseWorldPos - worldPos; // �̵���.
+		delta = lastMouseWorldPos - worldPos; 
 
 		GetWorldView().move(delta);
 	}
 
-	// Ÿ�� �̱� - �� �� �ϳ�
 	if (InputMgr::GetKeyDown(sf::Keyboard::Q))
 	{
-		ShapeGo<sf::CircleShape>* tower = new ShapeGo<sf::CircleShape>("tower");
-		int randomTower = -1;
-		randomTower = Utils::RandomRange(0, 3);
-		int randomint = -1;
-		randomint = Utils::RandomRange(0, 10000);
-		SCUnit::Rarity randomrarity = SCUnit::Rarity::NONE;
-		if (randomint < 5000)
-		{
-			randomrarity = SCUnit::Rarity::Common;
-		}
-		if (randomint >= 5000 && randomint < 8310)
-		{
-			randomrarity = SCUnit::Rarity::Rare;
-		}
-		if (randomint >= 8310 && randomint < 9330)
-		{
-			randomrarity = SCUnit::Rarity::Ancient;
-		}
-		if (randomint >= 9330 && randomint < 9840)
-		{
-			randomrarity = SCUnit::Rarity::Artifact;
-		}
-		if (randomint >= 9840 && randomint < 9920)
-		{
-			randomrarity = SCUnit::Rarity::Saga;
-		}
-		if (randomint >= 9920 && randomint < 9970)
-		{
-			randomrarity = SCUnit::Rarity::Legendary;
-		}
-		if (randomint >= 9970 && randomint < 9988)
-		{
-			randomrarity = SCUnit::Rarity::Mythic;
-		}
-		if (randomint >= 9988 && randomint < 10000)
-		{
-			randomrarity = SCUnit::Rarity::Primeval;
-		}
-
-		switch (randomTower)
-		{
-		case 0:
-		{
-			Hydralisk* hydralisk = new Hydralisk("hydralisk",randomrarity);
-			hydralisk->SetPosition(worldPos);
-			AddGo(hydralisk, Layers::World);
-			hydralisk->Init();
-			HydraliskList.push_back(hydralisk);
-			AllUnitList.push_back(hydralisk);
-			message(MessageType::BuyUnit, SCUnit::Type::Hydralisk, randomrarity);
-		}
-			break;
-		case 1:
-		{
-			Dragoon* dragoon = new Dragoon("dragoon", randomrarity);
-			dragoon->SetPosition(worldPos);
-			AddGo(dragoon, Layers::World);
-			dragoon->Init();
-			DragoonList.push_back(dragoon);
-			AllUnitList.push_back(dragoon);
-			message(MessageType::BuyUnit, SCUnit::Type::Dragoon, randomrarity);
-		}
-			break;
-		case 2:
-		{
-			Ghost* ghost = new Ghost("ghost", randomrarity);
-			ghost->SetPosition(worldPos);
-			AddGo(ghost, Layers::World);
-			ghost->Init();
-			GhostList.push_back(ghost);
-			AllUnitList.push_back(ghost);
-			message(MessageType::BuyUnit, SCUnit::Type::Ghost, randomrarity);
-		}
-			break;
-		default:
-			break;
-		}
+		BuyUnit();
 	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::W))
@@ -448,8 +369,6 @@ void SceneGame::LateUpdate(float dt)
 void SceneGame::FixedUpdate(float dt)
 {
 	Scene::FixedUpdate(dt);
-
-	
 }
 
 void SceneGame::DebugUpdate(float dt)
@@ -460,4 +379,84 @@ void SceneGame::DebugUpdate(float dt)
 void SceneGame::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+}
+
+void SceneGame::BuyUnit()
+{
+	int randomUnit = -1;
+	randomUnit = Utils::RandomRange(0, 3);
+	int randomint = -1;
+	randomint = Utils::RandomRange(0, 10000);
+	SCUnit::Rarity randomrarity = SCUnit::Rarity::NONE;
+	if (randomint < 5000)
+	{
+		randomrarity = SCUnit::Rarity::Common;
+	}
+	if (randomint >= 5000 && randomint < 8310)
+	{
+		randomrarity = SCUnit::Rarity::Rare;
+	}
+	if (randomint >= 8310 && randomint < 9330)
+	{
+		randomrarity = SCUnit::Rarity::Ancient;
+	}
+	if (randomint >= 9330 && randomint < 9840)
+	{
+		randomrarity = SCUnit::Rarity::Artifact;
+	}
+	if (randomint >= 9840 && randomint < 9920)
+	{
+		randomrarity = SCUnit::Rarity::Saga;
+	}
+	if (randomint >= 9920 && randomint < 9970)
+	{
+		randomrarity = SCUnit::Rarity::Legendary;
+	}
+	if (randomint >= 9970 && randomint < 9988)
+	{
+		randomrarity = SCUnit::Rarity::Mythic;
+	}
+	if (randomint >= 9988 && randomint < 10000)
+	{
+		randomrarity = SCUnit::Rarity::Primeval;
+	}
+
+	switch (randomUnit)
+	{
+	case 0:
+	{
+		Hydralisk* hydralisk = new Hydralisk("hydralisk", randomrarity);
+		hydralisk->SetPosition(worldPos);
+		AddGo(hydralisk, Layers::World);
+		hydralisk->Init();
+		HydraliskList.push_back(hydralisk);
+		AllUnitList.push_back(hydralisk);
+		message(MessageType::BuyUnit, SCUnit::Type::Hydralisk, randomrarity);
+	}
+	break;
+	case 1:
+	{
+		Dragoon* dragoon = new Dragoon("dragoon", randomrarity);
+		dragoon->SetPosition(worldPos);
+		AddGo(dragoon, Layers::World);
+		dragoon->Init();
+		DragoonList.push_back(dragoon);
+		AllUnitList.push_back(dragoon);
+		message(MessageType::BuyUnit, SCUnit::Type::Dragoon, randomrarity);
+	}
+	break;
+	case 2:
+	{
+		Ghost* ghost = new Ghost("ghost", randomrarity);
+		ghost->SetPosition(worldPos);
+		AddGo(ghost, Layers::World);
+		ghost->Init();
+		GhostList.push_back(ghost);
+		AllUnitList.push_back(ghost);
+		message(MessageType::BuyUnit, SCUnit::Type::Ghost, randomrarity);
+	}
+	break;
+	default:
+		break;
+	}
 }
