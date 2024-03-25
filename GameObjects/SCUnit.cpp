@@ -356,7 +356,7 @@ void SCUnit::Astar(sf::Vector2f dest)
 			// open list 에 추가
 			openList.push(Node(g + h, g, nextPos));
 			parent[nextPos.x][nextPos.y] = sf::Vector2f
-				{ (float)node.pos.x * 32 , (float)node.pos.y * 32 };
+				{ ((float)node.pos.x * 32) + 16.f , ((float)node.pos.y * 32 + 16.f) };
 		}
 	}
 
