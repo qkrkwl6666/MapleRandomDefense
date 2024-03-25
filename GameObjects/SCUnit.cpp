@@ -324,7 +324,13 @@ void SCUnit::Astar(sf::Vector2f dest)
 		}
 	}
 
+	if (closed[dest.x][dest.y] == false)
+	{
+		return;
+	}
+
 	path.clear();
+	
 	pos = destIndex;
 
 	while (true)
