@@ -7,15 +7,15 @@
 #include "Projectile.h"
 #include "TileSet.h"
 
-SCUnit::SCUnit(const std::string& name , const std::string& animationName)
-	: SpriteAnimatorGo(name) , animationName(animationName)
+SCUnit::SCUnit(const std::string& name, const std::string& animationName)
+	: SpriteAnimatorGo(name), animationName(animationName)
 {
 
 }
 
 SCUnit::~SCUnit()
 {
-	
+
 }
 
 void SCUnit::Init()
@@ -70,7 +70,7 @@ void SCUnit::Update(float dt)
 
 	if (isSelectSprite->GetActive() && isSelect)
 	{
-		isSelectSprite->SetPosition({ GetPosition().x, GetPosition().y + 10.f});
+		isSelectSprite->SetPosition({ GetPosition().x, GetPosition().y + 10.f });
 	}
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right) && isSelect)
@@ -78,7 +78,7 @@ void SCUnit::Update(float dt)
 		direction = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos() - GetPosition();
 
 		Utils::Normalize(direction);
-	
+
 		float aniAngle = Utils::FindNearestAngleconst(AnimationAngle, Utils::Angle(direction));
 		//std::cout << aniAngle << std::endl;
 		currentAngle = angleMap[aniAngle];
@@ -94,81 +94,81 @@ void SCUnit::Update(float dt)
 
 	switch (currentStatus)
 	{
-		case SCUnit::Status::NONE:
-			projectile->SetActive(false);
-			SetStatus(Status::IDLE);
-			break;
-		case SCUnit::Status::IDLE:
-			animator->PlayIdle(animationName + "Move", true, currentAngle);
-			projectile->SetActive(false);
-			if (isAster == true)
-			{
-				SetStatus(Status::MOVE);
-				isAster = false;
-			}
+	case SCUnit::Status::NONE:
+		projectile->SetActive(false);
+		SetStatus(Status::IDLE);
+		break;
+	case SCUnit::Status::IDLE:
+		animator->PlayIdle(animationName + "Move", true, currentAngle);
+		projectile->SetActive(false);
+		if (isAster == true)
+		{
+			SetStatus(Status::MOVE);
+			isAster = false;
+		}
 
-			//animator->Update(dt, currentAngle);
-			break;
-		case SCUnit::Status::MOVE:
-			if (!animator->IsPlaying())
-			{
-				projectile->SetActive(false);
-				animator->Play(animationName + "Move", true, true);
-			}
+		//animator->Update(dt, currentAngle);
+		break;
+	case SCUnit::Status::MOVE:
+		if (!animator->IsPlaying())
+		{
+			projectile->SetActive(false);
+			animator->Play(animationName + "Move", true, true);
+		}
 
-			if (!path.empty())
+		if (!path.empty())
+		{
+			if (pathIndex < path.size())
 			{
-				if (pathIndex < path.size())
+				sf::Vector2f targetPosition = sf::Vector2f(path[pathIndex].x, path[pathIndex].y);
+
+				sf::Vector2f direction = Utils::GetNormalize(targetPosition - GetPosition());
+
+				float aniAngle = Utils::FindNearestAngleconst(AnimationAngle, Utils::Angle(direction));
+
+				float distance = Utils::Distance(targetPosition, GetPosition());
+
+				currentAngle = angleMap[aniAngle];
+				if (aniAngle < -90 || aniAngle > 90)
 				{
-					sf::Vector2f targetPosition = sf::Vector2f(path[pathIndex].x , path[pathIndex].y );
-
-					sf::Vector2f direction = Utils::GetNormalize(targetPosition - GetPosition());
-
-					float aniAngle = Utils::FindNearestAngleconst(AnimationAngle, Utils::Angle(direction));
-
-					float distance = Utils::Distance(targetPosition, GetPosition());
-
-					currentAngle = angleMap[aniAngle];
-					if (aniAngle < -90 || aniAngle > 90)
-					{
-						SetFlipX(true);
-					}
-					else
-					{
-						SetFlipX(false);
-					}
-
-					if (distance > 0.1f)
-					{
-						Translate(direction * moveSpeed * dt);
-					}
-					else
-					{
-						pathIndex++;
-					}
+					SetFlipX(true);
 				}
 				else
 				{
-					pathIndex = 0;
-					isAster = false;
-					SetStatus(Status::IDLE);
+					SetFlipX(false);
+				}
+
+				if (distance > 0.1f)
+				{
+					Translate(direction * moveSpeed * dt);
+				}
+				else
+				{
+					pathIndex++;
 				}
 			}
-
-			animator->Update(dt, currentAngle);
-			break;
-		case SCUnit::Status::ATTACK:
-			if (!animator->IsPlaying())
+			else
 			{
-				animator->Play(animationName + "Attack", true, true);
-				projectile->SetActive(true);
-				projectile->GetAnimator()->Play(animationName + "Projectile", true, true);
+				pathIndex = 0;
+				isAster = false;
+				SetStatus(Status::IDLE);
 			}
-			animator->Update(dt, currentAngle);
-			projectile->GetAnimator()->Update(dt, currentAngle);
-			break;
-		default:
-			break;
+		}
+
+		animator->Update(dt, currentAngle);
+		break;
+	case SCUnit::Status::ATTACK:
+		if (!animator->IsPlaying())
+		{
+			animator->Play(animationName + "Attack", true, true);
+			projectile->SetActive(true);
+			projectile->GetAnimator()->Play(animationName + "Projectile", true, true);
+		}
+		animator->Update(dt, currentAngle);
+		projectile->GetAnimator()->Update(dt, currentAngle);
+		break;
+	default:
+		break;
 	}
 
 	if (target == nullptr)
@@ -194,7 +194,6 @@ void SCUnit::Update(float dt)
 			target = nullptr;
 		}
 	}
-
 	//********* 충돌처리 **********
 	for (auto go : sceneGame->GetAllUnitList())
 	{
@@ -202,36 +201,45 @@ void SCUnit::Update(float dt)
 		{
 			continue;
 		}
-		float left = hitBox.getGlobalBounds().left - (go->hitBox.getGlobalBounds().left + go->hitBox.getGlobalBounds().width);
-		float right = go->hitBox.getGlobalBounds().left - (this->hitBox.getGlobalBounds().left + this->hitBox.getGlobalBounds().width);
-		float top = this->hitBox.getGlobalBounds().top - (go->hitBox.getGlobalBounds().top + go->hitBox.getGlobalBounds().height);
-		float bottom = go->hitBox.getGlobalBounds().top - (this->hitBox.getGlobalBounds().top + this->hitBox.getGlobalBounds().height);
-
-		if (left <= 0 && right <= 0 && top <= 0 && bottom <= 0 && currentStatus == SCUnit::Status::MOVE) // 충돌 시 
+		sf::FloatRect thisBounds = hitBox.getGlobalBounds();
+		sf::FloatRect otherBounds = go->hitBox.getGlobalBounds();
+		if (thisBounds.intersects(otherBounds) && currentStatus == SCUnit::Status::MOVE) // 충돌 시
 		{
-			isAster = false;
-			if (right >= left and right >= top and right >= bottom) // 오른쪽에서 충돌해있으면
+			stuckTimer += dt;
+			float left = otherBounds.left + otherBounds.width - thisBounds.left;
+			float right = thisBounds.left + thisBounds.width - otherBounds.left;
+			float top = otherBounds.top + otherBounds.height - thisBounds.top;
+			float bottom = thisBounds.top + thisBounds.height - otherBounds.top;
+
+			if (left < right && left < top && left < bottom)
 			{
-				SetPosition({ position.x += right , position.y });
+				SetPosition({ position.x + left , position.y });
 			}
-			else if (left >= right and left >= top and left >= bottom)
+			else if (right < left && right < top && right < bottom)
 			{
-				SetPosition({ position.x += left , position.y });
+				SetPosition({ position.x - right , position.y });
 			}
-			else if (top >= right and top >= left and top >= bottom)
+			else if (top < left && top < right && top < bottom)
 			{
-				SetPosition({ position.x, position.y += top });
+				SetPosition({ position.x, position.y + top });
 			}
 			else
 			{
-				SetPosition({ position.x, position.y += bottom });
+				SetPosition({ position.x, position.y - bottom });
 			}
+		}
+		if (stuckTimer > 2.f)
+		{
+			isAster = false;
+			SetStatus(SCUnit::Status::IDLE);
+			stuckTimer = 0;
 		}
 	}
 }
 
 void SCUnit::LateUpdate(float dt)
 {
+
 	SpriteAnimatorGo::LateUpdate(dt);
 
 	if (projectile->GetActive() && currentStatus == Status::ATTACK)
@@ -284,15 +292,15 @@ void SCUnit::Astar(sf::Vector2f dest)
 {
 	// BEST f 점수
 	std::vector<std::vector<int>> best
-		(size, std::vector<int>(size, INT32_MAX));
+	(size, std::vector<int>(size, INT32_MAX));
 
 	// 부모 노드 추적 기본값 -1 ,-1
 	std::vector<std::vector<sf::Vector2f>> parent
-		(size, std::vector<sf::Vector2f>(size, {-1.f, -1.f}));
+	(size, std::vector<sf::Vector2f>(size, { -1.f, -1.f }));
 
 	// CLOSED LIST 방문 여부 [x][y] = 방문 했는지
 	std::vector<std::vector<bool>> closed
-		(size, std::vector<bool>(size, false));
+	(size, std::vector<bool>(size, false));
 
 	// OPEN LIST
 	std::priority_queue<Node> openList;
@@ -308,10 +316,10 @@ void SCUnit::Astar(sf::Vector2f dest)
 		int h = { std::abs((destIndex.x - startIndex.x)) +
 			std::abs((destIndex.y - startIndex.y)) };
 
-		openList.push(Node(g + h , g , startIndex));
+		openList.push(Node(g + h, g, startIndex));
 		best[startIndex.x][startIndex.y] = g + h;
-		parent[startIndex.x][startIndex.y] = { startIndex.x * 32.f + 16.f , 
-			startIndex.y * 32.f + 16.f};
+		parent[startIndex.x][startIndex.y] = { startIndex.x * 32.f + 16.f ,
+			startIndex.y * 32.f + 16.f };
 	}
 
 	while (!openList.empty())
@@ -352,13 +360,13 @@ void SCUnit::Astar(sf::Vector2f dest)
 
 			if (best[nextPos.x][nextPos.y] <= g + h)
 				continue;
-			
+
 			best[nextPos.x][nextPos.y] = g + h;
 
 			// open list 에 추가
 			openList.push(Node(g + h, g, nextPos));
 			parent[nextPos.x][nextPos.y] = sf::Vector2f
-				{ ((float)node.pos.x * 32) + 16.f , ((float)node.pos.y * 32 + 16.f) };
+			{ ((float)node.pos.x * 32) + 16.f , ((float)node.pos.y * 32 + 16.f) };
 		}
 	}
 
@@ -368,21 +376,21 @@ void SCUnit::Astar(sf::Vector2f dest)
 	}
 
 	path.clear();
-	
-	pos = sf::Vector2f(destIndex.x * 32.f + 16.f , destIndex.y * 32.f + 16.f) ;
+
+	pos = sf::Vector2f(destIndex.x * 32.f + 16.f, destIndex.y * 32.f + 16.f);
 
 	while (true)
 	{
 		path.push_back(pos);
 
 		// 시작점 일경우
-		if (pos == sf::Vector2f(startIndex.x * 32.f + 16.f , startIndex.y * 32.f + 16.f))
+		if (pos == sf::Vector2f(startIndex.x * 32.f + 16.f, startIndex.y * 32.f + 16.f))
 			break;
 
 		pos = parent[(int)pos.x / 32][pos.y / 32];
 	}
 
-	std::reverse(path.begin() , path.end());
+	std::reverse(path.begin(), path.end());
 
 	isAster = true;
 }
