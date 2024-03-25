@@ -253,5 +253,6 @@ bool AnimationClip::loadFromFile(const std::string& filePath)
 			std::stoi(row[3]),std::stoi(row[4])}, std::stoi(row[5]) });
 	}
 
+
 	return true;
 }
