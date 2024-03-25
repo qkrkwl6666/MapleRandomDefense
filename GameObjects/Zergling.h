@@ -1,12 +1,12 @@
 #pragma once
-#include "SCUnit.h"
-class Ghost : public SCUnit
+#include "Enemy.h"
+class Zergling : public Enemy
 {
 protected:
 
 public:
-	Ghost(const std::string& name = "", SCUnit::Rarity r = SCUnit::Rarity::NONE);
-	~Ghost() override;
+	Zergling(const std::string& name = "", const std::string& animationName = "");
+	~Zergling() override;
 
 	void Init() override;
 	void Reset() override;
