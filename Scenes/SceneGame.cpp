@@ -10,6 +10,8 @@
 #include "SellBuilding.h"
 #include "SCUnit.h"
 #include "Hydralisk.h"
+#include "Dragoon.h"
+#include "Ghost.h"
 #include "Enemy.h"
 
 SceneGame::SceneGame(SceneIds id) : Scene(id)
@@ -285,8 +287,6 @@ void SceneGame::Update(float dt)
 		}
 	}
 
-	std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
-
 	if (modeDeveloper)
 	{
 		std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
@@ -312,7 +312,7 @@ void SceneGame::Update(float dt)
 	{
 		ShapeGo<sf::CircleShape>* tower = new ShapeGo<sf::CircleShape>("tower");
 		int randomTower = -1;
-		randomTower = Utils::RandomRange(0, 1);
+		randomTower = Utils::RandomRange(0, 3);
 		int randomint = -1;
 		randomint = Utils::RandomRange(0, 10000);
 		SCUnit::Rarity randomrarity = SCUnit::Rarity::NONE;
@@ -363,22 +363,26 @@ void SceneGame::Update(float dt)
 		}
 			break;
 		case 1:
-			tower->SetColor(sf::Color::Red);
-			tower->SetSize({ 15,0 });
-			tower->SetOrigin(Origins::MC);
-			tower->SetOutlineThickness(2.f);
-			tower->SetOutlineColor(sf::Color::Black);
-			tower->SetPosition(worldPos);
-			AddGo(tower, Layers::World);
+		{
+			Dragoon* dragoon = new Dragoon("dragoon", randomrarity);
+			dragoon->SetPosition(worldPos);
+			AddGo(dragoon, Layers::World);
+			dragoon->Init();
+			DragoonList.push_back(dragoon);
+			AllUnitList.push_back(dragoon);
+			message(MessageType::BuyUnit, SCUnit::Type::Dragoon, randomrarity);
+		}
 			break;
 		case 2:
-			tower->SetColor(sf::Color::Blue);
-			tower->SetSize({ 15,0 });
-			tower->SetOrigin(Origins::MC);
-			tower->SetOutlineThickness(2.f);
-			tower->SetOutlineColor(sf::Color::Black);
-			tower->SetPosition(worldPos);
-			AddGo(tower, Layers::World);
+		{
+			Ghost* ghost = new Ghost("ghost", randomrarity);
+			ghost->SetPosition(worldPos);
+			AddGo(ghost, Layers::World);
+			ghost->Init();
+			GhostList.push_back(ghost);
+			AllUnitList.push_back(ghost);
+			message(MessageType::BuyUnit, SCUnit::Type::Ghost, randomrarity);
+		}
 			break;
 		default:
 			break;

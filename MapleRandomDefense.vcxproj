@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameObjects\Dragoon.cpp" />
     <ClCompile Include="GameObjects\Enemy.cpp" />
     <ClCompile Include="GameObjects\Building.cpp" />
     <ClCompile Include="GameObjects\Hydralisk.cpp" />
@@ -38,6 +39,7 @@
     <ClCompile Include="GameObjects\Base\TextGo.cpp" />
     <ClCompile Include="GameObjects\Base\UIGo.cpp" />
     <ClCompile Include="GameObjects\Base\TileEditor.cpp" />
+    <ClCompile Include="GameObjects\Ghost.cpp" />
     <ClCompile Include="Interface.cpp" />
     <ClCompile Include="MapleRandomDefense.cpp" />
     <ClCompile Include="pch.cpp">
@@ -55,6 +57,7 @@
     <ClCompile Include="GameObjects\SellBuilding.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameObjects\Dragoon.h" />
     <ClInclude Include="GameObjects\Enemy.h" />
     <ClInclude Include="GameObjects\Building.h" />
     <ClInclude Include="GameObjects\Hydralisk.h" />
@@ -80,6 +83,7 @@
     <ClInclude Include="GameObjects\Base\TextGo.h" />
     <ClInclude Include="GameObjects\Base\UIGo.h" />
     <ClInclude Include="GameObjects\Base\TileEditor.h" />
+    <ClInclude Include="GameObjects\Ghost.h" />
     <ClInclude Include="Interface.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="GameObjects\Projectile.h" />
