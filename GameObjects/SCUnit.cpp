@@ -25,7 +25,8 @@ void SCUnit::Init()
 	tiles = sceneGame->GetTileSet()->GetTiles();
 
 	float aniangle = -157.5;
-
+	hitBox.setSize({ 15.f,25.f });
+	hitBox.setOrigin(hitBox.getSize() / 2.f);
 	while (aniangle <= 180)
 	{
 		AnimationAngle.push_back(aniangle);
@@ -54,7 +55,7 @@ void SCUnit::Reset()
 void SCUnit::Update(float dt)
 {
 	SpriteGo::Update(dt);
-
+	hitBox.setPosition(position);
 	if (InputMgr::GetKeyUp(sf::Keyboard::Space))
 	{
 		if (isSelectSprite->GetActive() && isSelect)
@@ -201,10 +202,10 @@ void SCUnit::Update(float dt)
 		{
 			continue;
 		}
-		float left = GetGlobalBounds().left - (go->GetGlobalBounds().left + go->GetGlobalBounds().width);
-		float right = go->GetGlobalBounds().left - (this->GetGlobalBounds().left + this->GetGlobalBounds().width);
-		float top = this->GetGlobalBounds().top - (go->GetGlobalBounds().top + go->GetGlobalBounds().height);
-		float bottom = go->GetGlobalBounds().top - (this->GetGlobalBounds().top + this->GetGlobalBounds().height);
+		float left = hitBox.getGlobalBounds().left - (go->hitBox.getGlobalBounds().left + go->hitBox.getGlobalBounds().width);
+		float right = go->hitBox.getGlobalBounds().left - (this->hitBox.getGlobalBounds().left + this->hitBox.getGlobalBounds().width);
+		float top = this->hitBox.getGlobalBounds().top - (go->hitBox.getGlobalBounds().top + go->hitBox.getGlobalBounds().height);
+		float bottom = go->hitBox.getGlobalBounds().top - (this->hitBox.getGlobalBounds().top + this->hitBox.getGlobalBounds().height);
 
 		if (left <= 0 && right <= 0 && top <= 0 && bottom <= 0 && currentStatus == SCUnit::Status::MOVE) // 충돌 시 
 		{

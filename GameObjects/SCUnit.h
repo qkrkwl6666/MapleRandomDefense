@@ -66,7 +66,7 @@ protected:
 	std::shared_ptr<SpriteGo> isSelectSprite;
 	bool isSelect = false;
 	sf::Vector2f direction;
-
+	sf::RectangleShape hitBox;
 	Angle currentAngle = Angle::TOP;
 	float currentDegreeAngle = 0.f;
 	Status currentStatus = Status::NONE;
@@ -194,6 +194,7 @@ public:
 	void SetTarget(Enemy* e) { target = e; }
 
 	const Rarity& GetRarity() const { return rarity; }
+	const sf::RectangleShape GetHitBox () const { return hitBox; }
 
 	void SetSelect(bool isSelect);
 
