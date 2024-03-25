@@ -269,8 +269,8 @@ void SCUnit::SellThis()
 	sceneGame->SetMineral(sceneGame->GetMineral() + sellingValue); // �ڽ��� �ǸŰ���
 	sceneGame->message(SceneGame::MessageType::SellUnit);
 	sceneGame->message(sellingValue);
-
 	sceneGame->RemoveGo(this);
+	sceneGame->DeleteGo(this);
 }
 
 void SCUnit::SetStatus(Status status)

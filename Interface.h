@@ -1,5 +1,6 @@
 #pragma once
 #include "UIGo.h"
+#include "SCUnit.h"
 #include "ShapeGo.h"
 
 class SCUnit;
@@ -8,17 +9,30 @@ class Building;
 
 class Interface : public UIGo
 {
+public:
+	enum class UIStatus
+	{
+		NONE = -1,
+		Upgrade,
+		SellUnitSellect,
+		SellRaritySellect,
+		Unit,
+		COUNT,
+	};
+
+
 protected:
 	Interface(const Interface&) = delete;
 	Interface(Interface&&) = delete;
 	Interface& operator=(const Interface&) = delete;
 	Interface& operator=(Interface&&) = delete;
-
+	UIStatus uiStatus = UIStatus::NONE;
+	SCUnit::Type uiUnitType = SCUnit::Type::NONE;
 	ShapeGo<sf::RectangleShape>* selectBox;
 	sf::Vector2f selectStartPos;
 	bool isSelecting = false;
 	bool noUnits = true;
-	
+
 	std::list<SCUnit*> isSelectList;
 
 	sf::Vector2f worldMousePos;
@@ -35,13 +49,19 @@ public:
 	void Reset() override;
 
 	void Update(float dt) override;
+	void UpdateUpgrade(float dt);
+	void UpdateSellUnitSellect(float dt);
+	void UpdateSellRaritySellect(float dt);
+	void UpdateUnit(float dt);
 	void LateUpdate(float dt) override;
 
 	void SetActiveUpgrade(bool active);
 	void SetActiveSell(bool active);
-	void SetActiveSellInfo(bool active);
+	void SetActiveSellInfo(bool active , SCUnit::Type t);
 
 	void HydraliskSellUpdate();
+	void DragoonSellUpdate();
+	void GhostSellUpdate();
 
 	void Upgrade();
 };

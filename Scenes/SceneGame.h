@@ -111,5 +111,7 @@ public:
 	sf::Vector2f GetWorldMousePos() { return worldPos; }
 	TileSet* GetTileSet() { return tileSet; }
 
+	void BuyUnit();
+
 };
 
