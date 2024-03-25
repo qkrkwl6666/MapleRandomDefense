@@ -71,6 +71,7 @@ public:
 	const std::list<SCUnit*>& GetHydraliskList() const { return HydraliskList; }
 	const std::list<SCUnit*>& GetDragoonList() const { return DragoonList; }
 	const std::list<SCUnit*>& GetGhostList() const { return GhostList; }
+
 	const std::list<SCUnit*>& GetAllUnitList() const { return AllUnitList; }
 
 	std::unordered_map<std::string, Building*>& GetBuildings() { return buildings; }

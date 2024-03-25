@@ -77,6 +77,72 @@ void Interface::Init()
 	sprites["GhostUpgrade"]->sortLayer = 11;
 	sprites["GhostUpgrade"]->SetActive(false);
 
+	// 판매 이미지
+	NewSpriteGo("GhostSell", "graphics/UI/Interface/GhostSell.png");
+	sprites["GhostSell"]->SetOrigin(Origins::TL);
+	sprites["GhostSell"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.716f , FRAMEWORK.GetWindowSize().y * 0.745f });
+	sprites["GhostSell"]->sortLayer = 11;
+	sprites["GhostSell"]->SetActive(false);
+	sprites["GhostSell"]->SetScale({ 0.75f, 0.75f });
+
+	NewSpriteGo("HydraliskSell", "graphics/UI/Interface/HydraliskSell.png");
+	sprites["HydraliskSell"]->SetOrigin(Origins::TL);
+	sprites["HydraliskSell"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.77f , FRAMEWORK.GetWindowSize().y * 0.745f });
+	sprites["HydraliskSell"]->sortLayer = 11;
+	sprites["HydraliskSell"]->SetActive(false);
+	sprites["HydraliskSell"]->SetScale({ 0.75f, 0.75f });
+
+	NewSpriteGo("DragoonSell", "graphics/UI/Interface/DragoonSell.png");
+	sprites["DragoonSell"]->SetOrigin(Origins::TL);
+	sprites["DragoonSell"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.823f , FRAMEWORK.GetWindowSize().y * 0.745f });
+	sprites["DragoonSell"]->sortLayer = 11;
+	sprites["DragoonSell"]->SetActive(false);
+	sprites["DragoonSell"]->SetScale({ 0.75f, 0.75f });
+	
+	// 판매 상세
+	NewSpriteGo("HydraliskNormal", "graphics/UI/Interface/HydraliskSellNoHave.png");
+	sprites["HydraliskNormal"]->SetOrigin(Origins::TL);
+	sprites["HydraliskNormal"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.716f , FRAMEWORK.GetWindowSize().y * 0.745f });
+	sprites["HydraliskNormal"]->sortLayer = 11;
+	sprites["HydraliskNormal"]->SetActive(false);
+	sprites["HydraliskNormal"]->SetScale({ 0.75f, 0.75f });
+
+	NewSpriteGo("HydraliskRare", "graphics/UI/Interface/HydraliskSellNoHave.png");
+	sprites["HydraliskRare"]->SetOrigin(Origins::TL);
+	sprites["HydraliskRare"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.77f , FRAMEWORK.GetWindowSize().y * 0.745f });
+	sprites["HydraliskRare"]->sortLayer = 11;
+	sprites["HydraliskRare"]->SetActive(false);
+	sprites["HydraliskRare"]->SetScale({ 0.75f, 0.75f });
+
+	NewSpriteGo("HydraliskAncient", "graphics/UI/Interface/HydraliskSellNoHave.png");
+	sprites["HydraliskAncient"]->SetOrigin(Origins::TL);
+	sprites["HydraliskAncient"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.823f , FRAMEWORK.GetWindowSize().y * 0.745f });
+	sprites["HydraliskAncient"]->sortLayer = 11;
+	sprites["HydraliskAncient"]->SetActive(false);
+	sprites["HydraliskAncient"]->SetScale({ 0.75f, 0.75f });
+
+	NewSpriteGo("HydraliskArtifact", "graphics/UI/Interface/HydraliskSellNoHave.png");
+	sprites["HydraliskArtifact"]->SetOrigin(Origins::TL);
+	sprites["HydraliskArtifact"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.716f , FRAMEWORK.GetWindowSize().y * 0.83f });
+	sprites["HydraliskArtifact"]->sortLayer = 11;
+	sprites["HydraliskArtifact"]->SetActive(false);
+	sprites["HydraliskArtifact"]->SetScale({ 0.75f, 0.75f });
+
+	NewSpriteGo("HydraliskNarrative", "graphics/UI/Interface/HydraliskSellNoHave.png");
+	sprites["HydraliskNarrative"]->SetOrigin(Origins::TL);
+	sprites["HydraliskNarrative"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.77f , FRAMEWORK.GetWindowSize().y * 0.83f });
+	sprites["HydraliskNarrative"]->sortLayer = 11;
+	sprites["HydraliskNarrative"]->SetActive(false);
+	sprites["HydraliskNarrative"]->SetScale({ 0.75f, 0.75f });
+
 	UiInit();
 	ObjectsSort();
 }
@@ -127,6 +193,8 @@ void Interface::Update(float dt)
 			if (selectBox->GetGlobalBounds().contains(scUnit->GetPosition()))
 			{
 				SetActiveUpgrade(false);
+				SetActiveSell(false);
+				SetActiveSellInfo(false);
 				noUnits = false;
 				isSelectList.push_back(scUnit);
 				scUnit->SetSelect(true);
@@ -142,6 +210,7 @@ void Interface::Update(float dt)
 				if (building->GetGlobalBounds().contains(selectBox->GetPosition()))
 				{
 					SetActiveUpgrade(false);
+					SetActiveSellInfo(false);
 					switch (building->GetBuildingType())
 					{
 					case Building::BuildingType::UPGRADE:
@@ -168,7 +237,9 @@ void Interface::Update(float dt)
 							break;
 						}
 					case Building::BuildingType::SELL:
-
+						{
+							SetActiveSell(true);
+						}
 						break;
 					}
 				}
@@ -206,7 +277,34 @@ void Interface::Update(float dt)
 		std::cout << "DragoonUpgrade!!" << std::endl;
 		Upgrade();
 	}
-	
+
+	// 판매 건물 상호작용
+	if (sprites["GhostSell"]->GetActive() && sprites["GhostSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		std::cout << "GhostSell!!" << std::endl;
+
+	}
+	else if (sprites["HydraliskSell"]->GetActive() &&
+		sprites["HydraliskSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		std::cout << "HydraliskSell!!" << std::endl;
+		SetActiveSellInfo(true);
+		sprites["GhostSell"]->SetActive(false);
+		sprites["HydraliskSell"]->SetActive(false);
+		sprites["DragoonSell"]->SetActive(false);
+	}
+		else if (sprites["DragoonSell"]->GetActive() &&
+		sprites["DragoonSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		std::cout << "DragoonSell!!" << std::endl;
+
+	}
+
+	HydraliskSellUpdate();
+
 }
 
 void Interface::LateUpdate(float dt)
@@ -223,6 +321,109 @@ void Interface::SetActiveUpgrade(bool active)
 	for (auto& data : buildings)
 	{
 		data.second->SetSelect(active);
+	}
+}
+
+void Interface::SetActiveSell(bool active)
+{
+	sprites["GhostSell"]->SetActive(active);
+	sprites["HydraliskSell"]->SetActive(active);
+	sprites["DragoonSell"]->SetActive(active);
+
+	for (auto& data : buildings)
+	{
+		if (data.second->GetBuildingType() == Building::BuildingType::SELL)
+		{
+			data.second->SetSelect(active);
+		}
+	}
+}
+
+void Interface::SetActiveSellInfo(bool active)
+{
+	sprites["HydraliskNormal"]->SetActive(active);
+	sprites["HydraliskRare"]->SetActive(active);
+	sprites["HydraliskAncient"]->SetActive(active);
+	sprites["HydraliskArtifact"]->SetActive(active);
+	sprites["HydraliskNarrative"]->SetActive(active);
+}
+
+void Interface::HydraliskSellUpdate()
+{
+	if (sprites["HydraliskNormal"]->GetActive() &&
+		sprites["HydraliskNormal"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		for (auto& data : buildings)
+		{
+			if (data.second->GetBuildingType() == Building::BuildingType::SELL)
+			{
+				SellBuilding* building = dynamic_cast<SellBuilding*>
+					(data.second);
+				building->Sell(SCUnit::Type::Hydralisk, SCUnit::Rarity::Common);
+			}
+		}
+	}
+
+	else if (sprites["HydraliskRare"]->GetActive() &&
+		sprites["HydraliskRare"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		for (auto& data : buildings)
+		{
+			if (data.second->GetBuildingType() == Building::BuildingType::SELL)
+			{
+				SellBuilding* building = dynamic_cast<SellBuilding*>
+					(data.second);
+				building->Sell(SCUnit::Type::Hydralisk, SCUnit::Rarity::Rare);
+			}
+		}
+	}
+
+
+	else if (sprites["HydraliskAncient"]->GetActive() &&
+		sprites["HydraliskAncient"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		for (auto& data : buildings)
+		{
+			if (data.second->GetBuildingType() == Building::BuildingType::SELL)
+			{
+				SellBuilding* building = dynamic_cast<SellBuilding*>
+					(data.second);
+				building->Sell(SCUnit::Type::Hydralisk, SCUnit::Rarity::Ancient);
+			}
+		}
+	}
+
+	else if (sprites["HydraliskArtifact"]->GetActive() &&
+		sprites["HydraliskArtifact"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		for (auto& data : buildings)
+		{
+			if (data.second->GetBuildingType() == Building::BuildingType::SELL)
+			{
+				SellBuilding* building = dynamic_cast<SellBuilding*>
+					(data.second);
+				building->Sell(SCUnit::Type::Hydralisk, SCUnit::Rarity::Artifact);
+			}
+		}
+	}
+
+	else if (sprites["HydraliskNarrative"]->GetActive() &&
+		sprites["HydraliskNarrative"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		for (auto& data : buildings)
+		{
+			if (data.second->GetBuildingType() == Building::BuildingType::SELL)
+			{
+				SellBuilding* building = dynamic_cast<SellBuilding*>
+					(data.second);
+				building->Sell(SCUnit::Type::Hydralisk, SCUnit::Rarity::Saga);
+			}
+		}
 	}
 }
 

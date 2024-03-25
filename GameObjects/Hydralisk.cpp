@@ -2,6 +2,7 @@
 #include "Hydralisk.h"
 #include "Crosshair.h"
 #include "SceneGame.h"
+#include "Projectile.h"
 
 Hydralisk::Hydralisk(const std::string& name, SCUnit::Rarity r)
 	: SCUnit(name, "Hydralisk")
@@ -24,11 +25,17 @@ void Hydralisk::Init()
 
 	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/Hydralisk.csv"));
 	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/HydraliskAttack.csv"));
-	
+
 	SetScale({ 1.f , 1.f });
 	SetOrigin(Origins::MC);
 
 	type = SCUnit::Type::Hydralisk;
+
+	projectile->SetTexture("graphics/HydraliskProjectile.png");
+	projectile->GetSprite()->setTextureRect({ 0, 0,	89,	125});
+	projectile->SetOrigin(Origins::MC);
+	projectile->SetScale({ 1.f , 1.f });
+	projectile->GetAnimator()->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/HydraliskProjectile.csv"));
 }
 
 void Hydralisk::Reset()
@@ -40,7 +47,12 @@ void Hydralisk::Update(float dt)
 {
 	SCUnit::Update(dt);
 
-	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right))
+	if (projectile->GetActive())
+	{
+		projectile->SetPosition({GetPosition().x + 19.f, GetPosition().y});
+	}
+
+	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right) && isSelect)
 	{
 		Astar(dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos());
 	}
@@ -49,24 +61,25 @@ void Hydralisk::Update(float dt)
 	{
 		currentAngle = Angle::TOP;
 		SetStatus(Status::ATTACK);
+
 	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num2))
 	{
 		currentAngle = Angle::TOP15;
-		SetStatus(Status::MOVE);
+
 	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num3))
 	{
 		currentAngle = Angle::TOP30;
-		SetStatus(Status::MOVE);
+
 	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num4))
 	{
 		currentAngle = Angle::TOP60;
-		SetStatus(Status::MOVE);
+
 	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num5))
@@ -78,25 +91,25 @@ void Hydralisk::Update(float dt)
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num6))
 	{
 		currentAngle = Angle::BOTTOM60;
-		SetStatus(Status::MOVE);
+
 	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num7))
 	{
 		currentAngle = Angle::BOTTOM30;
-		SetStatus(Status::MOVE);
+
 	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num8))
 	{
 		currentAngle = Angle::BOTTOM15;
-		SetStatus(Status::MOVE);
+
 	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num9))
 	{
 		currentAngle = Angle::BOTTOM;
-		SetStatus(Status::MOVE);
+
 	}
 }
 
