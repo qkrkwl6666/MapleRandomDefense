@@ -13,6 +13,8 @@
 #include "Dragoon.h"
 #include "Ghost.h"
 #include "Enemy.h"
+#include "Zergling.h"
+#include "Spawner.h"
 
 SceneGame::SceneGame(SceneIds id) : Scene(id)
 {
@@ -256,6 +258,9 @@ void SceneGame::Init()
 
 	AddGo(mainInterface, Layers::Ui);
 
+	spawner = new Spawner("Spawner");
+	AddGo(spawner, Layers::World);
+
 	Scene::Init();
 
 	tileSet->LoadTileMap("tilejson/Map.json", 0.5f);
@@ -292,6 +297,8 @@ void SceneGame::Update(float dt)
 	Scene::Update(dt);
 	screenPos = SCENE_MGR.GetCurrentScene()->UiToScreen((sf::Vector2f)mouse->GetPosition());
 	worldPos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(screenPos);
+
+	
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::D))
 	{

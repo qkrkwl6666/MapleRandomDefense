@@ -55,6 +55,8 @@
     <ClCompile Include="GameObjects\Base\TileSet.cpp" />
     <ClCompile Include="GameObjects\UpgradeBuilding.cpp" />
     <ClCompile Include="GameObjects\SellBuilding.cpp" />
+    <ClCompile Include="GameObjects\Spawner.cpp" />
+    <ClCompile Include="GameObjects\Zergling.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameObjects\Dragoon.h" />
@@ -96,6 +98,8 @@
     <ClInclude Include="GameObjects\Base\TileSet.h" />
     <ClInclude Include="GameObjects\UpgradeBuilding.h" />
     <ClInclude Include="GameObjects\SellBuilding.h" />
+    <ClInclude Include="GameObjects\Spawner.h" />
+    <ClInclude Include="GameObjects\Zergling.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
