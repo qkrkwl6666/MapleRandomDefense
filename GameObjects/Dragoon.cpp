@@ -64,12 +64,10 @@ void Dragoon::Update(float dt)
 		isSelectSprite->SetPosition({ GetPosition().x + 5.f, GetPosition().y + 30.f });
 	}
 
-
-
-
 	switch (currentStatus)
 	{
 	case SCUnit::Status::NONE:
+
 		SetStatus(Status::IDLE);
 		break;
 	case SCUnit::Status::IDLE:
@@ -81,10 +79,10 @@ void Dragoon::Update(float dt)
 		}
 		if (!animator->IsPlaying())
 		{
-			animator->PlayIdle(animationName + "Idle", true, currentAngle);
+			animator->Play(animationName + "Idle", true, false);
 		}
 
-		animator->Update(dt, currentAngle);
+		animator->Update(dt);
 		break;
 	case SCUnit::Status::MOVE:
 		if (!animator->IsPlaying())
@@ -128,6 +126,7 @@ void Dragoon::Update(float dt)
 				pathIndex = 0;
 				isAster = false;
 				SetStatus(Status::IDLE);
+				animator->Stop();
 			}
 		}
 

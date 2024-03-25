@@ -300,7 +300,7 @@ void SCUnit::Astar(sf::Vector2f dest)
 	// 목적지 인덱스 변환
 	sf::Vector2i destIndex = { (int)dest.x / 32 , (int)dest.y / 32 };
 	sf::Vector2i startIndex = { (int)GetPosition().x / 32 ,(int)GetPosition().y / 32 };
-	sf::Vector2f startPosition = { GetPosition().x  , GetPosition().y };
+	//sf::Vector2f startPosition = { GetPosition().x  , GetPosition().y };
 
 	// 초기값 
 	{
@@ -310,7 +310,8 @@ void SCUnit::Astar(sf::Vector2f dest)
 
 		openList.push(Node(g + h , g , startIndex));
 		best[startIndex.x][startIndex.y] = g + h;
-		parent[startIndex.x][startIndex.y] = startPosition;
+		parent[startIndex.x][startIndex.y] = { startIndex.x * 32.f + 16.f , 
+			startIndex.y * 32.f + 16.f};
 	}
 
 	while (!openList.empty())
@@ -368,14 +369,14 @@ void SCUnit::Astar(sf::Vector2f dest)
 
 	path.clear();
 	
-	pos = dest;
+	pos = sf::Vector2f(destIndex.x * 32.f + 16.f , destIndex.y * 32.f + 16.f) ;
 
 	while (true)
 	{
 		path.push_back(pos);
 
 		// 시작점 일경우
-		if (pos == startPosition)
+		if (pos == sf::Vector2f(startIndex.x * 32.f + 16.f , startIndex.y * 32.f + 16.f))
 			break;
 
 		pos = parent[(int)pos.x / 32][pos.y / 32];
