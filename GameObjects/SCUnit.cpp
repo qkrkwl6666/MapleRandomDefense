@@ -195,38 +195,38 @@ void SCUnit::Update(float dt)
 	}
 
 	//********* 충돌처리 **********
-	//for (auto go : sceneGame->GetAllUnitList())
-	//{
-	//	if (go == this)
-	//	{
-	//		continue;
-	//	}
-	//	float left = GetGlobalBounds().left - (go->GetGlobalBounds().left + go->GetGlobalBounds().width);
-	//	float right = go->GetGlobalBounds().left - (this->GetGlobalBounds().left + this->GetGlobalBounds().width);
-	//	float top = this->GetGlobalBounds().top - (go->GetGlobalBounds().top + go->GetGlobalBounds().height);
-	//	float bottom = go->GetGlobalBounds().top - (this->GetGlobalBounds().top + this->GetGlobalBounds().height);
+	for (auto go : sceneGame->GetAllUnitList())
+	{
+		if (go == this)
+		{
+			continue;
+		}
+		float left = GetGlobalBounds().left - (go->GetGlobalBounds().left + go->GetGlobalBounds().width);
+		float right = go->GetGlobalBounds().left - (this->GetGlobalBounds().left + this->GetGlobalBounds().width);
+		float top = this->GetGlobalBounds().top - (go->GetGlobalBounds().top + go->GetGlobalBounds().height);
+		float bottom = go->GetGlobalBounds().top - (this->GetGlobalBounds().top + this->GetGlobalBounds().height);
 
-	//	if (left <= 0 && right <= 0 && top <= 0 && bottom <= 0) // 충돌 시 
-	//	{
-	//		if (right >= left and right >= top and right >= bottom) // 오른쪽에서 충돌해있으면
-	//		{
-	//			direction = { 1.f,0.f };
-	//		}
-	//		else if (left >= right and left >= top and left >= bottom)
-	//		{
-	//			direction = { -1.f,0.f };
-	//		}
-	//		else if (top >= right and top >= left and top >= bottom)
-	//		{
-	//			direction = { 0.f,-1.f };
-	//		}
-	//		else
-	//		{
-	//			direction = { 0.f,1.f };
-	//		}
-	//	}
-	//}
-	//Translate(direction* moveSpeed* dt);
+		if (left <= 0 && right <= 0 && top <= 0 && bottom <= 0 && currentStatus == SCUnit::Status::MOVE) // 충돌 시 
+		{
+			isAster = false;
+			if (right >= left and right >= top and right >= bottom) // 오른쪽에서 충돌해있으면
+			{
+				SetPosition({ position.x += right , position.y });
+			}
+			else if (left >= right and left >= top and left >= bottom)
+			{
+				SetPosition({ position.x += left , position.y });
+			}
+			else if (top >= right and top >= left and top >= bottom)
+			{
+				SetPosition({ position.x, position.y += top });
+			}
+			else
+			{
+				SetPosition({ position.x, position.y += bottom });
+			}
+		}
+	}
 }
 
 void SCUnit::LateUpdate(float dt)
