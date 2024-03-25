@@ -79,10 +79,10 @@ void Dragoon::Update(float dt)
 		}
 		if (!animator->IsPlaying())
 		{
-			animator->PlayIdle(animationName + "Idle", true, currentAngle);
+			animator->Play(animationName + "Idle", true, false);
 		}
 
-		animator->Update(dt, currentAngle);
+		animator->Update(dt);
 		break;
 	case SCUnit::Status::MOVE:
 		if (!animator->IsPlaying())
