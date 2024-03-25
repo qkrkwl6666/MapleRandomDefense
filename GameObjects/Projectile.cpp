@@ -15,7 +15,6 @@ void Projectile::Init()
 {
 	SpriteAnimatorGo::Init();
 
-	//SetTexture("graphics/HydraliskProjectile.png");
 }
 
 void Projectile::Reset()

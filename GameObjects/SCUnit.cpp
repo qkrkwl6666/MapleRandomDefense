@@ -4,6 +4,7 @@
 #include "ShapeGo.h"
 #include "SceneGame.h"
 #include "Enemy.h"
+#include "Projectile.h"
 
 SCUnit::SCUnit(const std::string& name , const std::string& animationName)
 	: SpriteAnimatorGo(name) , animationName(animationName)
@@ -36,6 +37,10 @@ void SCUnit::Init()
 	isSelectSprite->SetOrigin(Origins::MC);
 	isSelectSprite->SetScale({ 1.f , 1.f });
 	isSelectSprite->SetActive(false);
+
+	// 발사체 
+	projectile = std::make_shared<Projectile>();
+	projectile->Init();
 
 }
 
@@ -87,11 +92,12 @@ void SCUnit::Update(float dt)
 	switch (currentStatus)
 	{
 		case SCUnit::Status::NONE:
+			projectile->SetActive(false);
 			SetStatus(Status::IDLE);
 			break;
 		case SCUnit::Status::IDLE:
 			animator->PlayIdle(animationName + "Move", true, currentAngle);
-
+			projectile->SetActive(false);
 			if (isAster == true)
 			{
 				SetStatus(Status::MOVE);
@@ -103,6 +109,7 @@ void SCUnit::Update(float dt)
 		case SCUnit::Status::MOVE:
 			if (!animator->IsPlaying())
 			{
+				projectile->SetActive(false);
 				animator->Play(animationName + "Move", true, true);
 			}
 
@@ -151,8 +158,11 @@ void SCUnit::Update(float dt)
 			if (!animator->IsPlaying())
 			{
 				animator->Play(animationName + "Attack", true, true);
+				projectile->SetActive(true);
+				projectile->GetAnimator()->Play(animationName + "Projectile", true, true);
 			}
 			animator->Update(dt, currentAngle);
+			projectile->GetAnimator()->Update(dt, currentAngle);
 			break;
 		default:
 			break;
@@ -187,6 +197,11 @@ void SCUnit::Update(float dt)
 void SCUnit::LateUpdate(float dt)
 {
 	SpriteAnimatorGo::LateUpdate(dt);
+
+	if (projectile->GetActive() && currentStatus == Status::ATTACK)
+	{
+		projectile->LateUpdate(dt);
+	}
 }
 
 void SCUnit::Draw(sf::RenderWindow& window)
@@ -194,6 +209,11 @@ void SCUnit::Draw(sf::RenderWindow& window)
 	if (isSelectSprite->GetActive() && isSelect == true)
 	{
 		isSelectSprite->Draw(window);
+	}
+
+	if (projectile->GetActive() && currentStatus == Status::ATTACK)
+	{
+		projectile->Draw(window);
 	}
 
 	SpriteAnimatorGo::Draw(window);

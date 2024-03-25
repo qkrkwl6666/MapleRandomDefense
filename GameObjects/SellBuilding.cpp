@@ -14,6 +14,7 @@ void SellBuilding::Sell(SCUnit::Type t, SCUnit::Rarity r)
 void SellBuilding::Init()
 {
 	Building::Init();
+	type = BuildingType::SELL;
 	textureId = "graphics/sell.png";
 	SetTexture();
 }

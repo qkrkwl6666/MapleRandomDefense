@@ -29,7 +29,6 @@ public:
 	Interface(const std::string& name = "");
 	~Interface() override;
 
-
 	void Init() override;
 	void Release() override;
 
@@ -39,6 +38,10 @@ public:
 	void LateUpdate(float dt) override;
 
 	void SetActiveUpgrade(bool active);
+	void SetActiveSell(bool active);
+	void SetActiveSellInfo(bool active);
+
+	void HydraliskSellUpdate();
 
 	void Upgrade();
 };

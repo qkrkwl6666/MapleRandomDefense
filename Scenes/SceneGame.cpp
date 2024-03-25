@@ -17,7 +17,6 @@ SceneGame::SceneGame(SceneIds id) : Scene(id)
 
 }
 
-
 void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 {
 	switch (t)
@@ -29,10 +28,21 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 			if (hydralisk && hydralisk->GetRarity() == r)
 			{
 				//TODO : 터지면 여기다
-				HydraliskList.erase(it);
-				AllUnitList.erase(it); // << 이곳이야
+				it = HydraliskList.erase(it);
+				for (auto* data : AllUnitList)
+				{
+					if (data == hydralisk)
+					{
+						AllUnitList.remove(data);
+						break;
+					}
+				}
 				hydralisk->SellThis();
 				return;
+			}
+			else
+			{
+				it++;
 			}
 		}
 
@@ -43,9 +53,15 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 			SCUnit* dragoon = *it;
 			if (dragoon && dragoon->GetRarity() == r)
 			{
-				DragoonList.erase(it);
+				it = DragoonList.erase(it);
+				
 				dragoon->SellThis();
 				return;
+			}
+
+			else
+			{
+				it++;
 			}
 		}
 		break;
@@ -55,9 +71,13 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 			SCUnit* ghost = *it;
 			if (ghost && ghost->GetRarity() == r)
 			{
-				GhostList.erase(it);
+				it = GhostList.erase(it);
 				ghost->SellThis();
 				return;
+			}
+			else
+			{
+				it++;
 			}
 		}
 		break;
@@ -285,7 +305,7 @@ void SceneGame::Update(float dt)
 		}
 	}
 
-	std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
+	//std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
 
 	if (modeDeveloper)
 	{

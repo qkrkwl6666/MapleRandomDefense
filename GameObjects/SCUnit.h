@@ -6,6 +6,7 @@
 class SceneGame;
 class SpriteGo;
 class Enemy;
+class Projectile;
 
 
 class SCUnit : public SpriteAnimatorGo
@@ -60,6 +61,7 @@ protected:
 
 	SceneGame* sceneGame = nullptr;
 	Enemy* target = nullptr;
+	std::shared_ptr<Projectile> projectile = nullptr;
 
 	std::shared_ptr<SpriteGo> isSelectSprite;
 	bool isSelect = false;
