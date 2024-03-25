@@ -11,6 +11,7 @@ class Enemy;
 class TileSet;
 class Interface;
 class Building;
+class Spawner;
 
 class SceneGame : public Scene
 {
@@ -27,6 +28,8 @@ public:
 
 protected:
 	TileSet* tileSet = nullptr;
+	Spawner* spawner = nullptr;
+
 
 	Interface* mainInterface = nullptr;
 	ShapeGo<sf::RectangleShape>* leftFiller;
