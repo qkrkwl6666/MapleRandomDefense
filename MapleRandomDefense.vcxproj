@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Civilian.cpp" />
     <ClCompile Include="GameObjects\Dragoon.cpp" />
     <ClCompile Include="GameObjects\Enemy.cpp" />
     <ClCompile Include="GameObjects\Building.cpp" />
@@ -59,6 +60,7 @@
     <ClCompile Include="GameObjects\Zergling.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Civilian.h" />
     <ClInclude Include="GameObjects\Dragoon.h" />
     <ClInclude Include="GameObjects\Enemy.h" />
     <ClInclude Include="GameObjects\Building.h" />

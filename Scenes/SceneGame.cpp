@@ -15,6 +15,7 @@
 #include "Enemy.h"
 #include "Zergling.h"
 #include "Spawner.h"
+#include "Civilian.h"
 
 SceneGame::SceneGame(SceneIds id) : Scene(id)
 {
@@ -31,7 +32,6 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 			SCUnit* hydralisk = *it;
 			if (hydralisk && hydralisk->GetRarity() == r)
 			{
-				//TODO : 터지면 여기다
 				it = HydraliskList.erase(it);
 				for (auto* data : AllUnitList)
 				{
@@ -219,6 +219,7 @@ void SceneGame::Init()
 	leftFiller = new ShapeGo<sf::RectangleShape>("leftFiller");
 	rightFiller = new ShapeGo<sf::RectangleShape>("rightFiller");
 
+
 	leftFiller->SetSize({ 
 		((float)FRAMEWORK.GetWindowSize().x / 8),
 		(float) FRAMEWORK.GetWindowSize().y });
@@ -234,6 +235,7 @@ void SceneGame::Init()
 
 	AddGo(leftFiller, Layers::Ui);
 	AddGo(rightFiller, Layers::Ui);
+
 	
 	buildings["TerranBuilding"] = new UpgradeBuilding("terranBuilding", Building::Races::Terran);
 	buildings["TerranBuilding"]->SetPosition({ 12 * 32 , 27 * 32 });
@@ -265,6 +267,17 @@ void SceneGame::Init()
 
 	tileSet->LoadTileMap("tilejson/Map.json", 0.5f);
 	tileSet->VaSet();
+
+	civilian = new Civilian();
+
+	AddGo(civilian, Layers::World);
+
+	civilian->Init();
+
+	civilian->SetPosition({ 27.f * 32.f + 16.f, 29.f * 32.f + 16.f });
+
+	AllUnitList.push_back(civilian);
+
 }
 
 void SceneGame::Release()
@@ -371,6 +384,15 @@ void SceneGame::Update(float dt)
 void SceneGame::LateUpdate(float dt)
 {
 	Scene::LateUpdate(dt);
+
+	if (civilian->GetPosition().x >= 900)
+	{
+		civilian->SetPosition({ 27.f * 32.f + 16.f, 29.f * 32.f + 16.f });
+		civilian->SetIsAster(false);
+		civilian->SetStatus(SCUnit::Status::IDLE);
+		BuyUnit();
+	}
+
 }
 
 void SceneGame::FixedUpdate(float dt)
@@ -433,7 +455,7 @@ void SceneGame::BuyUnit()
 	case 0:
 	{
 		Hydralisk* hydralisk = new Hydralisk("hydralisk", randomrarity);
-		hydralisk->SetPosition(worldPos);
+		hydralisk->SetPosition({ 16.f * 32.f + 16.f, 16.f * 32.f + 16.f });
 		AddGo(hydralisk, Layers::World);
 		hydralisk->Init();
 		HydraliskList.push_back(hydralisk);
@@ -444,7 +466,7 @@ void SceneGame::BuyUnit()
 	case 1:
 	{
 		Dragoon* dragoon = new Dragoon("dragoon", randomrarity);
-		dragoon->SetPosition(worldPos);
+		dragoon->SetPosition({ 16.f * 32.f + 16.f, 16.f * 32.f + 16.f });
 		AddGo(dragoon, Layers::World);
 		dragoon->Init();
 		DragoonList.push_back(dragoon);
@@ -455,7 +477,7 @@ void SceneGame::BuyUnit()
 	case 2:
 	{
 		Ghost* ghost = new Ghost("ghost", randomrarity);
-		ghost->SetPosition(worldPos);
+		ghost->SetPosition({ 16.f * 32.f + 16.f, 16.f * 32.f + 16.f });
 		AddGo(ghost, Layers::World);
 		ghost->Init();
 		GhostList.push_back(ghost);
