@@ -390,6 +390,22 @@ void SCUnit::SetStatus(Status status)
 	}
 }
 
+void SCUnit::SetDamage()
+{
+	switch (type)
+	{
+	case SCUnit::Type::Hydralisk:
+		damage = baseDamage + 3 * UpgradeCount;
+		break;
+	case SCUnit::Type::Dragoon:
+		damage = baseDamage + 6 * UpgradeCount;
+		break;
+	case SCUnit::Type::Ghost:
+		damage = baseDamage + 8 * UpgradeCount;
+		break;
+	}
+}
+
 void SCUnit::SetSelect(bool isSelect)
 {
 	this->isSelect = isSelect;

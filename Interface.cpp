@@ -629,6 +629,7 @@ void Interface::UpdateUnit(float dt)
 	default:
 		break;
 	}
+	std::cout << scUnit->GetDamage() << std::endl;
 }
 
 void Interface::LateUpdate(float dt)

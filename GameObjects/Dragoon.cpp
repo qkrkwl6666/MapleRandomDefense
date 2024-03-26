@@ -8,9 +8,7 @@ Dragoon::Dragoon(const std::string& name, SCUnit::Rarity r)
 	: SCUnit(name, "Dragoon")
 {
 	rarity = r;
-	attackRange = 5.f;
-	Damage = 6;
-	attackInterval = 1.2f;
+
 }
 
 Dragoon::~Dragoon()
@@ -20,7 +18,10 @@ Dragoon::~Dragoon()
 void Dragoon::Init()
 {
 	SCUnit::Init();
-
+	attackRange = 5.f;
+	baseDamage = 6;
+	damage = baseDamage;
+	attackInterval = 1.2f;
 	SetTexture("graphics/Dragoon.png");
 	hitBox.setSize({ 30.f,30.f });
 	hitBox.setOrigin(hitBox.getSize() / 2.f);

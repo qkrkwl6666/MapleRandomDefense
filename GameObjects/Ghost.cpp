@@ -9,9 +9,7 @@ Ghost::Ghost(const std::string& name, SCUnit::Rarity r)
 	: SCUnit(name, "Ghost")
 {
 	rarity = r;
-	attackRange = 6.f;
-	Damage = 8;
-	attackInterval = 1.0f;
+
 }
 
 Ghost::~Ghost()
@@ -21,7 +19,10 @@ Ghost::~Ghost()
 void Ghost::Init()
 {
 	SCUnit::Init();
-
+	attackRange = 6.f;
+	baseDamage = 8;
+	damage = baseDamage;
+	attackInterval = 1.0f;
 	SetTexture("graphics/Ghost.png");
 
 	GetSprite()->setTextureRect({ 0, 114, 42, 38 });

@@ -14,6 +14,9 @@ protected:
 
 	std::list<Enemy*> Enemys;
 	std::list<Enemy*> removeEnemys;
+
+	float spawnTimer = 0;
+
 public:
 	Spawner(const std::string& name = "");
 	~Spawner() override;

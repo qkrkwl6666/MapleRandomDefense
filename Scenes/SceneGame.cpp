@@ -300,18 +300,21 @@ void SceneGame::UpgradeUpdate()
 	{
 		SCUnit* hydralisk = go;
 		hydralisk->SetUpgrade(hydraliskUpgrade);
+		hydralisk->SetDamage();
 	}
 
 	for (auto go : GhostList)
 	{
 		SCUnit* ghost = go;
 		ghost->SetUpgrade(ghostUpgrade);
+		ghost->SetDamage();
 	}
 
 	for (auto go : DragoonList)
 	{
 		SCUnit* dragoon = go;
 		dragoon->SetUpgrade(dragoonUpgrade);
+		dragoon->SetDamage();
 	}
 }
 
@@ -526,6 +529,7 @@ void SceneGame::BuyUnit()
 		HydraliskList.push_back(hydralisk);
 		AllUnitList.push_back(hydralisk);
 		UpgradeUpdate();
+		hydralisk->SetDamage();
 		message(MessageType::BuyUnit, SCUnit::Type::Hydralisk, randomrarity);
 	}
 	break;
@@ -538,6 +542,7 @@ void SceneGame::BuyUnit()
 		DragoonList.push_back(dragoon);
 		AllUnitList.push_back(dragoon);
 		UpgradeUpdate();
+		dragoon->SetDamage();
 		message(MessageType::BuyUnit, SCUnit::Type::Dragoon, randomrarity);
 	}
 	break;
@@ -550,6 +555,7 @@ void SceneGame::BuyUnit()
 		GhostList.push_back(ghost);
 		AllUnitList.push_back(ghost);
 		UpgradeUpdate();
+		ghost->SetDamage();
 		message(MessageType::BuyUnit, SCUnit::Type::Ghost, randomrarity);
 	}
 	break;

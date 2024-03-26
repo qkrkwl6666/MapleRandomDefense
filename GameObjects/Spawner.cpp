@@ -68,6 +68,15 @@ void Spawner::Update(float dt)
 		break;
 	}
 
+	spawnTimer += dt;
+
+	if (spawnTimer > 0.5)
+	{
+		Zergling* zergling = new Zergling();
+		zergling->Init();
+		Enemys.push_back(zergling);
+		spawnTimer = 0;
+	}
 	if (InputMgr::GetKeyDown(sf::Keyboard::L))
 	{
 		Zergling* zergling = new Zergling();

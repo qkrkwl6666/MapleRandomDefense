@@ -102,10 +102,11 @@ protected:
 	Rarity rarity = Rarity::NONE;
 
 	int UpgradeCount = 0;
-	int sellingValue = 0; // TO-DO 판매 가격
+	int sellingValue = 0;
 	bool sellable = true; // 전설 신화 태초만 false
 
 	// 공격 
+	float baseDamage = 3.f;
 	float damage = 3.f;
 	float attackRange = 10.f;
 	float attackInterval = 1.f;
@@ -194,6 +195,8 @@ public:
 	const Angle& GetCurrentAngle() const { return currentAngle; }
 	void SetStatus(Status status);
 	void SetUpgrade(int u) { UpgradeCount = u; }
+	void SetDamage();
+	int GetDamage() { return damage; }
 	Enemy* GetTarget() { return target; }
 	void SetTarget(Enemy* e) { target = e; }
 

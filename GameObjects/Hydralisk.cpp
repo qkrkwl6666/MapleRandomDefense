@@ -8,9 +8,6 @@ Hydralisk::Hydralisk(const std::string& name, SCUnit::Rarity r)
 	: SCUnit(name, "Hydralisk")
 {
 	rarity = r;
-	attackRange = 5.f;
-	Damage = 3;
-	attackInterval = 1.0f;
 }
 
 Hydralisk::~Hydralisk()
@@ -21,7 +18,10 @@ Hydralisk::~Hydralisk()
 void Hydralisk::Init()
 {
 	SCUnit::Init();
-
+	attackRange = 5.f;
+	baseDamage = 3;
+	damage = baseDamage;
+	attackInterval = 1.0f;
 	SetTexture("graphics/Hydralisk.png");
 
 	GetSprite()->setTextureRect({ 0, 174, 45, 58});
@@ -49,7 +49,6 @@ void Hydralisk::Reset()
 void Hydralisk::Update(float dt)
 {
 	SCUnit::Update(dt);
-
 
 	if (projectile->GetActive() && !GetFlipX())
 	{
