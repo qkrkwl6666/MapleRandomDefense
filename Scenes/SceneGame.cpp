@@ -3,6 +3,7 @@
 #include "SceneGame.h"
 #include "TileSet.h"
 #include "ShapeGo.h"
+#include "TextGo.h"
 #include <Windows.h>
 #include "Crosshair.h"
 #include "Interface.h"
@@ -253,10 +254,24 @@ void SceneGame::Init()
 	AddGo(buildings["Sellbuilding"], Layers::World);
 
 	mainInterface = new Interface("Interface");
-
 	mainInterface->sortLayer = 10;
-
 	AddGo(mainInterface, Layers::Ui);
+
+	mineralText = new TextGo("mineral");
+	mineralText->Set(RES_MGR_FONT.Get("font/Kostar.ttf"), std::to_string(mineral), 20, sf::Color::Green);
+	mineralText->SetOrigin(Origins::TL);
+	mineralText->SetPosition({ FRAMEWORK.GetWindowSize().x *
+		0.70f , FRAMEWORK.GetWindowSize().y * 0.005f });
+	mineralText->sortLayer = 10;
+	AddGo(mineralText, Layers::Ui);
+
+	gasText = new TextGo("gas");
+	gasText->Set(RES_MGR_FONT.Get("font/Kostar.ttf"), std::to_string(gas), 20, sf::Color::Green);
+	gasText->SetOrigin(Origins::TL);
+	gasText->SetPosition({ FRAMEWORK.GetWindowSize().x *
+		0.80f , FRAMEWORK.GetWindowSize().y * 0.005f });
+	gasText->sortLayer = 10;
+	AddGo(gasText, Layers::Ui);
 
 	spawner = new Spawner("Spawner");
 	AddGo(spawner, Layers::World);
@@ -298,7 +313,13 @@ void SceneGame::Update(float dt)
 	screenPos = SCENE_MGR.GetCurrentScene()->UiToScreen((sf::Vector2f)mouse->GetPosition());
 	worldPos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(screenPos);
 
-	
+	mineralText->SetString(std::to_string(mineral));
+	gasText->SetString(std::to_string(gas));
+	if (gas >= 10)
+	{
+		gas -= 10;
+		mineral++;
+	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::D))
 	{
@@ -438,6 +459,7 @@ void SceneGame::BuyUnit()
 		hydralisk->Init();
 		HydraliskList.push_back(hydralisk);
 		AllUnitList.push_back(hydralisk);
+		UpgradeUpdate();
 		message(MessageType::BuyUnit, SCUnit::Type::Hydralisk, randomrarity);
 	}
 	break;
@@ -449,6 +471,7 @@ void SceneGame::BuyUnit()
 		dragoon->Init();
 		DragoonList.push_back(dragoon);
 		AllUnitList.push_back(dragoon);
+		UpgradeUpdate();
 		message(MessageType::BuyUnit, SCUnit::Type::Dragoon, randomrarity);
 	}
 	break;
@@ -460,6 +483,7 @@ void SceneGame::BuyUnit()
 		ghost->Init();
 		GhostList.push_back(ghost);
 		AllUnitList.push_back(ghost);
+		UpgradeUpdate();
 		message(MessageType::BuyUnit, SCUnit::Type::Ghost, randomrarity);
 	}
 	break;

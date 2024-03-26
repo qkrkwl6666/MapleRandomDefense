@@ -7,6 +7,7 @@ class Hydralisk;
 class Dragoon;
 class Ghost;
 class Enemy;
+class TextGo;
 
 class TileSet;
 class Interface;
@@ -58,7 +59,9 @@ protected:
 	int ghostUpgrade = 0;
 
 	int mineral = 0;
+	TextGo* mineralText = nullptr;
 	int gas = 0;
+	TextGo* gasText = nullptr;
 
 	bool modeDeveloper = false;
 
@@ -112,6 +115,7 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 
 	sf::Vector2f GetWorldMousePos() { return worldPos; }
+	sf::Vector2i GetScreenMousePos() { return screenPos; }
 	TileSet* GetTileSet() { return tileSet; }
 
 	void BuyUnit();

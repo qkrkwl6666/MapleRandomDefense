@@ -32,11 +32,13 @@ protected:
 	sf::Vector2f selectStartPos;
 	bool isSelecting = false;
 	bool noUnits = true;
+	bool mouseOnUi = false;
+	int rarity[5] = {};
 
 	std::list<SCUnit*> isSelectList;
 
 	sf::Vector2f worldMousePos;
-	
+	sf::Vector2i screenMousePos;
 	std::unordered_map<std::string, Building*> buildings;
 
 public:
@@ -63,6 +65,7 @@ public:
 	void DragoonSellUpdate();
 	void GhostSellUpdate();
 
+	void SetSellUiTexture(const std::string& typeName , const std::string& rarityName, const int rarityIndex);
 	void Upgrade();
 };
 
