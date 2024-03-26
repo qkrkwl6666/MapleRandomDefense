@@ -35,7 +35,7 @@ void Enemy::Init()
 	changeDirPos.push_back({21.f * 32.f + 16.f, 24 * 32.f + 16.f});
 	changeDirPos.push_back({24.f * 32.f + 16.f, 21 * 32.f + 16.f});
 	changeDirPos.push_back({24.f * 32.f + 16.f, 12 * 32.f + 16.f});
-	changeDirPos.push_back({20.f * 32.f + 16.f, 9 * 32.f + 16.f});
+	changeDirPos.push_back({21.f * 32.f + 16.f, 9 * 32.f + 16.f});
 
 	currentDirection = front[Dir];
 	currentAngle = angleMMap[Dir];
