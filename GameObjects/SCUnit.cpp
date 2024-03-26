@@ -112,15 +112,33 @@ void SCUnit::Update(float dt)
 			break;
 		case SCUnit::Status::IDLE:
 			{
-				animator->PlayIdle(animationName + "Move", true, currentAngle);
+				switch (type)
+				{
+					case SCUnit::Type::Hydralisk:
+					case SCUnit::Type::Ghost:
+					case SCUnit::Type::Civilian:
+						animator->PlayIdle(animationName + "Move", true, currentAngle);
+
+						break;
+					case SCUnit::Type::Dragoon:
+						if (!animator->IsPlaying())
+						{
+							animator->Play(animationName + "Idle", true);
+						}
+
+						if (type == Type::Dragoon)
+						{
+							animator->Update(dt);
+						}
+				}
 				projectile->SetActive(false);
 				if (isAster == true)
 				{
 					SetStatus(Status::MOVE);
 					isAster = false;
+					animator->Stop();
 					break;
 				}
-
 				if (target == nullptr)
 				{
 					target = sceneGame->FindEnemy(GetPosition(), attackRange);
@@ -132,14 +150,14 @@ void SCUnit::Update(float dt)
 					}
 					break;
 				}
-				break;
 			}
 			break;
 		case SCUnit::Status::MOVE:
 			if (!animator->IsPlaying())
 			{
 				projectile->SetActive(false);
-				animator->Play(animationName + "Move", true, true , currentAngle);
+				animator->Play(animationName + "Move", true, true, currentAngle);
+				break;
 			}
 
 			if (!path.empty())
@@ -180,16 +198,26 @@ void SCUnit::Update(float dt)
 					pathIndex = 0;
 					isAster = false;
 					SetStatus(Status::IDLE);
+					animator->Stop();
 				}
 			}
 
 			animator->Update(dt, currentAngle);
+
 			break;
 		case SCUnit::Status::ATTACK:
 			{
 				if (!animator->IsPlaying())
 				{
-					animator->Play(animationName + "Attack", true, true , currentAngle);
+					if (type != Type::Dragoon)
+					{
+						animator->Play(animationName + "Attack", true, true, currentAngle);
+					}
+					else
+					{
+						animator->Play(animationName + "Attack");
+					}
+				
 					projectile->SetActive(true);
 					switch (type)
 					{
@@ -215,6 +243,7 @@ void SCUnit::Update(float dt)
 						if (target == nullptr)
 						{
 							SetStatus(Status::IDLE);
+							animator->Stop();
 							break;
 						}
 					}
@@ -243,16 +272,19 @@ void SCUnit::Update(float dt)
 					target->OnDamege(Damage);
 				}
 
-				animator->Update(dt, currentAngle);
 				switch (type)
 				{
 					case SCUnit::Type::Hydralisk:
 						projectile->Update(dt, currentAngle);
+						animator->Update(dt, currentAngle);
 						break;
 
 					case SCUnit::Type::Ghost:
 						projectile->Update(dt);
+						animator->Update(dt, currentAngle);
 						break;
+					case SCUnit::Type::Dragoon:
+						animator->Update(dt);
 				}
 				break;
 			}
