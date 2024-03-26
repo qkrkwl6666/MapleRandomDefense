@@ -51,6 +51,7 @@ void Enemy::Update(float dt)
 	SpriteGo::Update(dt);
 
 	animator->Update(dt, currentAngle);
+	std::cout << hp << std::endl;
 
 	if (Dir == 3 || Dir == 6 || Dir == 7)
 	{
@@ -171,4 +172,22 @@ void Enemy::LateUpdate(float dt)
 void Enemy::Draw(sf::RenderWindow& window)
 {
 	SpriteAnimatorGo::Draw(window);
+}
+
+void Enemy::OnDamege(float damage)
+{
+	if (hp - damage <= 0)
+	{
+		hp = 0;
+		Dead();
+	}
+	else
+	{
+		hp -= damage;
+	}
+}
+
+void Enemy::Dead()
+{
+	SetActive(false);
 }

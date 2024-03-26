@@ -86,7 +86,7 @@ public:
 	};
 
 protected:
-	float Hp = 10.f;
+	float hp = 10.f;
 
 	ArmorType armor = ArmorType::NONE;
 
@@ -101,6 +101,10 @@ public:
 	void Update(float dt) override;
 	void LateUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
+
+	void OnDamege(float damage);
+
+	void Dead();
 
 };
 

@@ -73,126 +73,124 @@ void SCUnit::Update(float dt)
 		isSelectSprite->SetPosition({ GetPosition().x, GetPosition().y + 10.f });
 	}
 
-	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right) && isSelect)
-	{
-		direction = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos() - GetPosition();
-
-		Utils::Normalize(direction);
-
-		float aniAngle = Utils::FindNearestAngleconst(AnimationAngle, Utils::Angle(direction));
-		//std::cout << aniAngle << std::endl;
-		currentAngle = angleMap[aniAngle];
-		if (aniAngle < -90 || aniAngle > 90)
-		{
-			SetFlipX(true);
-		}
-		else
-		{
-			SetFlipX(false);
-		}
-	}
-
 	switch (currentStatus)
 	{
-	case SCUnit::Status::NONE:
-		projectile->SetActive(false);
-		SetStatus(Status::IDLE);
-		break;
-	case SCUnit::Status::IDLE:
-		animator->PlayIdle(animationName + "Move", true, currentAngle);
-		projectile->SetActive(false);
-		if (isAster == true)
-		{
-			SetStatus(Status::MOVE);
-			isAster = false;
-		}
-
-		//animator->Update(dt, currentAngle);
-		break;
-	case SCUnit::Status::MOVE:
-		if (!animator->IsPlaying())
-		{
+		case SCUnit::Status::NONE:
 			projectile->SetActive(false);
-			animator->Play(animationName + "Move", true, true);
-		}
-
-		if (!path.empty())
-		{
-			if (pathIndex < path.size())
+			SetStatus(Status::IDLE);
+			break;
+		case SCUnit::Status::IDLE:
+			animator->PlayIdle(animationName + "Move", true, currentAngle);
+			projectile->SetActive(false);
+			if (isAster == true)
 			{
-				sf::Vector2f targetPosition = sf::Vector2f(path[pathIndex].x, path[pathIndex].y);
+				SetStatus(Status::MOVE);
+				isAster = false;
+				break;
+			}
 
-				sf::Vector2f direction = Utils::GetNormalize(targetPosition - GetPosition());
-
-				float aniAngle = Utils::FindNearestAngleconst(AnimationAngle, Utils::Angle(direction));
-
-				float distance = Utils::Distance(targetPosition, GetPosition());
-
-				currentAngle = angleMap[aniAngle];
-				if (aniAngle < -90 || aniAngle > 90)
+			if (target == nullptr)
+			{
+				target = sceneGame->FindEnemy(GetPosition(), attackRange);
+				if (target != nullptr)
 				{
-					SetFlipX(true);
+					SetStatus(Status::ATTACK);
+				}
+			}
+
+			//animator->Update(dt, currentAngle);
+			break;
+		case SCUnit::Status::MOVE:
+			if (!animator->IsPlaying())
+			{
+				projectile->SetActive(false);
+				animator->Play(animationName + "Move", true, true);
+			}
+
+			if (!path.empty())
+			{
+				if (pathIndex < path.size())
+				{
+					sf::Vector2f targetPosition = sf::Vector2f(path[pathIndex].x, path[pathIndex].y);
+
+					sf::Vector2f direction = Utils::GetNormalize(targetPosition - GetPosition());
+
+					float aniAngle = Utils::FindNearestAngleconst(AnimationAngle, Utils::Angle(direction));
+
+					float distance = Utils::Distance(targetPosition, GetPosition());
+
+					currentAngle = angleMap[aniAngle];
+					if (aniAngle < -90 || aniAngle > 90)
+					{
+						SetFlipX(true);
+						projectile->SetFlipX(true);
+					}
+					else
+					{
+						SetFlipX(false);
+						projectile->SetFlipX(false);
+					}
+
+					if (distance > 0.1f)
+					{
+						Translate(direction * moveSpeed * dt);
+					}
+					else
+					{
+						pathIndex++;
+					}
 				}
 				else
 				{
-					SetFlipX(false);
+					pathIndex = 0;
+					isAster = false;
+					SetStatus(Status::IDLE);
 				}
+			}
 
-				if (distance > 0.1f)
-				{
-					Translate(direction * moveSpeed * dt);
-				}
-				else
-				{
-					pathIndex++;
-				}
+			animator->Update(dt, currentAngle);
+			break;
+		case SCUnit::Status::ATTACK:
+			if (!animator->IsPlaying())
+			{
+				animator->Play(animationName + "Attack", true, true);
+				projectile->SetActive(true);
+				projectile->GetAnimator()->Play(animationName + "Projectile", true, true);
+			}
+
+			if ((Utils::Distance(GetPosition(), target->GetPosition()) > attackRange * 32 
+				|| target == nullptr))
+			{
+				target = nullptr;
+				SetStatus(SCUnit::Status::IDLE);
+				break;
+			}
+			attackTimer += dt;
+			direction = target->GetPosition() - GetPosition();
+			Utils::Normalize(direction);
+			float aniAngle = Utils::FindNearestAngleconst(AnimationAngle, Utils::Angle(direction));
+			currentAngle = angleMap[aniAngle];
+			if (aniAngle < -90 || aniAngle > 90)
+			{
+				SetFlipX(true);
+				projectile->SetFlipX(true);
 			}
 			else
 			{
-				pathIndex = 0;
-				isAster = false;
-				SetStatus(Status::IDLE);
+				SetFlipX(false);
+				projectile->SetFlipX(false);
 			}
-		}
 
-		animator->Update(dt, currentAngle);
-		break;
-	case SCUnit::Status::ATTACK:
-		if (!animator->IsPlaying())
-		{
-			animator->Play(animationName + "Attack", true, true);
-			projectile->SetActive(true);
-			projectile->GetAnimator()->Play(animationName + "Projectile", true, true);
-		}
-		animator->Update(dt, currentAngle);
-		projectile->GetAnimator()->Update(dt, currentAngle);
-		break;
-	default:
-		break;
-	}
+			animator->Update(dt, currentAngle);
+			projectile->GetAnimator()->Update(dt, currentAngle);
 
-	if (target == nullptr)
-	{
-		target = sceneGame->FindEnemy(GetPosition(), attackRange);
-	}
-	else
-	{
-		direction = target->GetPosition() - GetPosition();
-		Utils::Normalize(direction);
-		float aniAngle = Utils::FindNearestAngleconst(AnimationAngle, Utils::Angle(direction));
-		currentAngle = angleMap[aniAngle];
-		if (aniAngle < -90 || aniAngle > 90)
-		{
-			SetFlipX(true);
-		}
-		else
-		{
-			SetFlipX(false);
-		}
-		if ((Utils::Distance(GetPosition(), target->GetPosition()) > attackRange * 32))
-		{
-			target = nullptr;
-		}
+			// 데미지 처리
+			if (attackTimer >= attackInterval)
+			{
+				attackTimer = 0.f;
+				target->OnDamege(Damage);
+			}
+			break;
 	}
 	//********* 충돌처리 **********
 	for (auto go : sceneGame->GetAllUnitList())

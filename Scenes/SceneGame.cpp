@@ -94,7 +94,7 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 Enemy* SceneGame::FindEnemy(sf::Vector2f pos, float range)
 {
 	float distance;
-	for (auto go : EnemyList)
+	for (auto& go : *EnemyList)
 	{
 		distance = Utils::Distance(pos, go->GetPosition());
 		if (distance < range * 32)
@@ -278,6 +278,8 @@ void SceneGame::Init()
 
 	AllUnitList.push_back(civilian);
 
+	EnemyList = spawner->GetEnemys();
+
 }
 
 void SceneGame::Release()
@@ -310,8 +312,6 @@ void SceneGame::Update(float dt)
 	Scene::Update(dt);
 	screenPos = SCENE_MGR.GetCurrentScene()->UiToScreen((sf::Vector2f)mouse->GetPosition());
 	worldPos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(screenPos);
-
-	
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::D))
 	{
@@ -360,24 +360,24 @@ void SceneGame::Update(float dt)
 		}
 	}
 
-	if (InputMgr::GetKeyDown(sf::Keyboard::E))
-	{
-		Enemy* enemy = new Enemy("snail");
-		enemy->SetPosition(worldPos);
-		AddGo(enemy, Layers::World);
-		enemy->Init();
-		EnemyList.push_back(enemy);
-	}
-	if (InputMgr::GetKeyDown(sf::Keyboard::R))
-	{
-		for (auto it = EnemyList.begin(); it != EnemyList.end();)
-		{
-			Enemy* enemy = *it;
-			RemoveGo(enemy);
-			delete(enemy);
-			it = EnemyList.erase(it);
-		}
-	}
+	//if (InputMgr::GetKeyDown(sf::Keyboard::E))
+	//{
+	//	Enemy* enemy = new Enemy("snail");
+	//	enemy->SetPosition(worldPos);
+	//	AddGo(enemy, Layers::World);
+	//	enemy->Init();
+	//	EnemyList.push_back(enemy);
+	//}
+	//if (InputMgr::GetKeyDown(sf::Keyboard::R))
+	//{
+	//	for (auto it = EnemyList.begin(); it != EnemyList.end();)
+	//	{
+	//		Enemy* enemy = *it;
+	//		RemoveGo(enemy);
+	//		delete(enemy);
+	//		it = EnemyList.erase(it);
+	//	}
+	//}
 
 }
 
@@ -413,7 +413,7 @@ void SceneGame::Draw(sf::RenderWindow& window)
 void SceneGame::BuyUnit()
 {
 	int randomUnit = -1;
-	randomUnit = Utils::RandomRange(0, 3);
+	randomUnit = Utils::RandomRange(0, 1);
 	int randomint = -1;
 	randomint = Utils::RandomRange(0, 10000);
 	SCUnit::Rarity randomrarity = SCUnit::Rarity::NONE;

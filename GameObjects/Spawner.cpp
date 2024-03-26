@@ -41,14 +41,31 @@ void Spawner::Update(float dt)
 {
 	GameObject::Update(dt);
 
-	for (auto& data : Enemys)
+	for (auto* data : Enemys)
 	{
 		if (data == nullptr)
 		{
 			continue;
 		}
 
-		data->Update(dt);
+		if (!data->GetActive())
+		{
+			Enemys.remove(data);
+			removeEnemys.push_back(data);
+			break;
+		}
+		else
+		{
+			data->Update(dt);
+		}
+	}
+
+	for (auto* data : removeEnemys)
+	{
+		removeEnemys.remove(data);
+		delete data;
+		data = nullptr;
+		break;
 	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::L))

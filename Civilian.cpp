@@ -5,6 +5,7 @@
 Civilian::Civilian(const std::string& name, const std::string& animationName)
 	: SCUnit(name , "Civilian")
 {
+	attackRange = 0.f;
 }
 
 Civilian::~Civilian()
