@@ -26,6 +26,7 @@ protected:
 	Interface(Interface&&) = delete;
 	Interface& operator=(const Interface&) = delete;
 	Interface& operator=(Interface&&) = delete;
+
 	UIStatus uiStatus = UIStatus::NONE;
 	SCUnit::Type uiUnitType = SCUnit::Type::NONE;
 	GameObject* UItarget = nullptr;
@@ -40,6 +41,16 @@ protected:
 	sf::Vector2f worldMousePos;
 	sf::Vector2i screenMousePos;
 	std::unordered_map<std::string, Building*> buildings;
+
+	float uiTimer = 0.f;
+	int gameTimer = 30;
+	int min = 0;
+	std::string uiTimerString = "00:30";
+
+	int currentStage = 0;
+	float currentStageTimer = 100.f;
+	float currentStageDuration = 5.f;
+
 
 public:
 	Interface(const std::string& name = "");
@@ -69,5 +80,7 @@ public:
 	void Upgrade();
 
 	void SetWarframeView(bool active);
+
+	int GetStage() {return currentStage;}
 };
 

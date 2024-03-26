@@ -246,6 +246,25 @@ void Interface::Init()
 	texts["UIAttackType"]->sortLayer = 11;
 	texts["UIAttackType"]->SetActive(false);
 
+	// 타이머 
+	NewTextGo("UITimer", RES_MGR_FONT.Get("font/Kostar.ttf"), L"", 20, sf::Color::White);
+	texts["UITimer"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.5f , FRAMEWORK.GetWindowSize().y * 0.05f });
+	texts["UITimer"]->sortLayer = 13;
+	texts["UITimer"]->SetString(uiTimerString);
+	texts["UITimer"]->SetColor(sf::Color::Green);
+	texts["UITimer"]->SetCharacterSize(30);
+	texts["UITimer"]->SetOrigin(Origins::MC);
+
+	NewTextGo("currentStage", RES_MGR_FONT.Get("font/Kostar.ttf"), L"현재 스테이지 : ", 20, sf::Color::White);
+	texts["currentStage"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.5f , FRAMEWORK.GetWindowSize().y * 0.6f });
+	texts["currentStage"]->sortLayer = 13;
+	texts["currentStage"]->SetColor(sf::Color::Green);
+	texts["currentStage"]->SetCharacterSize(30);
+	texts["currentStage"]->SetOrigin(Origins::MC);
+	texts["currentStage"]->SetActive(false);
+
 	UiInit();
 	ObjectsSort();
 }
@@ -264,6 +283,65 @@ void Interface::Reset()
 void Interface::Update(float dt)
 {
 	UIGo::Update(dt);
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::F1))
+	{
+		FRAMEWORK.SetTimeScale(1.f);
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::F2))
+	{
+		FRAMEWORK.SetTimeScale(2.f);
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::F3))
+	{
+		FRAMEWORK.SetTimeScale(4.f);
+	}
+
+	// ******************타이머 && nextStage******************
+	uiTimer += dt;
+	currentStageTimer += dt;
+
+	if (uiTimer >= 1.f)
+	{
+		gameTimer--;
+		if (gameTimer >= 10)
+		{
+			uiTimerString.replace(3, std::string::npos, std::to_string(gameTimer));
+		}
+		else
+		{
+			if (gameTimer < 0 && min >= 1)
+			{
+				min--;
+				gameTimer = 59;
+				uiTimerString.replace(0, 2, "0" + std::to_string(min));
+				uiTimerString.replace(3, std::string::npos, std::to_string(gameTimer));
+			}
+			else if (gameTimer < 0 && min <= 0)
+			{
+				// 다음 스테이지
+				min = 2;
+				gameTimer = 20;
+				uiTimerString = "02:20";
+				currentStage++;
+				texts["currentStage"]->SetString(L"현재 스테이지 : " + Utils::CP949ToWString(std::to_string(currentStage)));
+				texts["currentStage"]->SetActive(true);
+				currentStageTimer = 0.f;
+			}
+			else
+			{
+				uiTimerString.replace(3, std::string::npos, "0" + std::to_string(gameTimer));
+			}
+		}
+		
+		texts["UITimer"]->SetString(uiTimerString);
+		uiTimer = 0.f;
+	}
+
+	if (currentStageTimer >= currentStageDuration)
+	{
+		texts["currentStage"]->SetActive(false);
+	}
 
 	worldMousePos = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos();
 	screenMousePos = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetScreenMousePos();

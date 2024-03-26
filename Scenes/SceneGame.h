@@ -124,6 +124,8 @@ public:
 	sf::Vector2i GetScreenMousePos() { return screenPos; }
 	TileSet* GetTileSet() { return tileSet; }
 
+	Interface* GetInterface() { return mainInterface; }
+
 	void GasUp() { gas++; }
 
 	void BuyUnit();

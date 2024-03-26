@@ -230,7 +230,6 @@ void SceneGame::message(MessageType m)
 
 void SceneGame::message(MessageType m, SCUnit::Type t, SCUnit::Rarity r)
 {
-
 	std::string type;
 	switch (t)
 	{

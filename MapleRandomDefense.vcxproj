@@ -59,6 +59,8 @@
     <ClCompile Include="GameObjects\SellBuilding.cpp" />
     <ClCompile Include="GameObjects\Spawner.cpp" />
     <ClCompile Include="GameObjects\Zergling.cpp" />
+    <ClCompile Include="GameObjects\Ultralisk.cpp" />
+    <ClCompile Include="Scourge.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Civilian.h" />
@@ -104,6 +106,8 @@
     <ClInclude Include="GameObjects\SellBuilding.h" />
     <ClInclude Include="GameObjects\Spawner.h" />
     <ClInclude Include="GameObjects\Zergling.h" />
+    <ClInclude Include="GameObjects\Ultralisk.h" />
+    <ClInclude Include="Scourge.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

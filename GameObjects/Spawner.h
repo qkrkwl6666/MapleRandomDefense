@@ -3,6 +3,7 @@
 #include "GameObject.h"
 
 class Enemy;
+class SceneGame;
 
 class Spawner : public GameObject
 {
@@ -17,6 +18,8 @@ protected:
 
 	float spawnTimer = 0;
 
+	SceneGame* sceneGame = nullptr;
+
 public:
 	Spawner(const std::string& name = "");
 	~Spawner() override;
@@ -29,5 +32,7 @@ public:
 	void LateUpdate(float dt) override;
 
 	std::list<Enemy*>* GetEnemys() { return &Enemys; }
+
+	void SpawnEnemys(Enemy* enemy);
 };
 

@@ -37,11 +37,6 @@ void Zergling::Update(float dt)
 {
 	Enemy::Update(dt);
 
-	if (GetPosition().x <= 0 || GetPosition().x >= 1000 || GetPosition().y <= 0 || GetPosition().y >= 1000)
-	{
-		std::cout << GetPosition().x << " " << GetPosition().y << std::endl;
-	}
-
 }
 
 void Zergling::LateUpdate(float dt)
