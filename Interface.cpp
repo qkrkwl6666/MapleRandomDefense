@@ -142,6 +142,89 @@ void Interface::Init()
 	sprites["HydraliskNarrative"]->sortLayer = 11;
 	sprites["HydraliskNarrative"]->SetActive(false);
 	sprites["HydraliskNarrative"]->SetScale({ 0.75f, 0.75f });
+	// ****************** 히드라 5종
+
+	NewSpriteGo("DragoonNormal", "graphics/UI/Interface/DragoonSellNoHave.png");
+	sprites["DragoonNormal"]->SetOrigin(Origins::TL);
+	sprites["DragoonNormal"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.716f , FRAMEWORK.GetWindowSize().y * 0.745f });
+	sprites["DragoonNormal"]->sortLayer = 11;
+	sprites["DragoonNormal"]->SetActive(false);
+	sprites["DragoonNormal"]->SetScale({ 0.75f, 0.75f });
+
+	NewSpriteGo("DragoonRare", "graphics/UI/Interface/DragoonSellNoHave.png");
+	sprites["DragoonRare"]->SetOrigin(Origins::TL);
+	sprites["DragoonRare"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.77f , FRAMEWORK.GetWindowSize().y * 0.745f });
+	sprites["DragoonRare"]->sortLayer = 11;
+	sprites["DragoonRare"]->SetActive(false);
+	sprites["DragoonRare"]->SetScale({ 0.75f, 0.75f });
+
+	NewSpriteGo("DragoonAncient", "graphics/UI/Interface/DragoonSellNoHave.png");
+	sprites["DragoonAncient"]->SetOrigin(Origins::TL);
+	sprites["DragoonAncient"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.823f , FRAMEWORK.GetWindowSize().y * 0.745f });
+	sprites["DragoonAncient"]->sortLayer = 11;
+	sprites["DragoonAncient"]->SetActive(false);
+	sprites["DragoonAncient"]->SetScale({ 0.75f, 0.75f });
+
+	NewSpriteGo("DragoonArtifact", "graphics/UI/Interface/DragoonSellNoHave.png");
+	sprites["DragoonArtifact"]->SetOrigin(Origins::TL);
+	sprites["DragoonArtifact"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.716f , FRAMEWORK.GetWindowSize().y * 0.83f });
+	sprites["DragoonArtifact"]->sortLayer = 11;
+	sprites["DragoonArtifact"]->SetActive(false);
+	sprites["DragoonArtifact"]->SetScale({ 0.75f, 0.75f });
+
+	NewSpriteGo("DragoonNarrative", "graphics/UI/Interface/DragoonSellNoHave.png");
+	sprites["DragoonNarrative"]->SetOrigin(Origins::TL);
+	sprites["DragoonNarrative"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.77f , FRAMEWORK.GetWindowSize().y * 0.83f });
+	sprites["DragoonNarrative"]->sortLayer = 11;
+	sprites["DragoonNarrative"]->SetActive(false);
+	sprites["DragoonNarrative"]->SetScale({ 0.75f, 0.75f });
+	//******************** 드라군 5종
+
+	NewSpriteGo("GhostNormal", "graphics/UI/Interface/GhostSellNoHave.png");
+	sprites["GhostNormal"]->SetOrigin(Origins::TL);
+	sprites["GhostNormal"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.716f , FRAMEWORK.GetWindowSize().y * 0.745f });
+	sprites["GhostNormal"]->sortLayer = 11;
+	sprites["GhostNormal"]->SetActive(false);
+	sprites["GhostNormal"]->SetScale({ 0.75f, 0.75f });
+
+	NewSpriteGo("GhostRare", "graphics/UI/Interface/GhostSellNoHave.png");
+	sprites["GhostRare"]->SetOrigin(Origins::TL);
+	sprites["GhostRare"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.77f , FRAMEWORK.GetWindowSize().y * 0.745f });
+	sprites["GhostRare"]->sortLayer = 11;
+	sprites["GhostRare"]->SetActive(false);
+	sprites["GhostRare"]->SetScale({ 0.75f, 0.75f });
+
+	NewSpriteGo("GhostAncient", "graphics/UI/Interface/GhostSellNoHave.png");
+	sprites["GhostAncient"]->SetOrigin(Origins::TL);
+	sprites["GhostAncient"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.823f , FRAMEWORK.GetWindowSize().y * 0.745f });
+	sprites["GhostAncient"]->sortLayer = 11;
+	sprites["GhostAncient"]->SetActive(false);
+	sprites["GhostAncient"]->SetScale({ 0.75f, 0.75f });
+
+	NewSpriteGo("GhostArtifact", "graphics/UI/Interface/GhostSellNoHave.png");
+	sprites["GhostArtifact"]->SetOrigin(Origins::TL);
+	sprites["GhostArtifact"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.716f , FRAMEWORK.GetWindowSize().y * 0.83f });
+	sprites["GhostArtifact"]->sortLayer = 11;
+	sprites["GhostArtifact"]->SetActive(false);
+	sprites["GhostArtifact"]->SetScale({ 0.75f, 0.75f });
+
+	NewSpriteGo("GhostNarrative", "graphics/UI/Interface/GhostSellNoHave.png");
+	sprites["GhostNarrative"]->SetOrigin(Origins::TL);
+	sprites["GhostNarrative"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.77f , FRAMEWORK.GetWindowSize().y * 0.83f });
+	sprites["GhostNarrative"]->sortLayer = 11;
+	sprites["GhostNarrative"]->SetActive(false);
+	sprites["GhostNarrative"]->SetScale({ 0.75f, 0.75f });
+
 
 	UiInit();
 	ObjectsSort();
@@ -185,7 +268,6 @@ void Interface::Update(float dt)
 
 		isSelecting = false;
 		selectBox->SetActive(false);
-
 		// 유닛 검사
 		std::list<SCUnit*> allUnit = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetAllUnitList();
 		for (SCUnit* scUnit : allUnit)
@@ -194,10 +276,13 @@ void Interface::Update(float dt)
 			{
 				SetActiveUpgrade(false);
 				SetActiveSell(false);
-				SetActiveSellInfo(false);
+				SetActiveSellInfo(false, SCUnit::Type::Hydralisk);
+				SetActiveSellInfo(false, SCUnit::Type::Ghost);
+				SetActiveSellInfo(false , SCUnit::Type::Dragoon);
 				noUnits = false;
 				isSelectList.push_back(scUnit);
 				scUnit->SetSelect(true);
+				uiStatus = UIStatus::Unit;
 			}
 		}
 
@@ -210,25 +295,33 @@ void Interface::Update(float dt)
 				if (building->GetGlobalBounds().contains(selectBox->GetPosition()))
 				{
 					SetActiveUpgrade(false);
-					SetActiveSellInfo(false);
+					SetActiveSell(false);
+					SetActiveSellInfo(false, SCUnit::Type::Hydralisk);
+					SetActiveSellInfo(false, SCUnit::Type::Ghost);
+					SetActiveSellInfo(false, SCUnit::Type::Dragoon);
 					switch (building->GetBuildingType())
 					{
 					case Building::BuildingType::UPGRADE:
 						{
 						UpgradeBuilding* Up = dynamic_cast<UpgradeBuilding*>(building);
+						uiStatus = UIStatus::Upgrade;
+
 							switch (Up->GetRace())
 							{
 							case Building::Races::Zerg:
+								uiUnitType = SCUnit::Type::Hydralisk;
 								sprites["HydraliskUpgrade"]->SetActive(true);
 								Up->SetSelect(true);
 								return;
 								break;
 							case Building::Races::Terran:
+								uiUnitType = SCUnit::Type::Ghost;
 								sprites["GhostUpgrade"]->SetActive(true);
 								Up->SetSelect(true);
 								return;
 								break;
 							case Building::Races::Protoss:
+								uiUnitType = SCUnit::Type::Dragoon;
 								sprites["DragoonUpgrade"]->SetActive(true);
 								Up->SetSelect(true);
 								return;
@@ -238,6 +331,7 @@ void Interface::Update(float dt)
 						}
 					case Building::BuildingType::SELL:
 						{
+						uiStatus = UIStatus::SellUnitSellect;
 							SetActiveSell(true);
 						}
 						break;
@@ -253,58 +347,109 @@ void Interface::Update(float dt)
 		selectBox->SetSize(worldMousePos - selectStartPos);
 	}
 
+	switch (uiStatus)
+	{
+	case Interface::UIStatus::NONE:
+		break;
+	case Interface::UIStatus::Upgrade:
+		UpdateUpgrade(dt);
+		break;
+	case Interface::UIStatus::SellUnitSellect:
+		UpdateSellUnitSellect(dt);
+		break;
+	case Interface::UIStatus::SellRaritySellect:
+		UpdateSellRaritySellect(dt);
+		break;
+	case Interface::UIStatus::Unit:
+		UpdateUnit(dt);
+		break;
+	}
+
+}
+
+void Interface::UpdateUpgrade(float dt)
+{
+	switch (uiUnitType)
+	{
+	case SCUnit::Type::Hydralisk:
+		if (sprites["HydraliskUpgrade"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+			InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+		{
+			std::cout << "HydraliskUpgrade!!" << std::endl;
+			Upgrade();
+		}
+		break;
+	case SCUnit::Type::Dragoon:
+		if (sprites["DragoonUpgrade"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+			InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+		{
+			std::cout << "DragoonUpgrade!!" << std::endl;
+			Upgrade();
+		}
+		break;
+	case SCUnit::Type::Ghost:
+		if (sprites["GhostUpgrade"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+			InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+		{
+			std::cout << "GhostUpgrade!!" << std::endl;
+			Upgrade();
+		}
+		break;
+	}
 	// 건물 업그레이드 상호작용
-	if (sprites["HydraliskUpgrade"]->GetActive() && sprites["HydraliskUpgrade"]->
-		GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) && 
-		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
-	{
-		std::cout << "HydraliskUpgrade!!" << std::endl;
-		Upgrade();
-	}
+}
 
-	else if (sprites["GhostUpgrade"]->GetActive() &&
-		sprites["GhostUpgrade"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
-		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
-	{
-		std::cout << "GhostUpgrade!!" << std::endl;
-		Upgrade();
-	}
-
-	else if (sprites["DragoonUpgrade"]->GetActive() &&
-		sprites["DragoonUpgrade"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
-		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
-	{
-		std::cout << "DragoonUpgrade!!" << std::endl;
-		Upgrade();
-	}
-
+void Interface::UpdateSellUnitSellect(float dt)
+{
 	// 판매 건물 상호작용
-	if (sprites["GhostSell"]->GetActive() && sprites["GhostSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+	if (sprites["GhostSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
 		std::cout << "GhostSell!!" << std::endl;
-
+		SetActiveSell(false);
+		SetActiveSellInfo(true, SCUnit::Type::Ghost);
+		uiUnitType = SCUnit::Type::Ghost;
+		uiStatus = UIStatus::SellRaritySellect;
 	}
-	else if (sprites["HydraliskSell"]->GetActive() &&
-		sprites["HydraliskSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+	else if (sprites["HydraliskSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
 		std::cout << "HydraliskSell!!" << std::endl;
-		SetActiveSellInfo(true);
-		sprites["GhostSell"]->SetActive(false);
-		sprites["HydraliskSell"]->SetActive(false);
-		sprites["DragoonSell"]->SetActive(false);
+		SetActiveSell(false);
+		SetActiveSellInfo(true, SCUnit::Type::Hydralisk);
+		uiUnitType = SCUnit::Type::Hydralisk;
+		uiStatus = UIStatus::SellRaritySellect;
 	}
-		else if (sprites["DragoonSell"]->GetActive() &&
-		sprites["DragoonSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+	else if (sprites["DragoonSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
 		std::cout << "DragoonSell!!" << std::endl;
-
+		SetActiveSell(false);
+		SetActiveSellInfo(true, SCUnit::Type::Dragoon);
+		uiUnitType = SCUnit::Type::Dragoon;
+		uiStatus = UIStatus::SellRaritySellect;
 	}
 
-	HydraliskSellUpdate();
+}
 
+void Interface::UpdateSellRaritySellect(float dt)
+{
+	switch (uiUnitType)
+	{
+	case SCUnit::Type::Hydralisk:
+		HydraliskSellUpdate();
+		break;
+	case SCUnit::Type::Dragoon:
+		DragoonSellUpdate();
+		break;
+	case SCUnit::Type::Ghost:
+		GhostSellUpdate();
+		break;
+	}
+}
+
+void Interface::UpdateUnit(float dt)
+{
 }
 
 void Interface::LateUpdate(float dt)
@@ -339,19 +484,37 @@ void Interface::SetActiveSell(bool active)
 	}
 }
 
-void Interface::SetActiveSellInfo(bool active)
+void Interface::SetActiveSellInfo(bool active,SCUnit::Type t)
 {
-	sprites["HydraliskNormal"]->SetActive(active);
-	sprites["HydraliskRare"]->SetActive(active);
-	sprites["HydraliskAncient"]->SetActive(active);
-	sprites["HydraliskArtifact"]->SetActive(active);
-	sprites["HydraliskNarrative"]->SetActive(active);
+	switch (t)
+	{
+	case SCUnit::Type::Hydralisk:
+		sprites["HydraliskNormal"]->SetActive(active);
+		sprites["HydraliskRare"]->SetActive(active);
+		sprites["HydraliskAncient"]->SetActive(active);
+		sprites["HydraliskArtifact"]->SetActive(active);
+		sprites["HydraliskNarrative"]->SetActive(active);
+		break;
+	case SCUnit::Type::Dragoon:
+		sprites["DragoonNormal"]->SetActive(active);
+		sprites["DragoonRare"]->SetActive(active);
+		sprites["DragoonAncient"]->SetActive(active);
+		sprites["DragoonArtifact"]->SetActive(active);
+		sprites["DragoonNarrative"]->SetActive(active);
+		break;
+	case SCUnit::Type::Ghost:
+		sprites["GhostNormal"]->SetActive(active);
+		sprites["GhostRare"]->SetActive(active);
+		sprites["GhostAncient"]->SetActive(active);
+		sprites["GhostArtifact"]->SetActive(active);
+		sprites["GhostNarrative"]->SetActive(active);
+		break;
+	}
 }
 
 void Interface::HydraliskSellUpdate()
 {
-	if (sprites["HydraliskNormal"]->GetActive() &&
-		sprites["HydraliskNormal"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+	if (sprites["HydraliskNormal"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
 		for (auto& data : buildings)
@@ -365,8 +528,7 @@ void Interface::HydraliskSellUpdate()
 		}
 	}
 
-	else if (sprites["HydraliskRare"]->GetActive() &&
-		sprites["HydraliskRare"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+	else if (sprites["HydraliskRare"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
 		for (auto& data : buildings)
@@ -381,8 +543,7 @@ void Interface::HydraliskSellUpdate()
 	}
 
 
-	else if (sprites["HydraliskAncient"]->GetActive() &&
-		sprites["HydraliskAncient"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+	else if (sprites["HydraliskAncient"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
 		for (auto& data : buildings)
@@ -396,8 +557,7 @@ void Interface::HydraliskSellUpdate()
 		}
 	}
 
-	else if (sprites["HydraliskArtifact"]->GetActive() &&
-		sprites["HydraliskArtifact"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+	else if (sprites["HydraliskArtifact"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
 		for (auto& data : buildings)
@@ -411,8 +571,7 @@ void Interface::HydraliskSellUpdate()
 		}
 	}
 
-	else if (sprites["HydraliskNarrative"]->GetActive() &&
-		sprites["HydraliskNarrative"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+	else if (sprites["HydraliskNarrative"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
 		for (auto& data : buildings)
@@ -422,6 +581,154 @@ void Interface::HydraliskSellUpdate()
 				SellBuilding* building = dynamic_cast<SellBuilding*>
 					(data.second);
 				building->Sell(SCUnit::Type::Hydralisk, SCUnit::Rarity::Saga);
+			}
+		}
+	}
+}
+
+void Interface::DragoonSellUpdate()
+{
+	if (sprites["DragoonNormal"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		for (auto& data : buildings)
+		{
+			if (data.second->GetBuildingType() == Building::BuildingType::SELL)
+			{
+				SellBuilding* building = dynamic_cast<SellBuilding*>
+					(data.second);
+				building->Sell(SCUnit::Type::Dragoon, SCUnit::Rarity::Common);
+			}
+		}
+	}
+
+	else if (sprites["DragoonRare"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		for (auto& data : buildings)
+		{
+			if (data.second->GetBuildingType() == Building::BuildingType::SELL)
+			{
+				SellBuilding* building = dynamic_cast<SellBuilding*>
+					(data.second);
+				building->Sell(SCUnit::Type::Dragoon, SCUnit::Rarity::Rare);
+			}
+		}
+	}
+
+
+	else if (sprites["DragoonAncient"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		for (auto& data : buildings)
+		{
+			if (data.second->GetBuildingType() == Building::BuildingType::SELL)
+			{
+				SellBuilding* building = dynamic_cast<SellBuilding*>
+					(data.second);
+				building->Sell(SCUnit::Type::Dragoon, SCUnit::Rarity::Ancient);
+			}
+		}
+	}
+
+	else if (sprites["DragoonArtifact"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		for (auto& data : buildings)
+		{
+			if (data.second->GetBuildingType() == Building::BuildingType::SELL)
+			{
+				SellBuilding* building = dynamic_cast<SellBuilding*>
+					(data.second);
+				building->Sell(SCUnit::Type::Dragoon, SCUnit::Rarity::Artifact);
+			}
+		}
+	}
+
+	else if (sprites["DragoonNarrative"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		for (auto& data : buildings)
+		{
+			if (data.second->GetBuildingType() == Building::BuildingType::SELL)
+			{
+				SellBuilding* building = dynamic_cast<SellBuilding*>
+					(data.second);
+				building->Sell(SCUnit::Type::Dragoon, SCUnit::Rarity::Saga);
+			}
+		}
+	}
+}
+
+void Interface::GhostSellUpdate()
+{
+	if (sprites["GhostNormal"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		for (auto& data : buildings)
+		{
+			if (data.second->GetBuildingType() == Building::BuildingType::SELL)
+			{
+				SellBuilding* building = dynamic_cast<SellBuilding*>
+					(data.second);
+				building->Sell(SCUnit::Type::Ghost, SCUnit::Rarity::Common);
+			}
+		}
+	}
+
+	else if (sprites["GhostRare"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		for (auto& data : buildings)
+		{
+			if (data.second->GetBuildingType() == Building::BuildingType::SELL)
+			{
+				SellBuilding* building = dynamic_cast<SellBuilding*>
+					(data.second);
+				building->Sell(SCUnit::Type::Ghost, SCUnit::Rarity::Rare);
+			}
+		}
+	}
+
+
+	else if (sprites["GhostAncient"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		for (auto& data : buildings)
+		{
+			if (data.second->GetBuildingType() == Building::BuildingType::SELL)
+			{
+				SellBuilding* building = dynamic_cast<SellBuilding*>
+					(data.second);
+				building->Sell(SCUnit::Type::Ghost, SCUnit::Rarity::Ancient);
+			}
+		}
+	}
+
+	else if (sprites["GhostArtifact"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		for (auto& data : buildings)
+		{
+			if (data.second->GetBuildingType() == Building::BuildingType::SELL)
+			{
+				SellBuilding* building = dynamic_cast<SellBuilding*>
+					(data.second);
+				building->Sell(SCUnit::Type::Ghost, SCUnit::Rarity::Artifact);
+			}
+		}
+	}
+
+	else if (sprites["GhostNarrative"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
+		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
+	{
+		for (auto& data : buildings)
+		{
+			if (data.second->GetBuildingType() == Building::BuildingType::SELL)
+			{
+				SellBuilding* building = dynamic_cast<SellBuilding*>
+					(data.second);
+				building->Sell(SCUnit::Type::Ghost, SCUnit::Rarity::Saga);
 			}
 		}
 	}

@@ -19,7 +19,8 @@ void Dragoon::Init()
 	SCUnit::Init();
 
 	SetTexture("graphics/Dragoon.png");
-
+	hitBox.setSize({ 32.f,32.f });
+	hitBox.setOrigin(hitBox.getSize() / 2.f);
 	GetSprite()->setTextureRect({ 0, 0, 65, 65 });
 
 	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/Dragoon.csv"));
@@ -40,7 +41,7 @@ void Dragoon::Reset()
 void Dragoon::Update(float dt)
 {
 	SpriteGo::Update(dt);
-
+	hitBox.setPosition(position);
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right) && isSelect)
 	{
 		Astar(dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos());
@@ -164,6 +165,49 @@ void Dragoon::Update(float dt)
 		if ((Utils::Distance(GetPosition(), target->GetPosition()) > attackRange * 32))
 		{
 			target = nullptr;
+		}
+	}
+
+	//********* 面倒贸府 **********
+	for (auto go : sceneGame->GetAllUnitList())
+	{
+		if (go == this)
+		{
+			continue;
+		}
+		sf::FloatRect thisBounds = hitBox.getGlobalBounds();
+		sf::FloatRect otherBounds = go->GetHitBox().getGlobalBounds();
+		if (thisBounds.intersects(otherBounds) && currentStatus == SCUnit::Status::MOVE) // 面倒 矫
+		{
+			stuckTimer += dt;
+			float left = otherBounds.left + otherBounds.width - thisBounds.left;
+			float right = thisBounds.left + thisBounds.width - otherBounds.left;
+			float top = otherBounds.top + otherBounds.height - thisBounds.top;
+			float bottom = thisBounds.top + thisBounds.height - otherBounds.top;
+
+			if (left < right && left < top && left < bottom)
+			{
+				SetPosition({ position.x + left , position.y });
+			}
+			else if (right < left && right < top && right < bottom)
+			{
+				SetPosition({ position.x - right , position.y });
+			}
+			else if (top < left && top < right && top < bottom)
+			{
+				SetPosition({ position.x, position.y + top });
+			}
+			else
+			{
+				SetPosition({ position.x, position.y - bottom });
+			}
+		}
+		if (stuckTimer > 2.f)
+		{
+			isAster = false;
+			animator->Play(animationName + "Idle", true, false);
+			SetStatus(SCUnit::Status::IDLE);
+			stuckTimer = 0;
 		}
 	}
 }
