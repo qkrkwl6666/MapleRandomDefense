@@ -8,11 +8,13 @@ class Dragoon;
 class Ghost;
 class Enemy;
 class TextGo;
+class Civilian;
 
 class TileSet;
 class Interface;
 class Building;
 class Spawner;
+
 
 class SceneGame : public Scene
 {
@@ -31,11 +33,10 @@ protected:
 	TileSet* tileSet = nullptr;
 	Spawner* spawner = nullptr;
 
-
 	Interface* mainInterface = nullptr;
 	ShapeGo<sf::RectangleShape>* leftFiller;
 	ShapeGo<sf::RectangleShape>* rightFiller;
-
+	Civilian* civilian = nullptr;
 	Crosshair* mouse = nullptr;
 	sf::Vector2i screenPos;
 	sf::Vector2f worldPos;

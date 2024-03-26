@@ -199,7 +199,6 @@ public:
 
 	void SetSelect(bool isSelect);
 
-
-
+	void SetIsAster(bool Aster) { isAster = Aster; }
 };
 
