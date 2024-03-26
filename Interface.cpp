@@ -275,37 +275,34 @@ void Interface::Update(float dt)
 	{
 		mouseOnUi = false;
 	}
+	std::cout << mouseOnUi << std::endl;
+
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left) && !isSelecting)
 	{
 		isSelecting = true;
-
 		selectStartPos = worldMousePos;
 		selectBox->SetActive(true);
-
 		selectBox->SetPosition(selectStartPos); // 시작 위치
 	}
-
 	else if (InputMgr::GetMouseButtonUp(sf::Mouse::Left) && isSelecting)
 	{
-		noUnits = true;
 		for (SCUnit* scUnit : isSelectList)
 		{
-			scUnit->SetSelect(false);
+			if (scUnit != nullptr)
+			{
+				scUnit->SetSelect(false);
+			}
 		}
 		isSelectList.clear();
-
-		for (auto& build : buildings)
-		{
-			build.second->SetSelect(false);
-		}
-
+		noUnits = true;
 		isSelecting = false;
 		selectBox->SetActive(false);
 		// 유닛 검사
 		std::list<SCUnit*> allUnit = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetAllUnitList();
 		for (SCUnit* scUnit : allUnit)
 		{
-			if (selectBox->GetGlobalBounds().contains(scUnit->GetPosition()))
+			if (scUnit->GetHitBox().getGlobalBounds().intersects(selectBox->GetGlobalBounds())
+				|| scUnit->GetHitBox().getGlobalBounds().contains(selectBox->GetPosition()))
 			{
 				UItarget = scUnit;
 				SetWarframeView(true);
@@ -324,6 +321,11 @@ void Interface::Update(float dt)
 		// 건물 검사 유닛 없을때만
 		if (noUnits && !mouseOnUi)
 		{
+			for (SCUnit* scUnit : isSelectList)
+			{
+				scUnit->SetSelect(false);
+			}
+			isSelectList.clear();
 			for (const auto& pair : buildings)
 			{
 				Building* building = pair.second;
@@ -377,9 +379,17 @@ void Interface::Update(float dt)
 					}
 				}
 			}
-			UItarget = nullptr; // 아무것도 못 찍었을 때,
-			uiStatus = UIStatus::NONE;
-			SetWarframeView(false);
+			if (!mouseOnUi) {
+
+				UItarget = nullptr; // 아무것도 못 찍었을 때,
+				uiStatus = UIStatus::NONE;
+				SetActiveSell(false);
+				SetActiveUpgrade(false);
+				SetActiveSellInfo(false, SCUnit::Type::Hydralisk);
+				SetActiveSellInfo(false, SCUnit::Type::Ghost);
+				SetActiveSellInfo(false, SCUnit::Type::Dragoon);
+				SetWarframeView(false);
+			}
 		}
 
 	}
@@ -507,7 +517,7 @@ void Interface::UpdateSellRaritySellect(float dt)
 	sprites["Warframe"]->SetTexture("graphics/UI/Interface/SellWarframe.png");
 	texts["UIName"]->SetString(L"UNIT ▶판매 & 교환");
 	texts["UIAttackType"]->SetString(L"");
-
+	building->SetSelect(true);
 	for (int i = 0; i < 5; ++i) {
 		rarity[i] = 0;
 	}
@@ -629,7 +639,6 @@ void Interface::UpdateUnit(float dt)
 	default:
 		break;
 	}
-	std::cout << scUnit->GetDamage() << std::endl;
 }
 
 void Interface::LateUpdate(float dt)
