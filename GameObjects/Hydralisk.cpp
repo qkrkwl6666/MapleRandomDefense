@@ -8,8 +8,9 @@ Hydralisk::Hydralisk(const std::string& name, SCUnit::Rarity r)
 	: SCUnit(name, "Hydralisk")
 {
 	rarity = r;
-	attackRange = 6.f;
-	attackInterval = 1.f;
+	attackRange = 5.f;
+	Damage = 3;
+	attackInterval = 1.0f;
 }
 
 Hydralisk::~Hydralisk()

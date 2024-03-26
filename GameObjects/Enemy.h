@@ -57,7 +57,7 @@ public:
 
 	sf::Vector2f currentDirection;
 	int Dir = (int)Dir::LEFT;
-	float moveSpeed = 300.f;
+	float moveSpeed = 100.f;
 
 	Angle currentAngle = Angle::RIGHT;
 
