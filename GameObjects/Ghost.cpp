@@ -9,6 +9,9 @@ Ghost::Ghost(const std::string& name, SCUnit::Rarity r)
 	: SCUnit(name, "Ghost")
 {
 	rarity = r;
+	attackRange = 6.f;
+	Damage = 8;
+	attackInterval = 1.0f;
 }
 
 Ghost::~Ghost()

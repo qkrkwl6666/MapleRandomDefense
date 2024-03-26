@@ -8,6 +8,9 @@ Dragoon::Dragoon(const std::string& name, SCUnit::Rarity r)
 	: SCUnit(name, "Dragoon")
 {
 	rarity = r;
+	attackRange = 5.f;
+	Damage = 6;
+	attackInterval = 1.2f;
 }
 
 Dragoon::~Dragoon()
@@ -43,7 +46,6 @@ void Dragoon::Reset()
 void Dragoon::Update(float dt)
 {
 	SCUnit::Update(dt);
-
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right) && isSelect && currentStatus != Status::ATTACK)
 	{
