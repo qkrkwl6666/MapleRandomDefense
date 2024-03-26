@@ -275,7 +275,6 @@ void Interface::Update(float dt)
 	{
 		mouseOnUi = false;
 	}
-	std::cout << mouseOnUi << std::endl;
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left) && !isSelecting)
 	{

@@ -23,6 +23,7 @@ void DragoonBullet::Init(Enemy* t, int d)
 	targetPos = target->GetPosition();
 	direction = targetPos - position;
 	Utils::Normalize(direction);
+	animator->Play("DragoonBullet", true);
 }
 
 void DragoonBullet::Update(float dt)
