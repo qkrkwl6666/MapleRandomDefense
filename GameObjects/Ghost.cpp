@@ -2,6 +2,8 @@
 #include "Ghost.h"
 #include "Crosshair.h"
 #include "SceneGame.h"
+#include "Projectile.h"
+#include "Enemy.h"
 
 Ghost::Ghost(const std::string& name, SCUnit::Rarity r)
 	: SCUnit(name, "Ghost")
@@ -28,6 +30,12 @@ void Ghost::Init()
 	SetOrigin(Origins::MC);
 
 	type = SCUnit::Type::Ghost;
+
+	projectile->SetTexture("graphics/GhostProjectile.png");
+	projectile->GetSprite()->setTextureRect({ 0, 0,	38,	37});
+	projectile->SetOrigin(Origins::MC);
+	projectile->SetScale({ 1.f , 1.f });
+	projectile->GetAnimator()->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/GhostProjectile.csv"));
 }
 
 void Ghost::Reset()
@@ -43,6 +51,11 @@ void Ghost::Update(float dt)
 	{
 		Astar(dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos());
 	}
+
+	//if (projectile->GetActive() && target != nullptr)
+	//{
+	//	projectile->SetPosition(target->GetPosition());
+	//}
 }
 
 void Ghost::LateUpdate(float dt)

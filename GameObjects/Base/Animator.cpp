@@ -64,7 +64,7 @@ void Animator::Update(float dt)
 		{
 			std::string id = queue.front();
 			queue.pop();
-			Play(id, false , false);
+			Play(id, false);
 			return;
 		}
 
@@ -129,7 +129,7 @@ void Animator::Update(float dt, Angle currentAngle)
 		{
 			std::string id = queue.front();
 			queue.pop();
-			Play(id, true , true);
+			Play(id, true , true , currentAngle);
 			return;
 		}
 
@@ -275,7 +275,6 @@ bool AnimationClip::loadFromFile(const std::string& filePath)
 		frames.push_back({ row[0] , {std::stoi(row[1]),std::stoi(row[2]),
 			std::stoi(row[3]),std::stoi(row[4])}, std::stoi(row[5]) });
 	}
-
 
 	return true;
 }

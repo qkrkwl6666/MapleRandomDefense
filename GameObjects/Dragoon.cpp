@@ -82,7 +82,7 @@ void Dragoon::Update(float dt)
 		}
 		if (!animator->IsPlaying())
 		{
-			animator->Play(animationName + "Idle", true, false);
+			animator->Play(animationName + "Idle", true, false , currentAngle);
 		}
 
 		animator->Update(dt);
@@ -90,7 +90,7 @@ void Dragoon::Update(float dt)
 	case SCUnit::Status::MOVE:
 		if (!animator->IsPlaying())
 		{
-			animator->Play(animationName + "Move", true, true);
+			animator->Play(animationName + "Move", true, true , currentAngle);
 		}
 
 		if (!path.empty())
@@ -138,7 +138,7 @@ void Dragoon::Update(float dt)
 	case SCUnit::Status::ATTACK:
 		if (!animator->IsPlaying())
 		{
-			animator->Play(animationName + "Attack", true, true);
+			animator->Play(animationName + "Attack", true, true , currentAngle);
 		}
 		animator->Update(dt, currentAngle);
 		break;
@@ -207,7 +207,7 @@ void Dragoon::Update(float dt)
 		if (stuckTimer > 2.f)
 		{
 			isAster = false;
-			animator->Play(animationName + "Idle", true, false);
+			animator->Play(animationName + "Idle", true, false , currentAngle);
 			SetStatus(SCUnit::Status::IDLE);
 			stuckTimer = 0;
 		}
