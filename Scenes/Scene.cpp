@@ -87,6 +87,7 @@ void Scene::Exit()
 }
 
 void Scene::Update(float dt)
+
 {
 	for (auto obj : gameObjects)
 	{

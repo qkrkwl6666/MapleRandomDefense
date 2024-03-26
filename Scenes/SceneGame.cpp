@@ -109,8 +109,8 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 
 Enemy* SceneGame::FindEnemy(sf::Vector2f pos, float range)
 {
-	float distance;
-	for (auto& go : *EnemyList)
+	float distance = 0.f;
+	for (auto* go : *EnemyList)
 	{
 		distance = Utils::Distance(pos, go->GetPosition());
 		if (distance < range * 32)

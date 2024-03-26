@@ -51,7 +51,8 @@ void Enemy::Update(float dt)
 	SpriteGo::Update(dt);
 
 	animator->Update(dt, currentAngle);
-	std::cout << hp << std::endl;
+
+	//std::cout << GetPosition().x << " " << GetPosition().y << std::endl;
 
 	if (Dir == 3 || Dir == 6 || Dir == 7)
 	{
@@ -85,7 +86,7 @@ void Enemy::Update(float dt)
 				currentAngle = angleMMap[Dir];
 				break;
 			}
-			Translate(currentDirection * dt * (moveSpeed / 2));
+			Translate(currentDirection * dt * (moveSpeed / 2.f));
 			break;
 
 		case (int)Dir::DOWN:
@@ -109,7 +110,7 @@ void Enemy::Update(float dt)
 				currentAngle = angleMMap[Dir];
 				break;
 			}
-			Translate(currentDirection * dt * (moveSpeed / 2));
+			Translate(currentDirection * dt * (moveSpeed / 2.f));
 			break;
 
 		case (int)Dir::RIGHT:
@@ -133,7 +134,7 @@ void Enemy::Update(float dt)
 				currentAngle = angleMMap[Dir];
 				break;
 			}
-			Translate(currentDirection * dt * (moveSpeed / 2));
+			Translate(currentDirection * dt * (moveSpeed / 2.f));
 			break;
 
 		case (int)Dir::TOP:
@@ -157,7 +158,7 @@ void Enemy::Update(float dt)
 				currentAngle = angleMMap[Dir];
 				break;
 			}
-			Translate(currentDirection * dt * (moveSpeed / 2));
+			Translate(currentDirection * dt * (moveSpeed / 2.f));
 			break;
 	}
 }

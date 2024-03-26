@@ -8,7 +8,7 @@ Hydralisk::Hydralisk(const std::string& name, SCUnit::Rarity r)
 	: SCUnit(name, "Hydralisk")
 {
 	rarity = r;
-	attackRange = 5.f;
+	attackRange = 6.f;
 	attackInterval = 1.f;
 }
 
@@ -49,6 +49,7 @@ void Hydralisk::Update(float dt)
 {
 	SCUnit::Update(dt);
 
+
 	if (projectile->GetActive() && !GetFlipX())
 	{
 		projectile->SetPosition({GetPosition().x + 19.f, GetPosition().y});
@@ -58,7 +59,7 @@ void Hydralisk::Update(float dt)
 		projectile->SetPosition({ GetPosition().x - 19.f, GetPosition().y });
 	}
 
-	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right) && isSelect)
+	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right) && isSelect && currentStatus != Status::ATTACK)
 	{
 		Astar(dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos());
 	}

@@ -247,8 +247,8 @@ void UIAnimatorEditer::LateUpdate(float dt)
 
 			if (MouseSpriteMouseLeftEvent("AnimationView"))
 			{
-				animator->AddClip(RES_MGR_ANIMATIONCLIP.Get(CsvFilePath));
-				animator->Play(Utils::WSTRINGToString(idWstring));
+				//animator->AddClip(RES_MGR_ANIMATIONCLIP.Get(CsvFilePath));
+				//animator->Play(Utils::WSTRINGToString(idWstring));
 			}
 
 			MouseHandle("IdSprite", Types::ID_INPUT);

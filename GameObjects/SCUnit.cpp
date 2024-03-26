@@ -56,6 +56,10 @@ void SCUnit::Update(float dt)
 {
 	SpriteGo::Update(dt);
 	hitBox.setPosition(position);
+
+	/*if(type == Type::Hydralisk)
+		std::cout << (int)currentStatus << std::endl;*/
+
 	if (InputMgr::GetKeyUp(sf::Keyboard::Space))
 	{
 		if (isSelectSprite->GetActive() && isSelect)
@@ -80,31 +84,35 @@ void SCUnit::Update(float dt)
 			SetStatus(Status::IDLE);
 			break;
 		case SCUnit::Status::IDLE:
-			animator->PlayIdle(animationName + "Move", true, currentAngle);
-			projectile->SetActive(false);
-			if (isAster == true)
 			{
-				SetStatus(Status::MOVE);
-				isAster = false;
+				animator->PlayIdle(animationName + "Move", true, currentAngle);
+				projectile->SetActive(false);
+				if (isAster == true)
+				{
+					SetStatus(Status::MOVE);
+					isAster = false;
+					break;
+				}
+
+				if (target == nullptr)
+				{
+					target = sceneGame->FindEnemy(GetPosition(), attackRange);
+
+					if (target != nullptr)
+					{
+						SetStatus(Status::ATTACK);
+						break;
+					}
+					break;
+				}
 				break;
 			}
-
-			if (target == nullptr)
-			{
-				target = sceneGame->FindEnemy(GetPosition(), attackRange);
-				if (target != nullptr)
-				{
-					SetStatus(Status::ATTACK);
-				}
-			}
-
-			//animator->Update(dt, currentAngle);
 			break;
 		case SCUnit::Status::MOVE:
 			if (!animator->IsPlaying())
 			{
 				projectile->SetActive(false);
-				animator->Play(animationName + "Move", true, true);
+				animator->Play(animationName + "Move", true, true , currentAngle);
 			}
 
 			if (!path.empty())
@@ -151,46 +159,59 @@ void SCUnit::Update(float dt)
 			animator->Update(dt, currentAngle);
 			break;
 		case SCUnit::Status::ATTACK:
-			if (!animator->IsPlaying())
 			{
-				animator->Play(animationName + "Attack", true, true);
-				projectile->SetActive(true);
-				projectile->GetAnimator()->Play(animationName + "Projectile", true, true);
-			}
+				if (!animator->IsPlaying())
+				{
+					animator->Play(animationName + "Attack", true, true , currentAngle);
+					projectile->SetActive(true);
+					projectile->GetAnimator()->Play(animationName + "Projectile", true, true , currentAngle);
+				}
 
-			if ((Utils::Distance(GetPosition(), target->GetPosition()) > attackRange * 32 
-				|| target == nullptr))
-			{
-				target = nullptr;
-				SetStatus(SCUnit::Status::IDLE);
+				if (target != nullptr)
+				{
+					float dic = Utils::Distance(GetPosition(), target->GetPosition());
+					std::cout << dic << std::endl;
+					std::cout << target << std::endl;
+					std::cout << target->GetPosition().x << " " << target->GetPosition().y << std::endl << std::endl;
+					if (dic > attackRange * 32)
+					{
+						target = sceneGame->FindEnemy(GetPosition() , attackRange);
+
+						if (target == nullptr)
+						{
+							SetStatus(Status::IDLE);
+							break;
+						}
+					}
+				}
+
+				direction = target->GetPosition() - GetPosition();
+
+				Utils::Normalize(direction);
+				float aniAngle = Utils::FindNearestAngleconst(AnimationAngle, Utils::Angle(direction));
+				currentAngle = angleMap[aniAngle];
+				if (aniAngle < -90 || aniAngle > 90)
+				{
+					SetFlipX(true);
+					projectile->SetFlipX(true);
+				}
+				else
+				{
+					SetFlipX(false);
+					projectile->SetFlipX(false);
+				}
+				attackTimer += dt;
+				// 데미지 처리
+				if (attackTimer >= attackInterval)
+				{
+					attackTimer = 0.f;
+					target->OnDamege(Damage);
+				}
+
+				animator->Update(dt, currentAngle);
+				projectile->Update(dt, currentAngle);
 				break;
 			}
-			attackTimer += dt;
-			direction = target->GetPosition() - GetPosition();
-			Utils::Normalize(direction);
-			float aniAngle = Utils::FindNearestAngleconst(AnimationAngle, Utils::Angle(direction));
-			currentAngle = angleMap[aniAngle];
-			if (aniAngle < -90 || aniAngle > 90)
-			{
-				SetFlipX(true);
-				projectile->SetFlipX(true);
-			}
-			else
-			{
-				SetFlipX(false);
-				projectile->SetFlipX(false);
-			}
-
-			animator->Update(dt, currentAngle);
-			projectile->GetAnimator()->Update(dt, currentAngle);
-
-			// 데미지 처리
-			if (attackTimer >= attackInterval)
-			{
-				attackTimer = 0.f;
-				target->OnDamege(Damage);
-			}
-			break;
 	}
 	//********* 충돌처리 **********
 	for (auto go : sceneGame->GetAllUnitList())
@@ -242,7 +263,7 @@ void SCUnit::LateUpdate(float dt)
 
 	if (projectile->GetActive() && currentStatus == Status::ATTACK)
 	{
-		projectile->LateUpdate(dt);
+		//projectile->LateUpdate(dt);
 	}
 }
 
