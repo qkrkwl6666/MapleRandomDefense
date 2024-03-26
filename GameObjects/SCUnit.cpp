@@ -199,7 +199,6 @@ void SCUnit::Update(float dt)
 
 						case SCUnit::Type::Ghost:
 							projectile->GetAnimator()->Play(animationName + "Projectile");
-
 							break;
 					}
 					

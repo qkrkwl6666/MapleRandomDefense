@@ -36,6 +36,11 @@ void Ghost::Init()
 	projectile->SetOrigin(Origins::MC);
 	projectile->SetScale({ 1.f , 1.f });
 	projectile->GetAnimator()->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/GhostProjectile.csv"));
+
+	projectile->GetAnimator()->AddEvent("GhostProjectile", 1, [this]()
+		{
+			this->projectile->SetPosition(this->GetTarget()->GetPosition());
+		});
 }
 
 void Ghost::Reset()
