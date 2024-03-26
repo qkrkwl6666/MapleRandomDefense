@@ -294,6 +294,11 @@ void Interface::Update(float dt)
 		}
 		isSelectList.clear();
 
+		for (auto& build : buildings)
+		{
+			build.second->SetSelect(false);
+		}
+
 		isSelecting = false;
 		selectBox->SetActive(false);
 		// À¯´Ö °Ë»ç
