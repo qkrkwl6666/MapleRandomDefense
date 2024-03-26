@@ -8,7 +8,7 @@ class DragoonBullet :
 {
 protected:
 	Enemy* target = nullptr;
-	float speed = 300;
+	float speed = 800;
 	int damage;
 	sf::Vector2f direction;
 	sf::Vector2f targetPos;

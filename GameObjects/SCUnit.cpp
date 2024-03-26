@@ -6,6 +6,7 @@
 #include "Enemy.h"
 #include "Projectile.h"
 #include "TileSet.h"
+#include "DragoonBullet.h"
 
 SCUnit::SCUnit(const std::string& name, const std::string& animationName)
 	: SpriteAnimatorGo(name), animationName(animationName)
@@ -268,8 +269,20 @@ void SCUnit::Update(float dt)
 				// 데미지 처리
 				if (attackTimer >= attackInterval)
 				{
-					attackTimer = 0.f;
-					target->OnDamege(Damage);
+					if (type == Type::Dragoon)
+					{
+						DragoonBullet* bullet = new DragoonBullet("graphics/DragoonBullet.png", "Animation/AnimatorEditer/DragoonBullet");
+						bullet->SetPosition(position);
+						bullet->Init(target, damage);
+						sceneGame->AddGo(bullet);
+						attackTimer = 0.f;
+					}
+					else
+					{
+						attackTimer = 0.f;
+						if(target != nullptr)
+						target->OnDamege(damage);
+					}
 				}
 
 				switch (type)

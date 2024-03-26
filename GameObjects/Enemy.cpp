@@ -54,6 +54,10 @@ void Enemy::Update(float dt)
 
 	//std::cout << GetPosition().x << " " << GetPosition().y << std::endl;
 
+	if (hp <= 0)
+	{
+		Dead();
+	}
 	if (Dir == 3 || Dir == 6 || Dir == 7)
 	{
 		SetFlipX(true);
@@ -177,15 +181,7 @@ void Enemy::Draw(sf::RenderWindow& window)
 
 void Enemy::OnDamege(float damage)
 {
-	if (hp - damage <= 0)
-	{
-		hp = 0;
-		Dead();
-	}
-	else
-	{
-		hp -= damage;
-	}
+	hp -= damage;
 }
 
 void Enemy::Dead()

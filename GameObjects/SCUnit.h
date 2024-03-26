@@ -106,7 +106,7 @@ protected:
 	bool sellable = true; // 전설 신화 태초만 false
 
 	// 공격 
-	float Damage = 3.f;
+	float damage = 3.f;
 	float attackRange = 10.f;
 	float attackInterval = 1.f;
 	float attackTimer = 0.f;
