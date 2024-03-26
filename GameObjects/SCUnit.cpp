@@ -191,15 +191,24 @@ void SCUnit::Update(float dt)
 				{
 					animator->Play(animationName + "Attack", true, true , currentAngle);
 					projectile->SetActive(true);
-					projectile->GetAnimator()->Play(animationName + "Projectile", true, true , currentAngle);
+					switch (type)
+					{
+						case SCUnit::Type::Hydralisk:
+							projectile->GetAnimator()->Play(animationName + "Projectile", true, true, currentAngle);
+							break;
+
+						case SCUnit::Type::Ghost:
+							projectile->GetAnimator()->Play(animationName + "Projectile");
+
+							break;
+					}
+					
 				}
 
 				if (target != nullptr)
 				{
 					float dic = Utils::Distance(GetPosition(), target->GetPosition());
-					std::cout << dic << std::endl;
-					std::cout << target << std::endl;
-					std::cout << target->GetPosition().x << " " << target->GetPosition().y << std::endl << std::endl;
+					
 					if (dic > attackRange * 32)
 					{
 						target = sceneGame->FindEnemy(GetPosition() , attackRange);
@@ -236,7 +245,16 @@ void SCUnit::Update(float dt)
 				}
 
 				animator->Update(dt, currentAngle);
-				projectile->Update(dt, currentAngle);
+				switch (type)
+				{
+					case SCUnit::Type::Hydralisk:
+						projectile->Update(dt, currentAngle);
+						break;
+
+					case SCUnit::Type::Ghost:
+						projectile->Update(dt);
+						break;
+				}
 				break;
 			}
 	}

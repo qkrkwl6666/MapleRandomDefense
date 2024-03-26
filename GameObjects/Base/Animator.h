@@ -111,7 +111,7 @@ public:
 	void Update(float dt);
 	void Update(float dt , Angle currentAngle);
 	void Play(const std::string& clipId, bool clearQueue = true);
-	void Play(const std::string& clipId, bool clearQueue = true, bool isAngle = true , Angle currentAngle = Angle::TOP);
+	void Play(const std::string& clipId, bool clearQueue, bool isAngle, Angle currentAngle);
 
 	void PlayIdle(const std::string& clipId, bool clearQueue = true, Angle currentAngle = Angle::TOP);
 	void PlayQueue(const std::string& clipId);
