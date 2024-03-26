@@ -59,7 +59,14 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 			if (dragoon && dragoon->GetRarity() == r)
 			{
 				it = DragoonList.erase(it);
-				
+				for (auto* data : AllUnitList)
+				{
+					if (data == dragoon)
+					{
+						AllUnitList.remove(data);
+						break;
+					}
+				}
 				dragoon->SellThis();
 				return;
 			}
@@ -77,6 +84,14 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 			if (ghost && ghost->GetRarity() == r)
 			{
 				it = GhostList.erase(it);
+				for (auto* data : AllUnitList)
+				{
+					if (data == ghost)
+					{
+						AllUnitList.remove(data);
+						break;
+					}
+				}
 				ghost->SellThis();
 				return;
 			}
@@ -219,8 +234,9 @@ void SceneGame::Init()
 
 	leftFiller = new ShapeGo<sf::RectangleShape>("leftFiller");
 	rightFiller = new ShapeGo<sf::RectangleShape>("rightFiller");
-
-
+	UnitSummonLocation.setSize(sf::Vector2f(32, 32));
+	UnitSummonLocation.setPosition({16 * 32 , 16 * 32});
+	UnitSummonLocation.setOrigin(UnitSummonLocation.getSize() / 2.f);
 	leftFiller->SetSize({ 
 		((float)FRAMEWORK.GetWindowSize().x / 8),
 		(float) FRAMEWORK.GetWindowSize().y });
@@ -331,7 +347,7 @@ void SceneGame::Update(float dt)
 	if (gas >= 10)
 	{
 		gas -= 10;
-		mineral++;
+		mineral += 5;
 	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::D))
@@ -364,11 +380,6 @@ void SceneGame::Update(float dt)
 		delta = lastMouseWorldPos - worldPos; 
 
 		GetWorldView().move(delta);
-	}
-
-	if (InputMgr::GetKeyDown(sf::Keyboard::Q))
-	{
-		BuyUnit();
 	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::W))
@@ -433,6 +444,27 @@ void SceneGame::Draw(sf::RenderWindow& window)
 
 void SceneGame::BuyUnit()
 {
+	UnitSummonLocation.setPosition({ 16 * 32, 16 * 32 });
+
+	while (true)
+	{
+		SummonStuck = false;
+		for (auto go : AllUnitList)
+		{
+			if (go->GetGlobalBounds().contains(UnitSummonLocation.getPosition()))
+			{
+				SummonStuck = true;
+				break;
+			}
+		}
+
+		if (!SummonStuck)
+		{
+			break;
+		}
+		UnitSummonLocation.setPosition(UnitSummonLocation.getPosition().x + 32, UnitSummonLocation.getPosition().y);
+	}
+
 	int randomUnit = -1;
 	randomUnit = Utils::RandomRange(0, 3);
 	int randomint = -1;
@@ -476,7 +508,7 @@ void SceneGame::BuyUnit()
 	case 0:
 	{
 		Hydralisk* hydralisk = new Hydralisk("hydralisk", randomrarity);
-		hydralisk->SetPosition({ 16.f * 32.f + 16.f, 16.f * 32.f + 16.f });
+		hydralisk->SetPosition(UnitSummonLocation.getPosition());
 		AddGo(hydralisk, Layers::World);
 		hydralisk->Init();
 		HydraliskList.push_back(hydralisk);
@@ -488,7 +520,7 @@ void SceneGame::BuyUnit()
 	case 1:
 	{
 		Dragoon* dragoon = new Dragoon("dragoon", randomrarity);
-		dragoon->SetPosition({ 16.f * 32.f + 16.f, 16.f * 32.f + 16.f });
+		dragoon->SetPosition(UnitSummonLocation.getPosition());
 		AddGo(dragoon, Layers::World);
 		dragoon->Init();
 		DragoonList.push_back(dragoon);
@@ -500,7 +532,7 @@ void SceneGame::BuyUnit()
 	case 2:
 	{
 		Ghost* ghost = new Ghost("ghost", randomrarity);
-		ghost->SetPosition({ 16.f * 32.f + 16.f, 16.f * 32.f + 16.f });
+		ghost->SetPosition(UnitSummonLocation.getPosition());
 		AddGo(ghost, Layers::World);
 		ghost->Init();
 		GhostList.push_back(ghost);

@@ -36,6 +36,8 @@ protected:
 	Interface* mainInterface = nullptr;
 	ShapeGo<sf::RectangleShape>* leftFiller;
 	ShapeGo<sf::RectangleShape>* rightFiller;
+	sf::RectangleShape UnitSummonLocation;
+	bool SummonStuck = false;
 	Civilian* civilian = nullptr;
 	Crosshair* mouse = nullptr;
 	sf::Vector2i screenPos;
@@ -118,6 +120,8 @@ public:
 	sf::Vector2f GetWorldMousePos() { return worldPos; }
 	sf::Vector2i GetScreenMousePos() { return screenPos; }
 	TileSet* GetTileSet() { return tileSet; }
+
+	void GasUp() { gas++; }
 
 	void BuyUnit();
 
