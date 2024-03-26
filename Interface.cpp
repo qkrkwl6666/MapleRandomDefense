@@ -303,7 +303,7 @@ void Interface::Update(float dt)
 			if (selectBox->GetGlobalBounds().contains(scUnit->GetPosition()))
 			{
 				UItarget = scUnit;
-				SetUIView(true);
+				SetWarframeView(true);
 				SetActiveUpgrade(false);
 				SetActiveSell(false);
 				SetActiveSellInfo(false, SCUnit::Type::Hydralisk);
@@ -325,7 +325,7 @@ void Interface::Update(float dt)
 				if (building->GetGlobalBounds().contains(selectBox->GetPosition()))
 				{
 					UItarget = building;
-					SetUIView(true);
+					SetWarframeView(true);
 					SetActiveUpgrade(false);
 					SetActiveSell(false);
 					SetActiveSellInfo(false, SCUnit::Type::Hydralisk);
@@ -365,15 +365,16 @@ void Interface::Update(float dt)
 					{
 						uiStatus = UIStatus::SellUnitSellect;
 						SetActiveSell(true);
-						SetUIView(true);
+						SetWarframeView(true);
+						return;
+						break;
 					}
-					break;
 					}
 				}
 			}
 			UItarget = nullptr; // 아무것도 못 찍었을 때,
 			uiStatus = UIStatus::NONE;
-			SetUIView(false);
+			SetWarframeView(false);
 		}
 
 	}
@@ -931,7 +932,7 @@ void Interface::Upgrade()
 	}
 }
 
-void Interface::SetUIView(bool active)
+void Interface::SetWarframeView(bool active)
 {
 	sprites["Warframe"]->SetActive(active);
 	texts["UIName"]->SetActive(active);

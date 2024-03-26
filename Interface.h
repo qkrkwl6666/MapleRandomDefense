@@ -68,6 +68,6 @@ public:
 	void SetSellUiTexture(const std::string& typeName , const std::string& rarityName, const int rarityIndex);
 	void Upgrade();
 
-	void SetUIView(bool active);
+	void SetWarframeView(bool active);
 };
 
