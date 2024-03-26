@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "Crosshair.h"
+#include "SCUnit.h"
+#include "SceneGame.h"
+
 
 Crosshair::Crosshair(const std::string& name)
 {
@@ -12,26 +15,51 @@ Crosshair::Crosshair(const std::string& name)
 
 void Crosshair::Init()
 {
-	SpriteGo::Init();
+	SpriteAnimatorGo::Init();
+	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/MovingCursor.csv"));
 }
 
 void Crosshair::Release()
 {
-	SpriteGo::Release();
+	SpriteAnimatorGo::Release();
 }
 
 void Crosshair::Reset()
 {
-	SpriteGo::Reset();
+	SpriteAnimatorGo::Reset();
 }
 
 void Crosshair::Update(float dt)
 {
 	sf::Vector2f mouseWorldPos = SCENE_MGR.GetCurrentScene()->ScreenToUi((sf::Vector2i)InputMgr::GetMousePos());
 	SetPosition(mouseWorldPos);
+	animator->Update(dt);
+	std::list<SCUnit*> allUnit = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetAllUnitList();
+	for (SCUnit* scUnit : allUnit)
+	{
+		if (scUnit->GetHitBox().getGlobalBounds().contains(dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos()))
+		{
+			isCursorsCollision = true;
+			break;
+		}
+		isCursorsCollision = false;
+	}
+
+	if (isCursorsCollision && !isCursorsMoving) 
+	{
+		animator->Play("MovingCursor", true);
+		isCursorsMoving = true;
+		SetOrigin(Origins::MC);
+	}
+	else if (!isCursorsCollision)
+	{
+		SetOrigin(Origins::TL);
+		SetTexture(textureId);
+		isCursorsMoving = false;
+	}
 }
 
-void Crosshair::Draw(sf::RenderWindow & window)
+void Crosshair::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
 }
