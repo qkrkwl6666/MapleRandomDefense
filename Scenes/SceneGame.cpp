@@ -23,6 +23,94 @@ SceneGame::SceneGame(SceneIds id) : Scene(id)
 
 }
 
+
+void SceneGame::Init()
+{
+	tileSet = new TileSet();
+	AddGo(tileSet, Scene::World);
+
+	mouse = FRAMEWORK.GetMouse();
+
+	leftFiller = new ShapeGo<sf::RectangleShape>("leftFiller");
+	rightFiller = new ShapeGo<sf::RectangleShape>("rightFiller");
+	
+	leftFiller->SetSize({
+		((float)FRAMEWORK.GetWindowSize().x / 8),
+		(float)FRAMEWORK.GetWindowSize().y });
+
+	rightFiller->SetSize({
+		((float)FRAMEWORK.GetWindowSize().x / 8),
+		(float)FRAMEWORK.GetWindowSize().y });
+
+	leftFiller->SetPosition({ 0,0 });
+	rightFiller->SetPosition({ FRAMEWORK.GetWindowSize().x - rightFiller->GetSize().x, 0 });
+	leftFiller->SetColor(sf::Color::Black);
+	rightFiller->SetColor(sf::Color::Black);
+	AddGo(leftFiller, Layers::Ui);
+	AddGo(rightFiller, Layers::Ui);
+
+	basePosition = { 16 * 32 , 16 * 32 };
+	basePosition += offset;
+	UnitSummonLocation.setSize(sf::Vector2f(25, 25));
+	UnitSummonLocation.setOrigin(UnitSummonLocation.getSize() / 2.f);
+	UnitSummonLocation.setPosition(basePosition);
+
+	buildings["TerranBuilding"] = new UpgradeBuilding("terranBuilding", Building::Races::Terran);
+	buildings["TerranBuilding"]->SetPosition({ 12 * 32 , 27 * 32 });
+	AddGo(buildings["TerranBuilding"], Layers::World);
+
+	buildings["ZergBuilding"] = new UpgradeBuilding("zergBuilding", Building::Races::Zerg);
+	buildings["ZergBuilding"]->SetPosition({ 16 * 32 , 27 * 32 });
+	AddGo(buildings["ZergBuilding"], Layers::World);
+
+	buildings["ProtossBuilding"] = new UpgradeBuilding("protossBuilding", Building::Races::Protoss);
+	buildings["ProtossBuilding"]->SetPosition({ 19 * 32 , 27 * 32 });
+	AddGo(buildings["ProtossBuilding"], Layers::World);
+
+	buildings["Sellbuilding"] = new SellBuilding("sellBuilding");
+	buildings["Sellbuilding"]->SetPosition({ 26 * 32 , 24 * 32 });
+	buildings["Sellbuilding"]->SetScale({ 0.25, 0.23 });
+	AddGo(buildings["Sellbuilding"], Layers::World);
+
+	mainInterface = new Interface("Interface");
+	mainInterface->sortLayer = 10;
+	AddGo(mainInterface, Layers::Ui);
+
+	mineralText = new TextGo("mineral");
+	mineralText->Set(RES_MGR_FONT.Get("font/Kostar.ttf"), std::to_string(mineral), 20, sf::Color::Green);
+	mineralText->SetOrigin(Origins::TL);
+	mineralText->SetPosition({ FRAMEWORK.GetWindowSize().x *
+		0.70f , FRAMEWORK.GetWindowSize().y * 0.005f });
+	mineralText->sortLayer = 10;
+	AddGo(mineralText, Layers::Ui);
+
+	gasText = new TextGo("gas");
+	gasText->Set(RES_MGR_FONT.Get("font/Kostar.ttf"), std::to_string(gas), 20, sf::Color::Green);
+	gasText->SetOrigin(Origins::TL);
+	gasText->SetPosition({ FRAMEWORK.GetWindowSize().x *
+		0.80f , FRAMEWORK.GetWindowSize().y * 0.005f });
+	gasText->sortLayer = 10;
+	AddGo(gasText, Layers::Ui);
+
+	spawner = new Spawner("Spawner");
+	AddGo(spawner, Layers::World);
+
+	Scene::Init();
+
+	tileSet->LoadTileMap("tilejson/Map.json", 0.5f);
+	tileSet->VaSet();
+
+	civilian = new Civilian();
+	AddGo(civilian, Layers::World);
+	civilian->Init();
+	civilian->SetPosition({ 27.f * 32.f + 16.f, 29.f * 32.f + 16.f });
+
+	AllUnitList.push_back(civilian);
+
+	mineral = 25;
+}
+
+
 void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 {
 	switch (t)
@@ -104,7 +192,6 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 	default:
 		break;
 	}
-	std::cout << "유닛 없음" << std::endl;
 }
 
 Enemy* SceneGame::FindEnemy(sf::Vector2f pos, float range)
@@ -128,7 +215,10 @@ void SceneGame::message(MessageType m)
 	case SceneGame::MessageType::NONE:
 		break;
 	case SceneGame::MessageType::NotEnoughMinerals:
-		std::cout << "미네랄 부족" << std::endl;
+		std::cout << "미네랄이 부족합니다!!" << std::endl;
+		break;
+	case SceneGame::MessageType::NoMoreSpace:
+		std::cout << "자리가 가득 찼습니다!" << std::endl;
 		break;
 	case SceneGame::MessageType::count:
 		break;
@@ -198,7 +288,6 @@ void SceneGame::message(MessageType m, SCUnit::Type t, SCUnit::Rarity r)
 	}
 }
 
-
 void SceneGame::message(int i)
 {
 	std::cout << "+ " << i << "원" << std::endl;
@@ -223,92 +312,6 @@ void SceneGame::UpgradeUpdate()
 		SCUnit* dragoon = go;
 		dragoon->SetUpgrade(dragoonUpgrade);
 	}
-}
-
-void SceneGame::Init()
-{
-	tileSet = new TileSet();
-	AddGo(tileSet, Scene::World);
-
-	mouse = FRAMEWORK.GetMouse();
-
-	leftFiller = new ShapeGo<sf::RectangleShape>("leftFiller");
-	rightFiller = new ShapeGo<sf::RectangleShape>("rightFiller");
-	UnitSummonLocation.setSize(sf::Vector2f(32, 32));
-	UnitSummonLocation.setPosition({16 * 32 , 16 * 32});
-	UnitSummonLocation.setOrigin(UnitSummonLocation.getSize() / 2.f);
-	leftFiller->SetSize({ 
-		((float)FRAMEWORK.GetWindowSize().x / 8),
-		(float) FRAMEWORK.GetWindowSize().y });
-
-	rightFiller->SetSize({ 
-		((float)FRAMEWORK.GetWindowSize().x / 8),
-		(float)FRAMEWORK.GetWindowSize().y });
-
-	leftFiller->SetPosition({ 0,0 });
-	rightFiller->SetPosition({ FRAMEWORK.GetWindowSize().x - rightFiller->GetSize().x, 0 });
-	leftFiller->SetColor(sf::Color::Black);
-	rightFiller->SetColor(sf::Color::Black);
-
-	AddGo(leftFiller, Layers::Ui);
-	AddGo(rightFiller, Layers::Ui);
-
-	
-	buildings["TerranBuilding"] = new UpgradeBuilding("terranBuilding", Building::Races::Terran);
-	buildings["TerranBuilding"]->SetPosition({ 12 * 32 , 27 * 32 });
-	AddGo(buildings["TerranBuilding"], Layers::World);
-
-	buildings["ZergBuilding"] = new UpgradeBuilding("zergBuilding", Building::Races::Zerg);
-	buildings["ZergBuilding"]->SetPosition({ 16 * 32 , 27 * 32 });
-	AddGo(buildings["ZergBuilding"], Layers::World);
-	
-	buildings["ProtossBuilding"] = new UpgradeBuilding("protossBuilding", Building::Races::Protoss);
-	buildings["ProtossBuilding"]->SetPosition({ 19 * 32 , 27 * 32 });
-	AddGo(buildings["ProtossBuilding"], Layers::World);
-
-	buildings["Sellbuilding"] = new SellBuilding("sellBuilding");
-	buildings["Sellbuilding"]->SetPosition({ 26 * 32 , 24 * 32 });
-	buildings["Sellbuilding"]->SetScale({ 0.25, 0.23});
-	AddGo(buildings["Sellbuilding"], Layers::World);
-
-	mainInterface = new Interface("Interface");
-	mainInterface->sortLayer = 10;
-	AddGo(mainInterface, Layers::Ui);
-
-	mineralText = new TextGo("mineral");
-	mineralText->Set(RES_MGR_FONT.Get("font/Kostar.ttf"), std::to_string(mineral), 20, sf::Color::Green);
-	mineralText->SetOrigin(Origins::TL);
-	mineralText->SetPosition({ FRAMEWORK.GetWindowSize().x *
-		0.70f , FRAMEWORK.GetWindowSize().y * 0.005f });
-	mineralText->sortLayer = 10;
-	AddGo(mineralText, Layers::Ui);
-
-	gasText = new TextGo("gas");
-	gasText->Set(RES_MGR_FONT.Get("font/Kostar.ttf"), std::to_string(gas), 20, sf::Color::Green);
-	gasText->SetOrigin(Origins::TL);
-	gasText->SetPosition({ FRAMEWORK.GetWindowSize().x *
-		0.80f , FRAMEWORK.GetWindowSize().y * 0.005f });
-	gasText->sortLayer = 10;
-	AddGo(gasText, Layers::Ui);
-
-	spawner = new Spawner("Spawner");
-	AddGo(spawner, Layers::World);
-
-	Scene::Init();
-
-	tileSet->LoadTileMap("tilejson/Map.json", 0.5f);
-	tileSet->VaSet();
-
-	civilian = new Civilian();
-
-	AddGo(civilian, Layers::World);
-
-	civilian->Init();
-
-	civilian->SetPosition({ 27.f * 32.f + 16.f, 29.f * 32.f + 16.f });
-
-	AllUnitList.push_back(civilian);
-
 }
 
 void SceneGame::Release()
@@ -349,7 +352,7 @@ void SceneGame::Update(float dt)
 		gas -= 10;
 		mineral += 5;
 	}
-
+	// *************** 개발자 모드
 	if (InputMgr::GetKeyDown(sf::Keyboard::D))
 	{
 		if (!modeDeveloper)
@@ -367,7 +370,12 @@ void SceneGame::Update(float dt)
 	if (modeDeveloper)
 	{
 		std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
+		if (InputMgr::GetKeyDown(sf::Keyboard::Z))
+		{
+			mineral += 20;
+		}
 	}
+	// *************** 개발자 모드
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Middle))
 	{
@@ -380,35 +388,6 @@ void SceneGame::Update(float dt)
 		delta = lastMouseWorldPos - worldPos; 
 
 		GetWorldView().move(delta);
-	}
-
-	if (InputMgr::GetKeyDown(sf::Keyboard::W))
-	{
-		for (auto it = HydraliskList.begin(); it != HydraliskList.end();)
-		{
-			SCUnit* hydralisk = *it;
-			hydralisk->SellThis();
-			it = HydraliskList.erase(it);
-		}
-	}
-
-	if (InputMgr::GetKeyDown(sf::Keyboard::E))
-	{
-		Enemy* enemy = new Enemy("snail");
-		enemy->SetPosition(worldPos);
-		AddGo(enemy, Layers::World);
-		enemy->Init();
-		EnemyList.push_back(enemy);
-	}
-	if (InputMgr::GetKeyDown(sf::Keyboard::R))
-	{
-		for (auto it = EnemyList.begin(); it != EnemyList.end();)
-		{
-			Enemy* enemy = *it;
-			RemoveGo(enemy);
-			delete(enemy);
-			it = EnemyList.erase(it);
-		}
 	}
 
 }
@@ -444,14 +423,39 @@ void SceneGame::Draw(sf::RenderWindow& window)
 
 void SceneGame::BuyUnit()
 {
-	UnitSummonLocation.setPosition({ 16 * 32, 16 * 32 });
+	if (mineral < 10)
+	{
+		message(MessageType::NotEnoughMinerals);
+		return;
+	}
+	mineral -= 10;
+	UnitSummonLocation.setPosition(basePosition);
+	std::vector<sf::Vector2f> directions = {
+	{32, 0},
+	{32, 32},  
+	{0, 32}, 
+	{0, -32},
+	{32, -32},
+	{64, -32},
+	{64, 0},
+	{64, 32},
+	{64, 64},
+	{32, 64},
+	{0, 64},
+	{-32, 64},
+	{-32, 32},
+	{-32, 0},
+	{-32, -32},
+	{-32,-64}
+	};
+	int directionIndex = 0;
 
-	while (true)
+	while (directionIndex < 16)
 	{
 		SummonStuck = false;
 		for (auto go : AllUnitList)
 		{
-			if (go->GetGlobalBounds().contains(UnitSummonLocation.getPosition()))
+			if (go->GetHitBox().getGlobalBounds().contains(UnitSummonLocation.getPosition()))
 			{
 				SummonStuck = true;
 				break;
@@ -462,7 +466,14 @@ void SceneGame::BuyUnit()
 		{
 			break;
 		}
-		UnitSummonLocation.setPosition(UnitSummonLocation.getPosition().x + 32, UnitSummonLocation.getPosition().y);
+		UnitSummonLocation.setPosition(basePosition+ directions[directionIndex]);
+		directionIndex++;
+	}
+
+	if (directionIndex == 16)
+	{
+		message(MessageType::NoMoreSpace);
+		return;
 	}
 
 	int randomUnit = -1;
@@ -508,9 +519,9 @@ void SceneGame::BuyUnit()
 	case 0:
 	{
 		Hydralisk* hydralisk = new Hydralisk("hydralisk", randomrarity);
+		hydralisk->Init();
 		hydralisk->SetPosition(UnitSummonLocation.getPosition());
 		AddGo(hydralisk, Layers::World);
-		hydralisk->Init();
 		HydraliskList.push_back(hydralisk);
 		AllUnitList.push_back(hydralisk);
 		UpgradeUpdate();
@@ -520,9 +531,9 @@ void SceneGame::BuyUnit()
 	case 1:
 	{
 		Dragoon* dragoon = new Dragoon("dragoon", randomrarity);
+		dragoon->Init();
 		dragoon->SetPosition(UnitSummonLocation.getPosition());
 		AddGo(dragoon, Layers::World);
-		dragoon->Init();
 		DragoonList.push_back(dragoon);
 		AllUnitList.push_back(dragoon);
 		UpgradeUpdate();
@@ -532,9 +543,9 @@ void SceneGame::BuyUnit()
 	case 2:
 	{
 		Ghost* ghost = new Ghost("ghost", randomrarity);
+		ghost->Init();
 		ghost->SetPosition(UnitSummonLocation.getPosition());
 		AddGo(ghost, Layers::World);
-		ghost->Init();
 		GhostList.push_back(ghost);
 		AllUnitList.push_back(ghost);
 		UpgradeUpdate();

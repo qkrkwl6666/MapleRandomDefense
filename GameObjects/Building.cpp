@@ -15,7 +15,7 @@ void Building::Init()
 
 	isSelectSprite = std::make_shared<SpriteGo>();
 	isSelectSprite->SetTexture("graphics/UI/cursorsSelect.png");
-	isSelectSprite->SetScale({ 4.f , 4.f });
+	isSelectSprite->SetScale({ 5.f , 5.f });
 	isSelectSprite->SetOrigin(Origins::MC);
 	isSelectSprite->SetActive(false);
 }
@@ -37,11 +37,6 @@ void Building::Draw(sf::RenderWindow& window)
 void Building::Update(float dt)
 {
 	SpriteGo::Update(dt);
-
-	if (isSelectSprite->GetActive() && isSelect)
-	{
-		isSelectSprite->SetPosition({ GetPosition().x + 50.f , GetPosition().y + 50.f});
-	}
 }
 
 void Building::LateUpdate(float dt)

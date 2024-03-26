@@ -17,6 +17,7 @@ void SellBuilding::Init()
 	type = BuildingType::SELL;
 	textureId = "graphics/sell.png";
 	SetTexture();
+
 }
 
 void SellBuilding::Reset()
@@ -27,6 +28,7 @@ void SellBuilding::Reset()
 void SellBuilding::Update(float dt)
 {
 	Building::Update(dt);
+	isSelectSprite->SetPosition({ GetPosition().x + 60.f , GetPosition().y + 70.f });
 }
 
 void SellBuilding::LateUpdate(float dt)

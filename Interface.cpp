@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Interface.h"
 #include "SpriteGo.h"
+#include "TextGo.h"
 #include "Crosshair.h"
 #include "SceneGame.h"
 #include "Building.h"
@@ -225,6 +226,25 @@ void Interface::Init()
 	sprites["GhostNarrative"]->SetActive(false);
 	sprites["GhostNarrative"]->SetScale({ 0.75f, 0.75f });
 
+	NewSpriteGo("Warframe", "graphics/UI/Interface/DragoonWarframe.png");
+	sprites["Warframe"]->SetOrigin(Origins::TL);
+	sprites["Warframe"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.33f , FRAMEWORK.GetWindowSize().y * 0.84f });
+	sprites["Warframe"]->sortLayer = 11;
+	sprites["Warframe"]->SetActive(false);
+	sprites["Warframe"]->SetScale({ 1.3f, 1.3f });
+
+	NewTextGo("UIName", RES_MGR_FONT.Get("font/Kostar.ttf"), L"드라군 일반", 20, sf::Color::White);
+	texts["UIName"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.45f , FRAMEWORK.GetWindowSize().y * 0.81f });
+	texts["UIName"]->sortLayer = 11;
+	texts["UIName"]->SetActive(false);
+
+	NewTextGo("UIAttackType", RES_MGR_FONT.Get("font/Kostar.ttf"), L"▶폭발형", 20, sf::Color::White);
+	texts["UIAttackType"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.46f , FRAMEWORK.GetWindowSize().y * 0.85f });
+	texts["UIAttackType"]->sortLayer = 11;
+	texts["UIAttackType"]->SetActive(false);
 
 	UiInit();
 	ObjectsSort();
@@ -282,6 +302,8 @@ void Interface::Update(float dt)
 		{
 			if (selectBox->GetGlobalBounds().contains(scUnit->GetPosition()))
 			{
+				UItarget = scUnit;
+				SetUIView(true);
 				SetActiveUpgrade(false);
 				SetActiveSell(false);
 				SetActiveSellInfo(false, SCUnit::Type::Hydralisk);
@@ -302,6 +324,8 @@ void Interface::Update(float dt)
 				Building* building = pair.second;
 				if (building->GetGlobalBounds().contains(selectBox->GetPosition()))
 				{
+					UItarget = building;
+					SetUIView(true);
 					SetActiveUpgrade(false);
 					SetActiveSell(false);
 					SetActiveSellInfo(false, SCUnit::Type::Hydralisk);
@@ -341,11 +365,15 @@ void Interface::Update(float dt)
 					{
 						uiStatus = UIStatus::SellUnitSellect;
 						SetActiveSell(true);
+						SetUIView(true);
 					}
 					break;
 					}
 				}
 			}
+			UItarget = nullptr; // 아무것도 못 찍었을 때,
+			uiStatus = UIStatus::NONE;
+			SetUIView(false);
 		}
 
 	}
@@ -377,6 +405,31 @@ void Interface::Update(float dt)
 
 void Interface::UpdateUpgrade(float dt)
 {
+	UpgradeBuilding* building = dynamic_cast<UpgradeBuilding*>(UItarget);
+	switch (building->GetRace())
+	{
+	case UpgradeBuilding::Races::NONE:
+		break;
+	case UpgradeBuilding::Races::Terran:
+		sprites["Warframe"]->SetTexture("graphics/UI/Interface/TerranWarframe.png");
+		texts["UIName"]->SetString(L"UNIT ▶UPGRADE");
+		texts["UIAttackType"]->SetString(L"");
+		break;
+	case UpgradeBuilding::Races::Zerg:
+		sprites["Warframe"]->SetTexture("graphics/UI/Interface/ZergWarframe.png");
+		texts["UIName"]->SetString(L"UNIT ▶UPGRADE");
+		texts["UIAttackType"]->SetString(L"");
+		break;
+	case UpgradeBuilding::Races::Protoss:
+		sprites["Warframe"]->SetTexture("graphics/UI/Interface/ProtossWarframe.png");
+		texts["UIName"]->SetString(L"UNIT ▶UPGRADE");
+		texts["UIAttackType"]->SetString(L"");
+		break;
+	default:
+		break;
+	}
+
+
 	switch (uiUnitType)
 	{
 	case SCUnit::Type::Hydralisk:
@@ -409,11 +462,15 @@ void Interface::UpdateUpgrade(float dt)
 
 void Interface::UpdateSellUnitSellect(float dt)
 {
+	Building* building = dynamic_cast<Building*>(UItarget);
+	sprites["Warframe"]->SetTexture("graphics/UI/Interface/SellWarframe.png");
+	texts["UIName"]->SetString(L"UNIT ▶판매 & 교환");
+	texts["UIAttackType"]->SetString(L"");
+
 	// 판매 건물 상호작용
 	if (sprites["GhostSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
-		std::cout << "GhostSell!!" << std::endl;
 		SetActiveSell(false);
 		SetActiveSellInfo(true, SCUnit::Type::Ghost);
 		uiUnitType = SCUnit::Type::Ghost;
@@ -422,7 +479,6 @@ void Interface::UpdateSellUnitSellect(float dt)
 	else if (sprites["HydraliskSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
-		std::cout << "HydraliskSell!!" << std::endl;
 		SetActiveSell(false);
 		SetActiveSellInfo(true, SCUnit::Type::Hydralisk);
 		uiUnitType = SCUnit::Type::Hydralisk;
@@ -431,7 +487,6 @@ void Interface::UpdateSellUnitSellect(float dt)
 	else if (sprites["DragoonSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
-		std::cout << "DragoonSell!!" << std::endl;
 		SetActiveSell(false);
 		SetActiveSellInfo(true, SCUnit::Type::Dragoon);
 		uiUnitType = SCUnit::Type::Dragoon;
@@ -442,6 +497,11 @@ void Interface::UpdateSellUnitSellect(float dt)
 
 void Interface::UpdateSellRaritySellect(float dt)
 {
+	Building* building = dynamic_cast<Building*>(UItarget);
+	sprites["Warframe"]->SetTexture("graphics/UI/Interface/SellWarframe.png");
+	texts["UIName"]->SetString(L"UNIT ▶판매 & 교환");
+	texts["UIAttackType"]->SetString(L"");
+
 	for (int i = 0; i < 5; ++i) {
 		rarity[i] = 0;
 	}
@@ -451,6 +511,10 @@ void Interface::UpdateSellRaritySellect(float dt)
 	case SCUnit::Type::Hydralisk:
 		for (auto go : dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetHydraliskList())
 		{
+			if ((int)go->GetRarity() > 4)
+			{
+				continue;
+			}
 			rarity[(int)go->GetRarity()]++;
 		}
 		SetSellUiTexture("Hydralisk", "Normal", 0);
@@ -463,6 +527,10 @@ void Interface::UpdateSellRaritySellect(float dt)
 	case SCUnit::Type::Dragoon:
 		for (auto go : dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetDragoonList())
 		{
+			if ((int)go->GetRarity() > 4)
+			{
+				continue;
+			}
 			rarity[(int)go->GetRarity()]++;
 		}
 		SetSellUiTexture("Dragoon", "Normal", 0);
@@ -475,6 +543,10 @@ void Interface::UpdateSellRaritySellect(float dt)
 	case SCUnit::Type::Ghost:
 		for (auto go : dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetGhostList())
 		{
+			if ((int)go->GetRarity() > 4)
+			{
+				continue;
+			}
 			rarity[(int)go->GetRarity()]++;
 		}
 		SetSellUiTexture("Ghost", "Normal", 0);
@@ -489,6 +561,68 @@ void Interface::UpdateSellRaritySellect(float dt)
 
 void Interface::UpdateUnit(float dt)
 {
+	SCUnit* scUnit = dynamic_cast<SCUnit*>(UItarget);
+	std::wstring rarityText;
+	switch (scUnit->GetRarity())
+	{
+	case SCUnit::Rarity::NONE:
+		break;
+	case SCUnit::Rarity::Common:
+		rarityText = L"[일반]";
+		break;
+	case SCUnit::Rarity::Rare:
+		rarityText = L"[레어]";
+		break;
+	case SCUnit::Rarity::Ancient:
+		rarityText = L"[고대]";
+		break;
+	case SCUnit::Rarity::Artifact:
+		rarityText = L"[유물]";
+		break;
+	case SCUnit::Rarity::Saga:
+		rarityText = L"[서사]";
+		break;
+	case SCUnit::Rarity::Legendary:
+		rarityText = L"[전설]";
+		break;
+	case SCUnit::Rarity::Mythic:
+		rarityText = L"[신화]";
+		break;
+	case SCUnit::Rarity::Primeval:
+		rarityText = L"[태초]";
+		break;
+	default:
+		break;
+	}
+
+
+	switch (scUnit->GetType())
+	{
+	case SCUnit::Type::NONE:
+		break;
+	case SCUnit::Type::Hydralisk:
+		sprites["Warframe"]->SetTexture("graphics/UI/Interface/HydraliskWarframe.png");
+		texts["UIName"]->SetString(L"히드라리스크 " + rarityText);
+		texts["UIAttackType"]->SetString(L"▶ 일반형");
+		break;
+	case SCUnit::Type::Dragoon:
+		sprites["Warframe"]->SetTexture("graphics/UI/Interface/DragoonWarframe.png");
+		texts["UIName"]->SetString(L"드라군 " + rarityText);
+		texts["UIAttackType"]->SetString(L"▶ 폭발형");
+		break;
+	case SCUnit::Type::Ghost:
+		sprites["Warframe"]->SetTexture("graphics/UI/Interface/GhostWarframe.png");
+		texts["UIName"]->SetString(L"고스트 " + rarityText);
+		texts["UIAttackType"]->SetString(L"▶ 진동형");
+		break;
+	case SCUnit::Type::Civilian:
+		sprites["Warframe"]->SetTexture("graphics/UI/Interface/CivilianWarframe.png");
+		texts["UIName"]->SetString(L"Select Unit: 10메소");
+		texts["UIAttackType"]->SetString(L"");
+		break;
+	default:
+		break;
+	}
 }
 
 void Interface::LateUpdate(float dt)
@@ -795,4 +929,11 @@ void Interface::Upgrade()
 			up->Upgrade();
 		}
 	}
+}
+
+void Interface::SetUIView(bool active)
+{
+	sprites["Warframe"]->SetActive(active);
+	texts["UIName"]->SetActive(active);
+	texts["UIAttackType"]->SetActive(active);
 }

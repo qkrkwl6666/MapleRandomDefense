@@ -26,6 +26,7 @@ public:
 		Hydralisk,
 		Dragoon,
 		Ghost,
+		Civilian,
 		COUNT,
 	};
 
@@ -194,6 +195,7 @@ public:
 	Enemy* GetTarget() { return target; }
 	void SetTarget(Enemy* e) { target = e; }
 
+	const Type& GetType() const { return type; }
 	const Rarity& GetRarity() const { return rarity; }
 	const sf::RectangleShape GetHitBox () const { return hitBox; }
 

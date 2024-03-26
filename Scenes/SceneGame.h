@@ -25,6 +25,7 @@ public:
 		NONE = -1,
 		BuyUnit,
 		NotEnoughMinerals,
+		NoMoreSpace,
 		SellUnit,
 		count,
 	};
@@ -37,6 +38,8 @@ protected:
 	ShapeGo<sf::RectangleShape>* leftFiller;
 	ShapeGo<sf::RectangleShape>* rightFiller;
 	sf::RectangleShape UnitSummonLocation;
+	sf::Vector2f basePosition;
+	sf::Vector2f offset{ 16,16 };
 	bool SummonStuck = false;
 	Civilian* civilian = nullptr;
 	Crosshair* mouse = nullptr;

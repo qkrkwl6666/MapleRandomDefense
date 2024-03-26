@@ -72,6 +72,22 @@ void UpgradeBuilding::Reset()
 void UpgradeBuilding::Update(float dt)
 {
 	Building::Update(dt);
+
+	if (isSelectSprite->GetActive() && isSelect)
+	{
+		switch (races)
+		{
+		case Building::Races::Zerg:
+			isSelectSprite->SetPosition({ GetPosition().x + 50.f , GetPosition().y + 50.f });
+			break;
+		case Building::Races::Protoss:
+			isSelectSprite->SetPosition({ GetPosition().x + 60.f , GetPosition().y + 50.f });
+			break;
+		case Building::Races::Terran:
+			isSelectSprite->SetPosition({ GetPosition().x + 70.f , GetPosition().y + 50.f });
+			break;
+		}
+	}
 }
 
 void UpgradeBuilding::LateUpdate(float dt)

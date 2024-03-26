@@ -28,13 +28,13 @@ protected:
 	Interface& operator=(Interface&&) = delete;
 	UIStatus uiStatus = UIStatus::NONE;
 	SCUnit::Type uiUnitType = SCUnit::Type::NONE;
+	GameObject* UItarget = nullptr;
 	ShapeGo<sf::RectangleShape>* selectBox;
 	sf::Vector2f selectStartPos;
 	bool isSelecting = false;
 	bool noUnits = true;
 	bool mouseOnUi = false;
 	int rarity[5] = {};
-
 	std::list<SCUnit*> isSelectList;
 
 	sf::Vector2f worldMousePos;
@@ -67,5 +67,7 @@ public:
 
 	void SetSellUiTexture(const std::string& typeName , const std::string& rarityName, const int rarityIndex);
 	void Upgrade();
+
+	void SetUIView(bool active);
 };
 

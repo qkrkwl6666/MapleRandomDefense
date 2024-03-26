@@ -25,7 +25,7 @@ void Civilian::Init()
 
 	SetOrigin(Origins::MC);
 
-
+	type = SCUnit::Type::Civilian;
 }
 
 

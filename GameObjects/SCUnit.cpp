@@ -45,6 +45,33 @@ void SCUnit::Init()
 	projectile = std::make_shared<Projectile>();
 	projectile->Init();
 
+	switch (rarity)
+	{
+	case SCUnit::Rarity::Common:
+		sellingValue = 3;
+		break;
+	case SCUnit::Rarity::Rare:
+		sellingValue = 6;
+		break;
+	case SCUnit::Rarity::Ancient:
+		sellingValue = 9;
+		break;
+	case SCUnit::Rarity::Artifact:
+		sellingValue = 16;
+		break;
+	case SCUnit::Rarity::Saga:
+		sellingValue = 30;
+		break;
+	case SCUnit::Rarity::Legendary:
+		sellable = false;
+		break;
+	case SCUnit::Rarity::Mythic:
+		sellable = false;
+		break;
+	case SCUnit::Rarity::Primeval:
+		sellable = false;
+		break;
+	}
 }
 
 void SCUnit::Reset()
@@ -70,7 +97,7 @@ void SCUnit::Update(float dt)
 
 	if (isSelectSprite->GetActive() && isSelect)
 	{
-		isSelectSprite->SetPosition({ GetPosition().x, GetPosition().y + 10.f });
+		isSelectSprite->SetPosition({ hitBox.getPosition().x, hitBox.getPosition().y + 10.f });
 	}
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right) && isSelect)
