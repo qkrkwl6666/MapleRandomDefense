@@ -478,7 +478,7 @@ void SceneGame::BuyUnit()
 	}
 
 	int randomUnit = -1;
-	randomUnit = Utils::RandomRange(0, 1);
+	randomUnit = Utils::RandomRange(0, 3);
 	int randomint = -1;
 	randomint = Utils::RandomRange(0, 10000);
 	SCUnit::Rarity randomrarity = SCUnit::Rarity::NONE;

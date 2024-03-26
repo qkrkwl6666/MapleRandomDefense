@@ -190,5 +190,6 @@ void Enemy::OnDamege(float damage)
 
 void Enemy::Dead()
 {
+	dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GasUp();
 	SetActive(false);
 }
