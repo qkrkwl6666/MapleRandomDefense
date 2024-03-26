@@ -55,7 +55,7 @@ protected:
 
 	std::list<SCUnit*> AllUnitList;
 
-	std::list<Enemy*> EnemyList;
+	std::list<Enemy*>* EnemyList;
 
 	// ºôµù 
 	std::unordered_map<std::string, Building*> buildings;

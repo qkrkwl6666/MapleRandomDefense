@@ -64,7 +64,7 @@ void Animator::Update(float dt)
 		{
 			std::string id = queue.front();
 			queue.pop();
-			Play(id, false);
+			Play(id, false , false);
 			return;
 		}
 
@@ -167,7 +167,7 @@ void Animator::SetFrame(const AnimationFrame& frame)
 	target->setTextureRect(frame.texCoord);
 }
 
-void Animator::Play(const std::string& clipId, bool clearQueue , bool isAngle)
+void Animator::Play(const std::string& clipId, bool clearQueue)
 {
 	if (clearQueue)
 	{
@@ -183,6 +183,30 @@ void Animator::Play(const std::string& clipId, bool clearQueue , bool isAngle)
 	accumTime = 0.f;
 	currentClip = &clips[clipId];
 	currentFrame = 0;
+
+	totalFrame = currentClip->GetTotalFrame();
+
+	clipDuration = 1.f / currentClip->fps; // 0.333
+	SetFrame(currentClip->frames[0]);
+	
+}
+
+void Animator::Play(const std::string& clipId, bool clearQueue, bool isAngle, Angle currentAngle)
+{
+	if (clearQueue)
+	{
+		while (!queue.empty())
+		{
+			queue.pop();
+		}
+	}
+
+	// clipId가 find할때만 작동
+
+	isPlaying = true;
+	accumTime = 0.f;
+	currentClip = &clips[clipId];
+	currentFrame = currentFrame = static_cast<int>(currentAngle) * currentClip->frame;
 	if (!isAngle)
 	{
 		totalFrame = currentClip->GetTotalFrame();
@@ -194,8 +218,7 @@ void Animator::Play(const std::string& clipId, bool clearQueue , bool isAngle)
 	}
 
 	clipDuration = 1.f / currentClip->fps; // 0.333
-	SetFrame(currentClip->frames[0]);
-	
+	SetFrame(currentClip->frames[currentFrame]);
 }
 
 void Animator::PlayIdle(const std::string& clipId, bool clearQueue, Angle currentAngle)

@@ -98,14 +98,16 @@ protected:
 
 	float speed = 100.f;
 
-
 	Type type = Type::NONE;
 	Rarity rarity = Rarity::NONE;
-	float Damage = 3.f;
-	float attackRange = 10.f;
+
 	int UpgradeCount = 0;
 	int sellingValue = 0; // TO-DO 판매 가격
 	bool sellable = true; // 전설 신화 태초만 false
+
+	// 공격 
+	float Damage = 3.f;
+	float attackRange = 10.f;
 	float attackInterval = 1.f;
 	float attackTimer = 0.f;
 

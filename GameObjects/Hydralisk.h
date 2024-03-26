@@ -3,7 +3,7 @@
 class Hydralisk : public SCUnit
 {
 protected:
-
+	
 public:
 	Hydralisk(const std::string& name = "" , SCUnit::Rarity r = SCUnit::Rarity::NONE);
 	~Hydralisk() override;

@@ -11,6 +11,7 @@ public:
 	void Init() override;
 	void Reset() override;
 	void Update(float dt) override;
+	void Update(float dt, Angle angle);
 	void LateUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 

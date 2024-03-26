@@ -8,6 +8,8 @@ Hydralisk::Hydralisk(const std::string& name, SCUnit::Rarity r)
 	: SCUnit(name, "Hydralisk")
 {
 	rarity = r;
+	attackRange = 6.f;
+	attackInterval = 1.f;
 }
 
 Hydralisk::~Hydralisk()
@@ -47,69 +49,19 @@ void Hydralisk::Update(float dt)
 {
 	SCUnit::Update(dt);
 
-	if (projectile->GetActive())
+
+	if (projectile->GetActive() && !GetFlipX())
 	{
 		projectile->SetPosition({GetPosition().x + 19.f, GetPosition().y});
 	}
+	else
+	{
+		projectile->SetPosition({ GetPosition().x - 19.f, GetPosition().y });
+	}
 
-	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right) && isSelect)
+	if (InputMgr::GetMouseButtonDown(sf::Mouse::Right) && isSelect && currentStatus != Status::ATTACK)
 	{
 		Astar(dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos());
-	}
-
-	if (InputMgr::GetKeyDown(sf::Keyboard::Num1))
-	{
-		currentAngle = Angle::TOP;
-		SetStatus(Status::ATTACK);
-
-	}
-
-	if (InputMgr::GetKeyDown(sf::Keyboard::Num2))
-	{
-		currentAngle = Angle::TOP15;
-
-	}
-
-	if (InputMgr::GetKeyDown(sf::Keyboard::Num3))
-	{
-		currentAngle = Angle::TOP30;
-
-	}
-
-	if (InputMgr::GetKeyDown(sf::Keyboard::Num4))
-	{
-		currentAngle = Angle::TOP60;
-
-	}
-
-	if (InputMgr::GetKeyDown(sf::Keyboard::Num5))
-	{
-		currentAngle = Angle::RIGHT;
-		SetStatus(Status::IDLE);
-	}
-
-	if (InputMgr::GetKeyDown(sf::Keyboard::Num6))
-	{
-		currentAngle = Angle::BOTTOM60;
-
-	}
-
-	if (InputMgr::GetKeyDown(sf::Keyboard::Num7))
-	{
-		currentAngle = Angle::BOTTOM30;
-
-	}
-
-	if (InputMgr::GetKeyDown(sf::Keyboard::Num8))
-	{
-		currentAngle = Angle::BOTTOM15;
-
-	}
-
-	if (InputMgr::GetKeyDown(sf::Keyboard::Num9))
-	{
-		currentAngle = Angle::BOTTOM;
-
 	}
 }
 

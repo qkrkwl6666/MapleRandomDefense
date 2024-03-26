@@ -24,7 +24,14 @@ void Projectile::Reset()
 
 void Projectile::Update(float dt)
 {
-	SpriteAnimatorGo::Update(dt);
+	SpriteGo::Update(dt);
+}
+
+void Projectile::Update(float dt , Angle angle)
+{
+	SpriteGo::Update(dt);
+
+	animator->Update(dt, angle);
 }
 
 void Projectile::LateUpdate(float dt)

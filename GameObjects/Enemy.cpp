@@ -52,6 +52,8 @@ void Enemy::Update(float dt)
 
 	animator->Update(dt, currentAngle);
 
+	//std::cout << GetPosition().x << " " << GetPosition().y << std::endl;
+
 	if (Dir == 3 || Dir == 6 || Dir == 7)
 	{
 		SetFlipX(true);
@@ -84,7 +86,7 @@ void Enemy::Update(float dt)
 				currentAngle = angleMMap[Dir];
 				break;
 			}
-			Translate(currentDirection * dt * (moveSpeed / 2));
+			Translate(currentDirection * dt * (moveSpeed / 2.f));
 			break;
 
 		case (int)Dir::DOWN:
@@ -108,7 +110,7 @@ void Enemy::Update(float dt)
 				currentAngle = angleMMap[Dir];
 				break;
 			}
-			Translate(currentDirection * dt * (moveSpeed / 2));
+			Translate(currentDirection * dt * (moveSpeed / 2.f));
 			break;
 
 		case (int)Dir::RIGHT:
@@ -132,7 +134,7 @@ void Enemy::Update(float dt)
 				currentAngle = angleMMap[Dir];
 				break;
 			}
-			Translate(currentDirection * dt * (moveSpeed / 2));
+			Translate(currentDirection * dt * (moveSpeed / 2.f));
 			break;
 
 		case (int)Dir::TOP:
@@ -156,7 +158,7 @@ void Enemy::Update(float dt)
 				currentAngle = angleMMap[Dir];
 				break;
 			}
-			Translate(currentDirection * dt * (moveSpeed / 2));
+			Translate(currentDirection * dt * (moveSpeed / 2.f));
 			break;
 	}
 }
@@ -171,4 +173,22 @@ void Enemy::LateUpdate(float dt)
 void Enemy::Draw(sf::RenderWindow& window)
 {
 	SpriteAnimatorGo::Draw(window);
+}
+
+void Enemy::OnDamege(float damage)
+{
+	if (hp - damage <= 0)
+	{
+		hp = 0;
+		Dead();
+	}
+	else
+	{
+		hp -= damage;
+	}
+}
+
+void Enemy::Dead()
+{
+	SetActive(false);
 }

@@ -13,10 +13,10 @@ protected:
 	Spawner& operator=(Spawner&&) = delete;
 
 	std::list<Enemy*> Enemys;
+	std::list<Enemy*> removeEnemys;
 public:
 	Spawner(const std::string& name = "");
 	~Spawner() override;
-
 
 	void Init() override;
 	void Release() override;
@@ -24,5 +24,7 @@ public:
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 	void LateUpdate(float dt) override;
+
+	std::list<Enemy*>* GetEnemys() { return &Enemys; }
 };
 

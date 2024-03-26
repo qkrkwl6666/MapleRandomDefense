@@ -24,7 +24,7 @@ void Zergling::Init()
 	SetScale({ 1.5f , 1.5f });
 
 	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/Zergling.csv"));
-	animator->Play("ZerglingMove");
+	animator->Play("ZerglingMove" ,true , true ,currentAngle);
 	
 }
 
@@ -36,6 +36,12 @@ void Zergling::Reset()
 void Zergling::Update(float dt)
 {
 	Enemy::Update(dt);
+
+	if (GetPosition().x <= 0 || GetPosition().x >= 1000 || GetPosition().y <= 0 || GetPosition().y >= 1000)
+	{
+		std::cout << GetPosition().x << " " << GetPosition().y << std::endl;
+	}
+
 }
 
 void Zergling::LateUpdate(float dt)

@@ -107,9 +107,10 @@ void SceneGame::Init()
 
 	AllUnitList.push_back(civilian);
 
+	EnemyList = spawner->GetEnemys();
+
 	mineral = 25;
 }
-
 
 void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 {
@@ -196,8 +197,8 @@ void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
 
 Enemy* SceneGame::FindEnemy(sf::Vector2f pos, float range)
 {
-	float distance;
-	for (auto go : EnemyList)
+	float distance = 0.f;
+	for (auto* go : *EnemyList)
 	{
 		distance = Utils::Distance(pos, go->GetPosition());
 		if (distance < range * 32)
@@ -477,7 +478,7 @@ void SceneGame::BuyUnit()
 	}
 
 	int randomUnit = -1;
-	randomUnit = Utils::RandomRange(0, 3);
+	randomUnit = Utils::RandomRange(0, 1);
 	int randomint = -1;
 	randomint = Utils::RandomRange(0, 10000);
 	SCUnit::Rarity randomrarity = SCUnit::Rarity::NONE;
