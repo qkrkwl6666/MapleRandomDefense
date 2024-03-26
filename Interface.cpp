@@ -101,7 +101,7 @@ void Interface::Init()
 	sprites["DragoonSell"]->sortLayer = 11;
 	sprites["DragoonSell"]->SetActive(false);
 	sprites["DragoonSell"]->SetScale({ 0.75f, 0.75f });
-	
+
 	// 판매 상세
 	NewSpriteGo("HydraliskNormal", "graphics/UI/Interface/HydraliskSellNoHave.png");
 	sprites["HydraliskNormal"]->SetOrigin(Origins::TL);
@@ -246,7 +246,15 @@ void Interface::Update(float dt)
 	UIGo::Update(dt);
 
 	worldMousePos = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos();
-
+	screenMousePos = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetScreenMousePos();
+	if ((screenMousePos.x > 950 && screenMousePos.y > 550) || screenMousePos.y > 600)
+	{
+		mouseOnUi = true;
+	}
+	else
+	{
+		mouseOnUi = false;
+	}
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left) && !isSelecting)
 	{
 		isSelecting = true;
@@ -278,7 +286,7 @@ void Interface::Update(float dt)
 				SetActiveSell(false);
 				SetActiveSellInfo(false, SCUnit::Type::Hydralisk);
 				SetActiveSellInfo(false, SCUnit::Type::Ghost);
-				SetActiveSellInfo(false , SCUnit::Type::Dragoon);
+				SetActiveSellInfo(false, SCUnit::Type::Dragoon);
 				noUnits = false;
 				isSelectList.push_back(scUnit);
 				scUnit->SetSelect(true);
@@ -287,7 +295,7 @@ void Interface::Update(float dt)
 		}
 
 		// 건물 검사 유닛 없을때만
-		if (noUnits)
+		if (noUnits && !mouseOnUi)
 		{
 			for (const auto& pair : buildings)
 			{
@@ -302,39 +310,39 @@ void Interface::Update(float dt)
 					switch (building->GetBuildingType())
 					{
 					case Building::BuildingType::UPGRADE:
-						{
+					{
 						UpgradeBuilding* Up = dynamic_cast<UpgradeBuilding*>(building);
 						uiStatus = UIStatus::Upgrade;
 
-							switch (Up->GetRace())
-							{
-							case Building::Races::Zerg:
-								uiUnitType = SCUnit::Type::Hydralisk;
-								sprites["HydraliskUpgrade"]->SetActive(true);
-								Up->SetSelect(true);
-								return;
-								break;
-							case Building::Races::Terran:
-								uiUnitType = SCUnit::Type::Ghost;
-								sprites["GhostUpgrade"]->SetActive(true);
-								Up->SetSelect(true);
-								return;
-								break;
-							case Building::Races::Protoss:
-								uiUnitType = SCUnit::Type::Dragoon;
-								sprites["DragoonUpgrade"]->SetActive(true);
-								Up->SetSelect(true);
-								return;
-								break;
-							}
+						switch (Up->GetRace())
+						{
+						case Building::Races::Zerg:
+							uiUnitType = SCUnit::Type::Hydralisk;
+							sprites["HydraliskUpgrade"]->SetActive(true);
+							Up->SetSelect(true);
+							return;
+							break;
+						case Building::Races::Terran:
+							uiUnitType = SCUnit::Type::Ghost;
+							sprites["GhostUpgrade"]->SetActive(true);
+							Up->SetSelect(true);
+							return;
+							break;
+						case Building::Races::Protoss:
+							uiUnitType = SCUnit::Type::Dragoon;
+							sprites["DragoonUpgrade"]->SetActive(true);
+							Up->SetSelect(true);
+							return;
 							break;
 						}
-					case Building::BuildingType::SELL:
-						{
-						uiStatus = UIStatus::SellUnitSellect;
-							SetActiveSell(true);
-						}
 						break;
+					}
+					case Building::BuildingType::SELL:
+					{
+						uiStatus = UIStatus::SellUnitSellect;
+						SetActiveSell(true);
+					}
+					break;
 					}
 				}
 			}
@@ -434,15 +442,46 @@ void Interface::UpdateSellUnitSellect(float dt)
 
 void Interface::UpdateSellRaritySellect(float dt)
 {
+	for (int i = 0; i < 5; ++i) {
+		rarity[i] = 0;
+	}
+
 	switch (uiUnitType)
 	{
 	case SCUnit::Type::Hydralisk:
+		for (auto go : dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetHydraliskList())
+		{
+			rarity[(int)go->GetRarity()]++;
+		}
+		SetSellUiTexture("Hydralisk", "Normal", 0);
+		SetSellUiTexture("Hydralisk", "Rare", 1);
+		SetSellUiTexture("Hydralisk", "Ancient", 2);
+		SetSellUiTexture("Hydralisk", "Artifact", 3);
+		SetSellUiTexture("Hydralisk", "Narrative", 4);
 		HydraliskSellUpdate();
 		break;
 	case SCUnit::Type::Dragoon:
+		for (auto go : dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetDragoonList())
+		{
+			rarity[(int)go->GetRarity()]++;
+		}
+		SetSellUiTexture("Dragoon", "Normal", 0);
+		SetSellUiTexture("Dragoon", "Rare", 1);
+		SetSellUiTexture("Dragoon", "Ancient", 2);
+		SetSellUiTexture("Dragoon", "Artifact", 3);
+		SetSellUiTexture("Dragoon", "Narrative", 4);
 		DragoonSellUpdate();
 		break;
 	case SCUnit::Type::Ghost:
+		for (auto go : dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetGhostList())
+		{
+			rarity[(int)go->GetRarity()]++;
+		}
+		SetSellUiTexture("Ghost", "Normal", 0);
+		SetSellUiTexture("Ghost", "Rare", 1);
+		SetSellUiTexture("Ghost", "Ancient", 2);
+		SetSellUiTexture("Ghost", "Artifact", 3);
+		SetSellUiTexture("Ghost", "Narrative", 4);
 		GhostSellUpdate();
 		break;
 	}
@@ -484,7 +523,7 @@ void Interface::SetActiveSell(bool active)
 	}
 }
 
-void Interface::SetActiveSellInfo(bool active,SCUnit::Type t)
+void Interface::SetActiveSellInfo(bool active, SCUnit::Type t)
 {
 	switch (t)
 	{
@@ -731,6 +770,17 @@ void Interface::GhostSellUpdate()
 				building->Sell(SCUnit::Type::Ghost, SCUnit::Rarity::Saga);
 			}
 		}
+	}
+}
+
+void Interface::SetSellUiTexture(const std::string& typeName, const std::string& rarityName, const int rarityIndex)
+{
+	std::string textureName = typeName + rarityName;
+	if (rarity[rarityIndex] != 0) {
+		sprites[textureName]->SetTexture("graphics/UI/Interface/" + typeName + "Sell.png");
+	}
+	else {
+		sprites[textureName]->SetTexture("graphics/UI/Interface/" + typeName + "SellNoHave.png");
 	}
 }
 

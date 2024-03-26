@@ -7,6 +7,7 @@ class Hydralisk;
 class Dragoon;
 class Ghost;
 class Enemy;
+class TextGo;
 class Civilian;
 
 class TileSet;
@@ -35,6 +36,8 @@ protected:
 	Interface* mainInterface = nullptr;
 	ShapeGo<sf::RectangleShape>* leftFiller;
 	ShapeGo<sf::RectangleShape>* rightFiller;
+	sf::RectangleShape UnitSummonLocation;
+	bool SummonStuck = false;
 	Civilian* civilian = nullptr;
 	Crosshair* mouse = nullptr;
 	sf::Vector2i screenPos;
@@ -59,7 +62,9 @@ protected:
 	int ghostUpgrade = 0;
 
 	int mineral = 0;
+	TextGo* mineralText = nullptr;
 	int gas = 0;
+	TextGo* gasText = nullptr;
 
 	bool modeDeveloper = false;
 
@@ -113,7 +118,10 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 
 	sf::Vector2f GetWorldMousePos() { return worldPos; }
+	sf::Vector2i GetScreenMousePos() { return screenPos; }
 	TileSet* GetTileSet() { return tileSet; }
+
+	void GasUp() { gas++; }
 
 	void BuyUnit();
 
