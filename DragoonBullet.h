@@ -8,9 +8,10 @@ class DragoonBullet :
 {
 protected:
 	Enemy* target = nullptr;
-	float speed = 800;
+	float speed = 600;
 	int damage;
 	sf::Vector2f direction;
+	sf::Vector2f prevPosition;
 	sf::Vector2f targetPos;
 	std::string animationName = "";
 
