@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "ShapeGo.h"
 #include "SCUnit.h"
+#include "TextGo.h"
 
 class Hydralisk;
 class Dragoon;
@@ -30,10 +31,29 @@ public:
 		count,
 	};
 
+	struct SystemMessage
+	{
+		SystemMessage()
+		{
+			systemMessage = new TextGo();
+		}
+		~SystemMessage()
+		{
+		}
+		TextGo* systemMessage;
+		float messageTimer = 0;
+		float messageInterval = 12.f;
+		void Update(float dt)
+		{
+			messageTimer += dt;
+		}
+	};
+
 protected:
 	TileSet* tileSet = nullptr;
 	Spawner* spawner = nullptr;
 
+	std::list<SystemMessage> messageContainer;
 	Interface* mainInterface = nullptr;
 	ShapeGo<sf::RectangleShape>* leftFiller;
 	ShapeGo<sf::RectangleShape>* rightFiller;
@@ -104,7 +124,7 @@ public:
 	void message(MessageType m);
 	void message(MessageType m, SCUnit::Type t, SCUnit::Rarity r);
 	void message(int i);
-
+	void MessageUpdate(float dt);
 	void UpgradeUpdate();
 
 	void Init() override;

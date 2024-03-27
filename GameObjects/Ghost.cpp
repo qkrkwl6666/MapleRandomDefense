@@ -19,10 +19,50 @@ Ghost::~Ghost()
 void Ghost::Init()
 {
 	SCUnit::Init();
-	attackRange = 6.f;
-	baseDamage = 8;
+	switch (rarity)
+	{
+	case SCUnit::Rarity::Common:
+		attackRange = 5.f;
+		baseDamage = 8;
+		attackInterval = 1.0f;
+		break;
+	case SCUnit::Rarity::Rare:
+		attackRange = 6.f;
+		baseDamage = 10;
+		attackInterval = 1.0f;
+		break;
+	case SCUnit::Rarity::Ancient:
+		attackRange = 7.f;
+		baseDamage = 15;
+		attackInterval = 0.9f;
+		break;
+	case SCUnit::Rarity::Artifact:
+		attackRange = 8.f;
+		baseDamage = 20;
+		attackInterval = 0.9f;
+		break;
+	case SCUnit::Rarity::Saga:
+		attackRange = 9.f;
+		baseDamage = 24;
+		attackInterval = 0.8f;
+		break;
+	case SCUnit::Rarity::Legendary:
+		attackRange = 10.f;
+		baseDamage = 29;
+		attackInterval = 0.7f;
+		break;
+	case SCUnit::Rarity::Mythic:
+		attackRange = 11.f;
+		baseDamage = 38;
+		attackInterval = 0.7f;
+		break;
+	case SCUnit::Rarity::Primeval:
+		attackRange = 12.f;
+		baseDamage = 40;
+		attackInterval = 0.6f;
+		break;
+	}
 	damage = baseDamage;
-	attackInterval = 1.0f;
 	SetTexture("graphics/Ghost.png");
 
 	GetSprite()->setTextureRect({ 0, 114, 42, 38 });

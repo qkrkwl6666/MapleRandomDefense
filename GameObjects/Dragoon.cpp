@@ -8,7 +8,6 @@ Dragoon::Dragoon(const std::string& name, SCUnit::Rarity r)
 	: SCUnit(name, "Dragoon")
 {
 	rarity = r;
-
 }
 
 Dragoon::~Dragoon()
@@ -18,10 +17,50 @@ Dragoon::~Dragoon()
 void Dragoon::Init()
 {
 	SCUnit::Init();
-	attackRange = 5.f;
-	baseDamage = 6;
+	switch (rarity)
+	{
+	case SCUnit::Rarity::Common:
+		attackRange = 5.f;
+		baseDamage = 6;
+		attackInterval = 1.2f;
+		break;
+	case SCUnit::Rarity::Rare:
+		attackRange = 6.f;
+		baseDamage = 8;
+		attackInterval = 1.2f;
+		break;
+	case SCUnit::Rarity::Ancient:
+		attackRange = 7.f;
+		baseDamage = 12;
+		attackInterval = 1.1f;
+		break;
+	case SCUnit::Rarity::Artifact:
+		attackRange = 8.f;
+		baseDamage = 16;
+		attackInterval = 1.0f;
+		break;
+	case SCUnit::Rarity::Saga:
+		attackRange = 9.f;
+		baseDamage = 20;
+		attackInterval = 1.0f;
+		break;
+	case SCUnit::Rarity::Legendary:
+		attackRange = 10.f;
+		baseDamage = 27;
+		attackInterval = 0.8f;
+		break;
+	case SCUnit::Rarity::Mythic:
+		attackRange = 11.f;
+		baseDamage = 33;
+		attackInterval = 0.8f;
+		break;
+	case SCUnit::Rarity::Primeval:
+		attackRange = 12.f;
+		baseDamage = 36;
+		attackInterval = 0.7f;
+		break;
+	}
 	damage = baseDamage;
-	attackInterval = 1.2f;
 	SetTexture("graphics/Dragoon.png");
 	hitBox.setSize({ 30.f,30.f });
 	hitBox.setOrigin(hitBox.getSize() / 2.f);

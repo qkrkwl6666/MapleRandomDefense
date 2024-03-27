@@ -17,6 +17,7 @@
 #include "Zergling.h"
 #include "Spawner.h"
 #include "Civilian.h"
+#include "RichText.h"
 
 SceneGame::SceneGame(SceneIds id) : Scene(id)
 {
@@ -33,7 +34,7 @@ void SceneGame::Init()
 
 	leftFiller = new ShapeGo<sf::RectangleShape>("leftFiller");
 	rightFiller = new ShapeGo<sf::RectangleShape>("rightFiller");
-	
+
 	leftFiller->SetSize({
 		((float)FRAMEWORK.GetWindowSize().x / 8),
 		(float)FRAMEWORK.GetWindowSize().y });
@@ -104,12 +105,13 @@ void SceneGame::Init()
 	AddGo(civilian, Layers::World);
 	civilian->Init();
 	civilian->SetPosition({ 27.f * 32.f + 16.f, 29.f * 32.f + 16.f });
-
 	AllUnitList.push_back(civilian);
 
 	EnemyList = spawner->GetEnemys();
 
-	mineral = 25;
+	mineral = 25; // 초기자금
+
+	
 }
 
 void SceneGame::SellUnit(SCUnit::Type t, SCUnit::Rarity r)
@@ -229,59 +231,134 @@ void SceneGame::message(MessageType m)
 }
 
 void SceneGame::message(MessageType m, SCUnit::Type t, SCUnit::Rarity r)
-{
-	std::string type;
+{	
+	std::wstring messageDisplayText;
+	std::wstring type;
 	switch (t)
 	{
 	case SCUnit::Type::Hydralisk:
-		type = "히드라 ";
+		type = L"Hydralisk ";
 		break;
 	case SCUnit::Type::Dragoon:
-		type = "드라군 ";
+		type = L"Dragoon ";
 		break;
 	case SCUnit::Type::Ghost:
-		type = "고스트 ";
+		type = L"Ghost ";
 		break;
 	default:
 		break;
 	}
 
-	std::string rarity;
+	std::wstring rarity;
+	std::wstring rarityUpperLegend = L"1 플레이어[가] ";
+	std::wstring rarityUpperLegendPer;
+	std::wstring empty = L"";
+	std::wstring line = L"---------------------------------------------";
 	switch (r)
 	{
 	case SCUnit::Rarity::Common:
-		rarity = "일반]";
+		rarity = L"[일반] 50.0%";
 		break;
 	case SCUnit::Rarity::Rare:
-		rarity = "레어]";
+		rarity = L"[레어] 33.1%";
 		break;
 	case SCUnit::Rarity::Ancient:
-		rarity = "고대]";
+		rarity = L"고대] 10.2%";
 		break;
 	case SCUnit::Rarity::Artifact:
-		rarity = "유물]";
+		rarity = L"유물] 5.1% ★";
 		break;
 	case SCUnit::Rarity::Saga:
-		rarity = "서사]";
+		rarity = L"서사] 0.8% ★★★";
 		break;
 	case SCUnit::Rarity::Legendary:
-		rarity = "전설] **************";
+		rarityUpperLegendPer = L"0.5% 확률로 ";
+		rarity = L"[전설] 을 획득하였습니다.";
 		break;
 	case SCUnit::Rarity::Mythic:
-		rarity = "신화] *********************";
+		rarityUpperLegendPer = L"0.08% 확률로 ";
+		rarity = L"[신화] 를 획득하였습니다.";
 		break;
 	case SCUnit::Rarity::Primeval:
-		rarity = "태초] ***************************** ";
+		rarityUpperLegendPer = L"0.019% 확률로 ";
+		rarity = L"[태초] 를 획득하였습니다.";
 		break;
 	}
 
 	switch (m)
 	{
 	case SceneGame::MessageType::BuyUnit:
-		std::cout << "[" << type << rarity << std::endl;
+	{
+		switch (r)
+		{
+		case SCUnit::Rarity::Common:
+		case SCUnit::Rarity::Rare:
+		case SCUnit::Rarity::Ancient:
+		case SCUnit::Rarity::Artifact:
+		case SCUnit::Rarity::Saga:
+		{
+			messageDisplayText = type + rarity;
+			SystemMessage message;
+			message.systemMessage->Set(RES_MGR_FONT.Get("font/Kostar.ttf"), messageDisplayText, 20, sf::Color::White);
+			message.systemMessage->sortLayer = 10;
+			AddGo(message.systemMessage, Layers::Ui);
+			messageContainer.push_front(message);
+		}
 		break;
+		case SCUnit::Rarity::Legendary:
+		case SCUnit::Rarity::Mythic:
+		case SCUnit::Rarity::Primeval:
+		{
+			messageDisplayText = rarityUpperLegend + rarityUpperLegendPer + type + rarity;
+
+			SystemMessage messageLine1;
+			messageLine1.systemMessage->Set(RES_MGR_FONT.Get("font/Kostar.ttf"), line, 20, sf::Color::White);
+			messageLine1.systemMessage->sortLayer = 10;
+			AddGo(messageLine1.systemMessage, Layers::Ui);
+			messageContainer.push_front(messageLine1);
+
+			SystemMessage empty1;
+			empty1.systemMessage->Set(RES_MGR_FONT.Get("font/Kostar.ttf"), empty, 20, sf::Color::White);
+			empty1.systemMessage->sortLayer = 10;
+			AddGo(empty1.systemMessage, Layers::Ui);
+			messageContainer.push_front(empty1);
+
+			SystemMessage empty2;
+			empty2.systemMessage->Set(RES_MGR_FONT.Get("font/Kostar.ttf"), empty, 20, sf::Color::White);
+			empty2.systemMessage->sortLayer = 10;
+			AddGo(empty2.systemMessage, Layers::Ui);
+			messageContainer.push_front(empty2);
+
+			SystemMessage message;
+			message.systemMessage->Set(RES_MGR_FONT.Get("font/Kostar.ttf"), messageDisplayText, 20, sf::Color::White);
+			message.systemMessage->sortLayer = 10;
+			AddGo(message.systemMessage, Layers::Ui);
+			messageContainer.push_front(message);
+
+			SystemMessage empty3;
+			empty3.systemMessage->Set(RES_MGR_FONT.Get("font/Kostar.ttf"), empty, 20, sf::Color::White);
+			empty3.systemMessage->sortLayer = 10;
+			AddGo(empty3.systemMessage, Layers::Ui);
+			messageContainer.push_front(empty3);
+
+			SystemMessage empty4;
+			empty4.systemMessage->Set(RES_MGR_FONT.Get("font/Kostar.ttf"), empty, 20, sf::Color::White);
+			empty4.systemMessage->sortLayer = 10;
+			AddGo(empty4.systemMessage, Layers::Ui);
+			messageContainer.push_front(empty4);
+
+			SystemMessage messageLine2;
+			messageLine2.systemMessage->Set(RES_MGR_FONT.Get("font/Kostar.ttf"), line, 20, sf::Color::White);
+			messageLine2.systemMessage->sortLayer = 10;
+			AddGo(messageLine2.systemMessage, Layers::Ui);
+			messageContainer.push_front(messageLine2);
+		}
+		break;
+		}
+	}
+	break;
 	case SceneGame::MessageType::SellUnit:
-		std::cout << "[유닛을 판매했습니다 : " << type << rarity << std::endl;
+		//std::cout << "[유닛을 판매했습니다 : " << type << rarity << std::endl;
 		break;
 	default:
 		break;
@@ -291,6 +368,38 @@ void SceneGame::message(MessageType m, SCUnit::Type t, SCUnit::Rarity r)
 void SceneGame::message(int i)
 {
 	std::cout << "+ " << i << "원" << std::endl;
+}
+
+void SceneGame::MessageUpdate(float dt)
+{
+	float yOffset = 0.f;
+	for (auto& message : messageContainer)
+	{
+		message.Update(dt);
+		message.systemMessage->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.14f , FRAMEWORK.GetWindowSize().y * 0.56f - yOffset });
+		yOffset += 25.f;
+	}
+	for (auto message = messageContainer.begin(); message != messageContainer.end();)
+	{
+		if (message->messageTimer > message->messageInterval)
+		{
+			message->systemMessage->SetActive(false);
+			DeleteGo(message->systemMessage);
+			message = messageContainer.erase(message);
+		}
+		else
+		{
+			++message;
+		}
+	}
+
+	if (messageContainer.size() > 8)
+	{
+		messageContainer.back().systemMessage->SetActive(false);
+		DeleteGo(messageContainer.back().systemMessage);
+		messageContainer.pop_back();
+	}
 }
 
 void SceneGame::UpgradeUpdate()
@@ -320,7 +429,7 @@ void SceneGame::UpgradeUpdate()
 void SceneGame::Release()
 {
 	Scene::Release();
-	
+
 }
 
 void SceneGame::Reset()
@@ -339,7 +448,7 @@ void SceneGame::Enter()
 void SceneGame::Exit()
 {
 	Scene::Exit();
-	
+
 }
 
 void SceneGame::Update(float dt)
@@ -355,6 +464,9 @@ void SceneGame::Update(float dt)
 		gas -= 10;
 		mineral += 5;
 	}
+
+	MessageUpdate(dt);
+
 	// *************** 개발자 모드
 	if (InputMgr::GetKeyDown(sf::Keyboard::D))
 	{
@@ -388,7 +500,7 @@ void SceneGame::Update(float dt)
 	if (InputMgr::GetMouseButton(sf::Mouse::Middle) &&
 		delta != lastMouseWorldPos - worldPos)
 	{
-		delta = lastMouseWorldPos - worldPos; 
+		delta = lastMouseWorldPos - worldPos;
 
 		GetWorldView().move(delta);
 	}
@@ -418,7 +530,7 @@ void SceneGame::DebugUpdate(float dt)
 {
 	Scene::DebugUpdate(dt);
 }
-	
+
 void SceneGame::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
@@ -435,8 +547,8 @@ void SceneGame::BuyUnit()
 	UnitSummonLocation.setPosition(basePosition);
 	std::vector<sf::Vector2f> directions = {
 	{32, 0},
-	{32, 32},  
-	{0, 32}, 
+	{32, 32},
+	{0, 32},
 	{0, -32},
 	{32, -32},
 	{64, -32},
@@ -469,7 +581,7 @@ void SceneGame::BuyUnit()
 		{
 			break;
 		}
-		UnitSummonLocation.setPosition(basePosition+ directions[directionIndex]);
+		UnitSummonLocation.setPosition(basePosition + directions[directionIndex]);
 		directionIndex++;
 	}
 

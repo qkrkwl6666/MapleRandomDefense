@@ -28,9 +28,20 @@ void DragoonBullet::Init(Enemy* t, int d)
 
 void DragoonBullet::Update(float dt)
 {
+	prevPosition = position;
 	Translate(direction * speed * dt);
 	animator->Update(dt);
-	if (Utils::Distance(targetPos,position) < 2.f)
+	
+	float targetToprePos = Utils::Distance(targetPos, prevPosition);
+	float prePosToPos = Utils::Distance(position, prevPosition);
+	float targetToPos = Utils::Distance(targetPos, position);
+
+	if (targetToprePos <= prePosToPos)
+	{
+		position = targetPos;
+	}
+
+	if (position == targetPos)
 	{
 		SetActive(false);
 		if (target != nullptr)
@@ -38,6 +49,5 @@ void DragoonBullet::Update(float dt)
 			target->OnDamege(damage);
 		}
 		dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->DeleteGo(this);
-
 	}
 }
