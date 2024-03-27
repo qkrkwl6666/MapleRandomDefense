@@ -88,5 +88,6 @@ public:
 	void OffUpgradeInfoView();
 
 	int GetStage() {return currentStage;}
+	void SetStage(int stage) {currentStage = stage;}
 };
 

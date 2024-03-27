@@ -157,6 +157,8 @@ void Animator::Update(float dt, Angle currentAngle)
 	}
 
 	beforeAngle = currentAngle;
+	if (currentFrame >= totalFrame)
+		return;
 	SetFrame(currentClip->frames[currentFrame]);
 }
 

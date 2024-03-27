@@ -17,7 +17,7 @@ class TileSet;
 class Interface;
 class Building;
 class Spawner;
-
+class DeveloperMode;
 
 class SceneGame : public Scene
 {
@@ -54,6 +54,7 @@ public:
 protected:
 	TileSet* tileSet = nullptr;
 	Spawner* spawner = nullptr;
+	DeveloperMode* developerMode = nullptr;
 
 	std::list<SystemMessage> messageContainer;
 	Interface* mainInterface = nullptr;
@@ -90,8 +91,6 @@ protected:
 	TextGo* mineralText = nullptr;
 	int gas = 0;
 	TextGo* gasText = nullptr;
-
-	bool modeDeveloper = false;
 
 public:
 	SceneGame(SceneIds id);
@@ -149,8 +148,11 @@ public:
 	TileSet* GetTileSet() { return tileSet; }
 
 	Interface* GetInterface() { return mainInterface; }
-
+	std::list<Enemy*>* GetEnemyList() { return EnemyList; }
+	Spawner* GetSpawner() { return spawner; }
 	void GasUp() { gas++; }
+
+	DeveloperMode* GetDeveloperMode() { return developerMode; }
 
 	void BuyUnit();
 

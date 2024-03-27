@@ -375,13 +375,24 @@ void Interface::Update(float dt)
 			else if (gameTimer < 0 && min <= 0)
 			{
 				// 다음 스테이지
-				min = 2;
-				gameTimer = 20;
-				uiTimerString = "02:20";
 				currentStage++;
-				texts["currentStage"]->SetString(L"현재 스테이지 : " + Utils::CP949ToWString(std::to_string(currentStage)));
-				texts["currentStage"]->SetActive(true);
-				currentStageTimer = 0.f;
+
+				if (currentStage == 14)
+				{
+					min = 5;
+					gameTimer = 20;
+					uiTimerString = "05:20";
+				}
+				else
+				{
+					min = 2;
+					gameTimer = 20;
+					uiTimerString = "02:20";
+
+					texts["currentStage"]->SetString(L"현재 스테이지 : " + Utils::CP949ToWString(std::to_string(currentStage)));
+					texts["currentStage"]->SetActive(true);
+					currentStageTimer = 0.f;
+				}
 			}
 			else
 			{

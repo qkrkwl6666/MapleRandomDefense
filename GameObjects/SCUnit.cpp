@@ -7,6 +7,7 @@
 #include "Projectile.h"
 #include "TileSet.h"
 #include "DragoonBullet.h"
+#include "DeveloperMode.h"
 
 SCUnit::SCUnit(const std::string& name, const std::string& animationName)
 	: SpriteAnimatorGo(name), animationName(animationName)
@@ -205,6 +206,17 @@ void SCUnit::Update(float dt)
 			break;
 		case SCUnit::Status::ATTACK:
 			{
+
+				if (isAster == true)
+				{
+					SetStatus(Status::MOVE);
+					projectile->SetActive(false);
+					isAster = false;
+					target = nullptr;
+					animator->Stop();
+					break;
+				}
+
 				if (!animator->IsPlaying())
 				{
 					if (type != Type::Dragoon)
@@ -363,6 +375,19 @@ void SCUnit::Draw(sf::RenderWindow& window)
 	if (projectile->GetActive() && currentStatus == Status::ATTACK)
 	{
 		projectile->Draw(window);
+	}
+
+	if (sceneGame->GetDeveloperMode()->GetActive() && currentStatus == Status::MOVE)
+	{
+		sf::VertexArray aSterLine(sf::LinesStrip);
+
+		for (sf::Vector2f line : path)
+		{
+			aSterLine.append(sf::Vertex (line , sf::Color::Blue));
+		}
+		
+		window.draw(aSterLine);
+
 	}
 
 	SpriteAnimatorGo::Draw(window);

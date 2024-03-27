@@ -23,7 +23,7 @@ void Scourge::Init()
 
 	SetOrigin(Origins::MC);
 
-	SetScale({ 2.f , 2.f });
+	SetScale({ 1.5f , 1.5f });
 
 	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/Scourge.csv"));
 	animator->Play("ScourgeMove", true, true, currentAngle);

@@ -19,6 +19,8 @@ protected:
 	float spawnTimer = 0;
 
 	SceneGame* sceneGame = nullptr;
+	
+	bool isBoss = false;
 
 public:
 	Spawner(const std::string& name = "");
@@ -34,5 +36,6 @@ public:
 	std::list<Enemy*>* GetEnemys() { return &Enemys; }
 
 	void SpawnEnemys(Enemy* enemy);
+	void AllRemove();
 };
 

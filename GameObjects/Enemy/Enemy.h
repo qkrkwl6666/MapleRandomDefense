@@ -7,6 +7,12 @@ class SpriteGo;
 class Enemy : public SpriteAnimatorGo
 {
 public:
+	enum class EnemyType
+	{
+		NONE = -1,
+		BOSS = 1,
+	};
+
 	enum class ArmorType
 	{
 		NONE = -1,
@@ -84,6 +90,8 @@ public:
 		{157.5f , Angle::BOTTOM60},
 		{180.f , Angle::RIGHT},
 	};
+
+	EnemyType enemyType = EnemyType::NONE;
 
 protected:
 	float hp = 10.f;

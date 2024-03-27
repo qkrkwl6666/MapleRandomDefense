@@ -28,6 +28,8 @@ void Framework::Init(int width, int height, const std::string& name  , sf::Uint6
 
 void Framework::Do()
 {
+
+
 	while (window.isOpen())
 	{
 		deltaTime = realDeltaTime = clock.restart();
@@ -71,6 +73,9 @@ void Framework::Do()
 			SCENE_MGR.DebugUpdate(GetDT());
 			mouse->DebugUpdate(GetDT());
 		}
+
+		sf::Time asTime = clock.restart();
+		frameRate = 1.f / asTime.asSeconds();
 
 		window.clear(sf::Color::Black);
 		SCENE_MGR.Draw(window);
