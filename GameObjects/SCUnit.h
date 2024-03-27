@@ -111,6 +111,7 @@ protected:
 	float attackRange = 10.f;
 	float attackInterval = 1.f;
 	float attackTimer = 0.f;
+	float attackSpeed = 0; // 보여주기용
 
 // 길찾기
 protected:
@@ -197,6 +198,9 @@ public:
 	void SetUpgrade(int u) { UpgradeCount = u; }
 	void SetDamage();
 	int GetDamage() { return damage; }
+	float GetAttackSpeed() { return attackSpeed; }
+	int GetRange() { return attackRange; }
+
 	Enemy* GetTarget() { return target; }
 	void SetTarget(Enemy* e) { target = e; }
 

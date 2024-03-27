@@ -7,6 +7,10 @@
 #include "Building.h"
 #include "UpgradeBuilding.h"
 #include "SellBuilding.h"
+#include <iomanip>
+#include <iostream>
+#include <sstream>
+#include <string>
 
 Interface::Interface(const std::string& name)
 {
@@ -724,6 +728,7 @@ void Interface::UpdateSellRaritySellect(float dt)
 		GhostSellUpdate();
 		break;
 	}
+
 }
 
 void Interface::UpdateUnit(float dt)
@@ -762,14 +767,23 @@ void Interface::UpdateUnit(float dt)
 		break;
 	}
 
+	std::wstringstream ss;
+	ss << std::fixed << std::setprecision(2) << scUnit->GetAttackSpeed();
+	std::wstring result = ss.str();
+	texts["WeaponInterval"]->SetString(L"공격속도 : x" + result);
+	texts["WeaponMethod"]->SetString(L"공격방식 : 단일개체");
+	texts["WeaponRange"]->SetString(L"사거리 : " + std::to_wstring(scUnit->GetRange()));
+	texts["WeaponDamage"]->SetString(L"Damage : " + std::to_wstring(scUnit->GetDamage()));
 
 	switch (scUnit->GetType())
 	{
 	case SCUnit::Type::NONE:
 		break;
 	case SCUnit::Type::Hydralisk:
+	{
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/HydraliskWarframe.png");
 		warframeName.clear();
+	}
 		switch (scUnit->GetRarity())
 		{
 		case SCUnit::Rarity::Common:
@@ -800,7 +814,9 @@ void Interface::UpdateUnit(float dt)
 			break;
 		}
 		texts["UIAttackType"]->SetString(L"▶ 일반형");
+		texts["WeaponName"]->SetString(L"Needle Spines");
 		break;
+	
 	case SCUnit::Type::Dragoon:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/DragoonWarframe.png");
 		warframeName.clear();
@@ -832,6 +848,7 @@ void Interface::UpdateUnit(float dt)
 			break;
 		}
 		texts["UIAttackType"]->SetString(L"▶ 폭발형");
+		texts["WeaponName"]->SetString(L"Cast Optical Flare");
 		break;
 	case SCUnit::Type::Ghost:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/GhostWarframe.png");
@@ -864,6 +881,7 @@ void Interface::UpdateUnit(float dt)
 			break;
 		}
 		texts["UIAttackType"]->SetString(L"▶ 진동형");
+		texts["WeaponName"]->SetString(L"C-10 Canister Rifle");
 		break;
 	case SCUnit::Type::Civilian:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/CivilianWarframe.png");
