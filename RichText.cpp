@@ -1,16 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////////////////////////
+#include "pch.h"
 #include <cassert>
-#include <cmath>
 
 #include "RichText.h"
-
-#include <SFML/Graphics/Font.hpp>
-#include <SFML/Graphics/Rect.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
-
-#include <SFML/System/String.hpp>
 
 namespace sfe
 {
