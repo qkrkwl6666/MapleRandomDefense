@@ -279,6 +279,21 @@ void Interface::Init()
 	texts["TextClear1"]->SetOrigin(Origins::MC);
 	texts["TextClear1"]->SetActive(false);
 
+	// 패배 메세지
+	NewTextGo("TextLose", RES_MGR_FONT.Get("font/Kostar.ttf"), L"메이플 운빨 디펜스", 30, sf::Color::Blue);
+	texts["TextLose"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.5f , FRAMEWORK.GetWindowSize().y * 0.4f });
+	texts["TextLose"]->sortLayer = 15;
+	texts["TextLose"]->SetOrigin(Origins::MC);
+	texts["TextLose"]->SetActive(false);
+
+	NewTextGo("TextLose1", RES_MGR_FONT.Get("font/Kostar.ttf"), L"패배", 30, sf::Color::Red);
+	texts["TextLose1"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.5f , FRAMEWORK.GetWindowSize().y * 0.45f });
+	texts["TextLose1"]->sortLayer = 15;
+	texts["TextLose1"]->SetOrigin(Origins::MC);
+	texts["TextLose1"]->SetActive(false);
+
 	NewSpriteGo("GhostUpgradeInfo", "graphics/UI/Interface/GhostUpgradeInfo.png");
 	sprites["GhostUpgradeInfo"]->SetOrigin(Origins::TL);
 	sprites["GhostUpgradeInfo"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
@@ -1226,6 +1241,12 @@ void Interface::ClearText(bool active)
 {
 	texts["TextClear"]->SetActive(active);
 	texts["TextClear1"]->SetActive(active);
+}
+
+void Interface::LoseText(bool active)
+{
+	texts["TextLose"]->SetActive(active);
+	texts["TextLose1"]->SetActive(active);
 }
 
 void Interface::SetWeaponInfoView(bool active)

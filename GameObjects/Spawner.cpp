@@ -125,7 +125,15 @@ void Spawner::Update(float dt)
 			{
 				isBoss = false;
 				mainInterface->ClearText(true);
-				FRAMEWORK.SetTimeScale(1.f);
+				FRAMEWORK.SetTimeScale(0.f);
+			}
+			break;
+		case 15:
+			if (Enemys.size() != 0)
+			{
+				isBoss = false;
+				mainInterface->LoseText(true);
+				FRAMEWORK.SetTimeScale(0.f);
 			}
 	}
 
@@ -156,6 +164,8 @@ void Spawner::Update(float dt)
 		break;
 	}
 
+
+
 }
 
 void Spawner::Draw(sf::RenderWindow& window)
@@ -176,6 +186,12 @@ void Spawner::Draw(sf::RenderWindow& window)
 void Spawner::LateUpdate(float dt)
 {
 	GameObject::LateUpdate(dt);
+
+	if (Enemys.size() >= 150)
+	{
+		mainInterface->LoseText(true);
+		FRAMEWORK.SetTimeScale(0.f);
+	}
 }
 
 void Spawner::SpawnEnemys(Enemy* enemy)
