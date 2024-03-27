@@ -82,5 +82,6 @@ public:
 	void SetWarframeView(bool active);
 
 	int GetStage() {return currentStage;}
+	void SetStage(int stage) {currentStage = stage;}
 };
 

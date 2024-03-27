@@ -16,6 +16,7 @@
 #include "Devourer.h"
 #include "Defiler.h"
 #include "Zealot.h"
+#include "TerranBoss.h"
 
 Spawner::Spawner(const std::string& name): GameObject(name)
 {
@@ -109,6 +110,22 @@ void Spawner::Update(float dt)
 		case 13:
 			SpawnEnemys(new Zealot());
 			break;
+		// 보스 스테이지
+		case 14:
+			if (!isBoss)
+			{
+				TerranBoss* enemy = new TerranBoss();
+				enemy->Init();
+				Enemys.push_back(enemy);
+				isBoss = true;
+			}
+			// 클리어
+			if (Enemys.size() == 0 && isBoss)
+			{
+				SCENE_MGR.ChangeScene(SceneIds::SceneTitle);
+				sceneGame->GetInterface()->SetStage(0);
+				isBoss = false;
+			}
 	}
 
 	for (auto* data : Enemys)

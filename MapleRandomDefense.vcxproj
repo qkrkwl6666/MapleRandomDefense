@@ -73,6 +73,7 @@
     <ClCompile Include="GameObjects\Enemy\Ultralisk.cpp" />
     <ClCompile Include="GameObjects\Enemy\Scourge.cpp" />
     <ClCompile Include="GameObjects\Enemy\Zealot.cpp" />
+    <ClCompile Include="GameObjects\Enemy\TerranBoss.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Civilian.h" />
@@ -132,6 +133,7 @@
     <ClInclude Include="GameObjects\Enemy\Ultralisk.h" />
     <ClInclude Include="GameObjects\Enemy\Scourge.h" />
     <ClInclude Include="GameObjects\Enemy\Zealot.h" />
+    <ClInclude Include="GameObjects\Enemy\TerranBoss.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

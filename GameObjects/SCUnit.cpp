@@ -86,9 +86,6 @@ void SCUnit::Update(float dt)
 	SpriteGo::Update(dt);
 	hitBox.setPosition(position);
 
-	/*if(type == Type::Hydralisk)
-		std::cout << (int)currentStatus << std::endl;*/
-
 	if (InputMgr::GetKeyUp(sf::Keyboard::Space))
 	{
 		if (isSelectSprite->GetActive() && isSelect)
@@ -209,6 +206,17 @@ void SCUnit::Update(float dt)
 			break;
 		case SCUnit::Status::ATTACK:
 			{
+
+				if (isAster == true)
+				{
+					SetStatus(Status::MOVE);
+					projectile->SetActive(false);
+					isAster = false;
+					target = nullptr;
+					animator->Stop();
+					break;
+				}
+
 				if (!animator->IsPlaying())
 				{
 					if (type != Type::Dragoon)

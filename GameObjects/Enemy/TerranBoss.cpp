@@ -1,56 +1,38 @@
 #include "pch.h"
-#include "Enemy.h"
-#include "Crosshair.h"
-#include "ShapeGo.h"
-#include "SceneGame.h"
+#include "TerranBoss.h"
 
-Enemy::Enemy(const std::string& name, const std::string& animationName)
-	: SpriteAnimatorGo(name) , animationName(animationName)
+TerranBoss::TerranBoss(const std::string& name, const std::string& animationName)
+	: Enemy(name, "TerranBoss")
 {
+	hp = 50000.f;
+	armor = ArmorType::LARGE;
+	enemyType = EnemyType::BOSS;
 }
 
-Enemy::~Enemy()
+TerranBoss::~TerranBoss()
 {
 
 }
 
-void Enemy::Init()
+void TerranBoss::Init()
 {
-	SpriteAnimatorGo::Init();
+	Enemy::Init();
 
-	float aniangle = -157.5;
+	SetTexture("graphics/Enemy/TerranBoss.png");
 
-	while (aniangle <= 180)
-	{
-		AnimationAngle.push_back(aniangle);
-		aniangle += 22.5;
-	}
+	SetScale({ 1.f , 1.f });
 
-	SetPosition({ 16 * 32 + 16.f , 9 * 32 + 16.f });
-
-	changeDirPos.push_back({12.f * 32.f + 16.f, 9 * 32.f + 16.f});
-	changeDirPos.push_back({9.f * 32.f + 16.f, 12 * 32.f + 16.f});
-	changeDirPos.push_back({9.f * 32.f + 16.f, 21 * 32.f + 16.f});
-	changeDirPos.push_back({12.f * 32.f + 16.f, 24 * 32.f + 16.f});
-	changeDirPos.push_back({21.f * 32.f + 16.f, 24 * 32.f + 16.f});
-	changeDirPos.push_back({24.f * 32.f + 16.f, 21 * 32.f + 16.f});
-	changeDirPos.push_back({24.f * 32.f + 16.f, 12 * 32.f + 16.f});
-	changeDirPos.push_back({21.f * 32.f + 16.f, 9 * 32.f + 16.f});
-
-	currentDirection = front[Dir];
-	currentAngle = angleMMap[Dir];
+	SetOrigin(Origins::MC);
 }
 
-void Enemy::Reset()
+void TerranBoss::Reset()
 {
-	SpriteAnimatorGo::Reset();
+	Enemy::Reset();
 }
 
-void Enemy::Update(float dt)
+void TerranBoss::Update(float dt)
 {
 	SpriteGo::Update(dt);
-
-	animator->Update(dt, currentAngle);
 
 	if (hp <= 0)
 	{
@@ -82,7 +64,7 @@ void Enemy::Update(float dt)
 		case (int)Dir::LEFT_DOWN:
 			if (GetPosition().y >= changeDirPos[1].y)
 			{
-				SetPosition({ changeDirPos[1].x , changeDirPos[1].y});
+				SetPosition({ changeDirPos[1].x , changeDirPos[1].y });
 				Dir = (int)Dir::DOWN;
 				currentDirection = front[Dir];
 				currentAngle = angleMMap[Dir];
@@ -165,25 +147,12 @@ void Enemy::Update(float dt)
 	}
 }
 
-void Enemy::LateUpdate(float dt)
+void TerranBoss::LateUpdate(float dt)
 {
-	SpriteAnimatorGo::LateUpdate(dt);
-
-	
+	//Enemy::LateUpdate(dt);
 }
 
-void Enemy::Draw(sf::RenderWindow& window)
+void TerranBoss::Draw(sf::RenderWindow& window)
 {
-	SpriteAnimatorGo::Draw(window);
-}
-
-void Enemy::OnDamege(float damage)
-{
-	hp -= damage;
-}
-
-void Enemy::Dead()
-{
-	dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GasUp();
-	SetActive(false);
+	Enemy::Draw(window);
 }
