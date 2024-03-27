@@ -197,6 +197,7 @@ public:
 	void SetStatus(Status status);
 	void SetUpgrade(int u) { UpgradeCount = u; }
 	void SetDamage();
+	int GetUpgrade() { return UpgradeCount; }
 	int GetDamage() { return damage; }
 	float GetAttackSpeed() { return attackSpeed; }
 	int GetRange() { return attackRange; }

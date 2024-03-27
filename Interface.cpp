@@ -7,6 +7,8 @@
 #include "Building.h"
 #include "UpgradeBuilding.h"
 #include "SellBuilding.h"
+#include "Enemy.h"
+#include "Spawner.h"
 #include <iomanip>
 #include <iostream>
 #include <sstream>
@@ -24,6 +26,7 @@ Interface::~Interface()
 
 void Interface::Init()
 {
+	enemySpawer = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetSpawner();
 	// 메인 인터페이스
 	NewSpriteGo("MainInterface", "graphics/UI/Interface/Interface.png");
 	sprites["MainInterface"]->SetOrigin(Origins::BC);
@@ -354,6 +357,179 @@ void Interface::Init()
 	texts["WeaponDamage"]->sortLayer = 14;
 	texts["WeaponDamage"]->SetActive(false);
 
+	NewTextGo("UpgradeCount", RES_MGR_FONT.Get("font/Kostar.ttf"), L"0", 12, sf::Color::White);
+	texts["UpgradeCount"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.49f , FRAMEWORK.GetWindowSize().y * 0.967f });
+	texts["UpgradeCount"]->sortLayer = 14;
+	texts["UpgradeCount"]->SetActive(false);
+
+	NewSpriteGo("SellInfo1", "graphics/UI/Interface/SellInfo.png");
+	sprites["SellInfo1"]->SetOrigin(Origins::TL);
+	sprites["SellInfo1"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.68f , FRAMEWORK.GetWindowSize().y * 0.70f });
+	sprites["SellInfo1"]->sortLayer = 14;
+	sprites["SellInfo1"]->SetActive(false);
+	sprites["SellInfo1"]->SetScale({ 1.f, 1.f });
+	NewTextGo("SellInfo1", RES_MGR_FONT.Get("font/Kostar.ttf"), L"▶ 고스트 판매", 16, sf::Color::White);
+	texts["SellInfo1"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.69f , FRAMEWORK.GetWindowSize().y * 0.713f });
+	texts["SellInfo1"]->sortLayer = 14;
+	texts["SellInfo1"]->SetActive(false);
+
+	NewSpriteGo("SellInfo2", "graphics/UI/Interface/SellInfo.png");
+	sprites["SellInfo2"]->SetOrigin(Origins::TL);
+	sprites["SellInfo2"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.73f , FRAMEWORK.GetWindowSize().y * 0.70f });
+	sprites["SellInfo2"]->sortLayer = 14;
+	sprites["SellInfo2"]->SetActive(false);
+	sprites["SellInfo2"]->SetScale({ 1.f, 1.f });
+	NewTextGo("SellInfo2", RES_MGR_FONT.Get("font/Kostar.ttf"), L"▶ 히드라 판매", 16, sf::Color::White);
+	texts["SellInfo2"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.74f , FRAMEWORK.GetWindowSize().y * 0.713f });
+	texts["SellInfo2"]->sortLayer = 14;
+	texts["SellInfo2"]->SetActive(false);
+
+
+	NewSpriteGo("SellInfo3", "graphics/UI/Interface/SellInfo.png");
+	sprites["SellInfo3"]->SetOrigin(Origins::TL);
+	sprites["SellInfo3"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.79f , FRAMEWORK.GetWindowSize().y * 0.70f });
+	sprites["SellInfo3"]->sortLayer = 14;
+	sprites["SellInfo3"]->SetActive(false);
+	sprites["SellInfo3"]->SetScale({ 1.f, 1.f });
+	NewTextGo("SellInfo3", RES_MGR_FONT.Get("font/Kostar.ttf"), L"▶ 드라군 판매", 16, sf::Color::White);
+	texts["SellInfo3"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.80f , FRAMEWORK.GetWindowSize().y * 0.713f });
+	texts["SellInfo3"]->sortLayer = 14;
+	texts["SellInfo3"]->SetActive(false);
+
+
+	NewSpriteGo("SellRarityInfo1", "graphics/UI/Interface/SellRarityInfo.png");
+	sprites["SellRarityInfo1"]->SetOrigin(Origins::TL);
+	sprites["SellRarityInfo1"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.68f , FRAMEWORK.GetWindowSize().y * 0.70f });
+	sprites["SellRarityInfo1"]->sortLayer = 14;
+	sprites["SellRarityInfo1"]->SetActive(false);
+	sprites["SellRarityInfo1"]->SetScale({ 1.f, 1.f });
+	NewTextGo("SellRarityInfo1", RES_MGR_FONT.Get("font/Kostar.ttf"), L"▶ 일반 고스트", 16, sf::Color::White);
+	texts["SellRarityInfo1"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.69f , FRAMEWORK.GetWindowSize().y * 0.71f });
+	texts["SellRarityInfo1"]->sortLayer = 14;
+	texts["SellRarityInfo1"]->SetActive(false);
+	NewTextGo("SellRarityValueInfo1", RES_MGR_FONT.Get("font/Kostar.ttf"), L"3 mineral", 16, sf::Color::White);
+	texts["SellRarityValueInfo1"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.695f , FRAMEWORK.GetWindowSize().y * 0.738f });
+	texts["SellRarityValueInfo1"]->sortLayer = 14;
+	texts["SellRarityValueInfo1"]->SetActive(false);
+
+	NewSpriteGo("SellRarityInfo2", "graphics/UI/Interface/SellRarityInfo.png");
+	sprites["SellRarityInfo2"]->SetOrigin(Origins::TL);
+	sprites["SellRarityInfo2"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.73f , FRAMEWORK.GetWindowSize().y * 0.70f });
+	sprites["SellRarityInfo2"]->sortLayer = 14;
+	sprites["SellRarityInfo2"]->SetActive(false);
+	sprites["SellRarityInfo2"]->SetScale({ 1.f, 1.f });
+	NewTextGo("SellRarityInfo2", RES_MGR_FONT.Get("font/Kostar.ttf"), L"▶ 레어 고스트", 16, sf::Color::White);
+	texts["SellRarityInfo2"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.74f , FRAMEWORK.GetWindowSize().y * 0.71f });
+	texts["SellRarityInfo2"]->sortLayer = 14;
+	texts["SellRarityInfo2"]->SetActive(false);
+	NewTextGo("SellRarityValueInfo2", RES_MGR_FONT.Get("font/Kostar.ttf"), L"6 mineral", 16, sf::Color::White);
+	texts["SellRarityValueInfo2"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.745f , FRAMEWORK.GetWindowSize().y * 0.738f });
+	texts["SellRarityValueInfo2"]->sortLayer = 14;
+	texts["SellRarityValueInfo2"]->SetActive(false);
+
+	NewSpriteGo("SellRarityInfo3", "graphics/UI/Interface/SellRarityInfo.png");
+	sprites["SellRarityInfo3"]->SetOrigin(Origins::TL);
+	sprites["SellRarityInfo3"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.79f , FRAMEWORK.GetWindowSize().y * 0.70f });
+	sprites["SellRarityInfo3"]->sortLayer = 14;
+	sprites["SellRarityInfo3"]->SetActive(false);
+	sprites["SellRarityInfo3"]->SetScale({ 1.f, 1.f });
+	NewTextGo("SellRarityInfo3", RES_MGR_FONT.Get("font/Kostar.ttf"), L"▶ 고대 고스트", 16, sf::Color::White);
+	texts["SellRarityInfo3"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.80f , FRAMEWORK.GetWindowSize().y * 0.71f });
+	texts["SellRarityInfo3"]->sortLayer = 14;
+	texts["SellRarityInfo3"]->SetActive(false);
+	NewTextGo("SellRarityValueInfo3", RES_MGR_FONT.Get("font/Kostar.ttf"), L"9 mineral", 16, sf::Color::White);
+	texts["SellRarityValueInfo3"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.805f , FRAMEWORK.GetWindowSize().y * 0.738f });
+	texts["SellRarityValueInfo3"]->sortLayer = 14;
+	texts["SellRarityValueInfo3"]->SetActive(false);
+
+	NewSpriteGo("SellRarityInfo4", "graphics/UI/Interface/SellRarityInfo.png");
+	sprites["SellRarityInfo4"]->SetOrigin(Origins::TL);
+	sprites["SellRarityInfo4"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.68f , FRAMEWORK.GetWindowSize().y * 0.77f });
+	sprites["SellRarityInfo4"]->sortLayer = 14;
+	sprites["SellRarityInfo4"]->SetActive(false);
+	sprites["SellRarityInfo4"]->SetScale({ 1.f, 1.f });
+	NewTextGo("SellRarityInfo4", RES_MGR_FONT.Get("font/Kostar.ttf"), L"▶ 유물 고스트", 16, sf::Color::White);
+	texts["SellRarityInfo4"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.69f , FRAMEWORK.GetWindowSize().y * 0.78f });
+	texts["SellRarityInfo4"]->sortLayer = 14;
+	texts["SellRarityInfo4"]->SetActive(false);
+	NewTextGo("SellRarityValueInfo4", RES_MGR_FONT.Get("font/Kostar.ttf"), L"16 mineral", 16, sf::Color::White);
+	texts["SellRarityValueInfo4"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.695f , FRAMEWORK.GetWindowSize().y * 0.808f });
+	texts["SellRarityValueInfo4"]->sortLayer = 14;
+	texts["SellRarityValueInfo4"]->SetActive(false);
+
+	NewSpriteGo("SellRarityInfo5", "graphics/UI/Interface/SellRarityInfo.png");
+	sprites["SellRarityInfo5"]->SetOrigin(Origins::TL);
+	sprites["SellRarityInfo5"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.73f , FRAMEWORK.GetWindowSize().y * 0.77f });
+	sprites["SellRarityInfo5"]->sortLayer = 14;
+	sprites["SellRarityInfo5"]->SetActive(false);
+	sprites["SellRarityInfo5"]->SetScale({ 1.f, 1.f });
+	NewTextGo("SellRarityInfo5", RES_MGR_FONT.Get("font/Kostar.ttf"), L"▶ 서사 고스트", 16, sf::Color::White);
+	texts["SellRarityInfo5"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.74f , FRAMEWORK.GetWindowSize().y * 0.78f });
+	texts["SellRarityInfo5"]->sortLayer = 14;
+	texts["SellRarityInfo5"]->SetActive(false);
+	NewTextGo("SellRarityValueInfo5", RES_MGR_FONT.Get("font/Kostar.ttf"), L"30 mineral", 16, sf::Color::White);
+	texts["SellRarityValueInfo5"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.745f , FRAMEWORK.GetWindowSize().y * 0.808f });
+	texts["SellRarityValueInfo5"]->sortLayer = 14;
+	texts["SellRarityValueInfo5"]->SetActive(false);
+
+	NewSpriteGo("UpgradeInfo", "graphics/UI/Interface/UpgradeInfo.png");
+	sprites["UpgradeInfo"]->SetOrigin(Origins::TL);
+	sprites["UpgradeInfo"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.68f , FRAMEWORK.GetWindowSize().y * 0.645f });
+	sprites["UpgradeInfo"]->sortLayer = 14;
+	sprites["UpgradeInfo"]->SetActive(false);
+	sprites["UpgradeInfo"]->SetScale({ 1.f, 1.f });
+	NewTextGo("UpgradeInfo", RES_MGR_FONT.Get("font/Kostar.ttf"), L"▶ Upgrade Hydralisk Weapons", 18, sf::Color::Yellow);
+	texts["UpgradeInfo"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.69f , FRAMEWORK.GetWindowSize().y * 0.65f });
+	texts["UpgradeInfo"]->sortLayer = 14;
+	texts["UpgradeInfo"]->SetActive(false);
+	NewTextGo("UpgradeInfo2", RES_MGR_FONT.Get("font/Kostar.ttf"), L"Next Level :", 18, sf::Color::White);
+	texts["UpgradeInfo2"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.69f , FRAMEWORK.GetWindowSize().y * 0.678f });
+	texts["UpgradeInfo2"]->sortLayer = 14;
+	texts["UpgradeInfo2"]->SetActive(false);
+	NewSpriteGo("UpgradeInfoMineral", "graphics/UI/Interface/minerals.png");
+	sprites["UpgradeInfoMineral"]->SetOrigin(Origins::TL);
+	sprites["UpgradeInfoMineral"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.69f , FRAMEWORK.GetWindowSize().y * 0.71f });
+	sprites["UpgradeInfoMineral"]->sortLayer = 14;
+	sprites["UpgradeInfoMineral"]->SetScale({ 0.7f, 0.7f });
+	sprites["UpgradeInfoMineral"]->SetActive(false);
+	NewTextGo("UpgradeInfo3", RES_MGR_FONT.Get("font/Kostar.ttf"), L"11", 18, sf::Color::White);
+	texts["UpgradeInfo3"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.71f , FRAMEWORK.GetWindowSize().y * 0.71f });
+	texts["UpgradeInfo3"]->sortLayer = 14;
+	texts["UpgradeInfo3"]->SetActive(false);
+
+	NewTextGo("EnemyHP", RES_MGR_FONT.Get("font/Kostar.ttf"), L"34/35", 17, sf::Color::Green);
+	texts["EnemyHP"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.333f , FRAMEWORK.GetWindowSize().y * 0.948f });
+	texts["EnemyHP"]->sortLayer = 14;
+	texts["EnemyHP"]->SetActive(false);
+
 	UiInit();
 	ObjectsSort();
 }
@@ -371,6 +547,7 @@ void Interface::Reset()
 
 void Interface::Update(float dt)
 {
+	std::cout << (int)uiStatus << std::endl;
 	UIGo::Update(dt);
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::F1))
@@ -433,7 +610,7 @@ void Interface::Update(float dt)
 				uiTimerString.replace(3, std::string::npos, "0" + std::to_string(gameTimer));
 			}
 		}
-		
+
 		texts["UITimer"]->SetString(uiTimerString);
 		uiTimer = 0.f;
 	}
@@ -559,6 +736,27 @@ void Interface::Update(float dt)
 					}
 				}
 			}
+
+			std::list<Enemy*>* enemyListPtr = enemySpawer->GetEnemys();
+			if (enemyListPtr) {
+				std::list<Enemy*>& enemyList = *enemyListPtr;
+				for (Enemy* enemy : enemyList)
+				{
+					if (enemy->GetGlobalBounds().contains(selectBox->GetPosition()))
+					{
+						UItarget = enemy;
+						SetWarframeView(true);
+						SetActiveUpgrade(false);
+						SetActiveSell(false);
+						SetActiveSellInfo(false, SCUnit::Type::Hydralisk);
+						SetActiveSellInfo(false, SCUnit::Type::Ghost);
+						SetActiveSellInfo(false, SCUnit::Type::Dragoon);
+						OffUpgradeInfoView();
+						uiStatus = UIStatus::Enemy;
+						return;
+					}
+				}
+			}
 			if (!mouseOnUi) {
 
 				UItarget = nullptr; // 아무것도 못 찍었을 때,
@@ -596,6 +794,9 @@ void Interface::Update(float dt)
 	case Interface::UIStatus::Unit:
 		UpdateUnit(dt);
 		break;
+	case Interface::UIStatus::Enemy:
+		UpdateEnemy(dt);
+		break;
 	}
 
 }
@@ -603,6 +804,24 @@ void Interface::Update(float dt)
 void Interface::UpdateUpgrade(float dt)
 {
 	UpgradeBuilding* building = dynamic_cast<UpgradeBuilding*>(UItarget);
+
+	if (sprites["HydraliskUpgrade"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()))
+	{
+		sprites["UpgradeInfo"]->SetActive(true);
+		texts["UpgradeInfo"]->SetActive(true);
+		texts["UpgradeInfo2"]->SetActive(true);
+		sprites["UpgradeInfoMineral"]->SetActive(true);
+		texts["UpgradeInfo3"]->SetActive(true);
+	}
+	else
+	{
+		sprites["UpgradeInfo"]->SetActive(false);
+		texts["UpgradeInfo"]->SetActive(false);
+		texts["UpgradeInfo2"]->SetActive(false);
+		sprites["UpgradeInfoMineral"]->SetActive(false);
+		texts["UpgradeInfo3"]->SetActive(false);
+	}
+
 	switch (building->GetRace())
 	{
 	case UpgradeBuilding::Races::NONE:
@@ -612,18 +831,27 @@ void Interface::UpdateUpgrade(float dt)
 		warframeName.clear();
 		warframeName << sf::Color::White << L"UNIT ▶UPGRADE";
 		texts["UIAttackType"]->SetString(L"");
+		texts["UpgradeInfo"]->SetString(L"Upgrade Ghost Weapons");
+		texts["UpgradeInfo2"]->SetString(L"Next Level: " + std::to_wstring(dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetGhostUpgrade() + 1));
+		texts["UpgradeInfo3"]->SetString(std::to_wstring(12 + (dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetGhostUpgrade()) * 3));
 		break;
 	case UpgradeBuilding::Races::Zerg:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/ZergWarframe.png");
 		warframeName.clear();
 		warframeName << sf::Color::White << L"UNIT ▶UPGRADE";
 		texts["UIAttackType"]->SetString(L"");
+		texts["UpgradeInfo"]->SetString(L"Upgrade Hydralisk Weapons");
+		texts["UpgradeInfo2"]->SetString(L"Next Level: " + std::to_wstring(dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetHydraliskUpgrade() + 1));
+		texts["UpgradeInfo3"]->SetString(std::to_wstring(10 + (dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetHydraliskUpgrade()) * 2));
 		break;
 	case UpgradeBuilding::Races::Protoss:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/ProtossWarframe.png");
 		warframeName.clear();
 		warframeName << sf::Color::White << L"UNIT ▶UPGRADE";
 		texts["UIAttackType"]->SetString(L"");
+		texts["UpgradeInfo"]->SetString(L"Upgrade Dragoon Weapons");
+		texts["UpgradeInfo2"]->SetString(L"Next Level: " + std::to_wstring(dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetDragoonUpgrade() + 1));
+		texts["UpgradeInfo3"]->SetString(std::to_wstring(12 + (dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetDragoonUpgrade()) * 3));
 		break;
 	default:
 		break;
@@ -675,6 +903,7 @@ void Interface::UpdateSellUnitSellect(float dt)
 		SetActiveSellInfo(true, SCUnit::Type::Ghost);
 		uiUnitType = SCUnit::Type::Ghost;
 		uiStatus = UIStatus::SellRaritySellect;
+		return;
 	}
 	else if (sprites["HydraliskSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
@@ -683,6 +912,7 @@ void Interface::UpdateSellUnitSellect(float dt)
 		SetActiveSellInfo(true, SCUnit::Type::Hydralisk);
 		uiUnitType = SCUnit::Type::Hydralisk;
 		uiStatus = UIStatus::SellRaritySellect;
+		return;
 	}
 	else if (sprites["DragoonSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
@@ -691,8 +921,41 @@ void Interface::UpdateSellUnitSellect(float dt)
 		SetActiveSellInfo(true, SCUnit::Type::Dragoon);
 		uiUnitType = SCUnit::Type::Dragoon;
 		uiStatus = UIStatus::SellRaritySellect;
+		return;
 	}
 
+	if (sprites["GhostSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()))
+	{
+		sprites["SellInfo1"]->SetActive(true);
+		texts["SellInfo1"]->SetActive(true);
+	}
+	else
+	{
+		sprites["SellInfo1"]->SetActive(false);
+		texts["SellInfo1"]->SetActive(false);
+	}
+
+	if (sprites["HydraliskSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()))
+	{
+		sprites["SellInfo2"]->SetActive(true);
+		texts["SellInfo2"]->SetActive(true);
+	}
+	else
+	{
+		sprites["SellInfo2"]->SetActive(false);
+		texts["SellInfo2"]->SetActive(false);
+	}
+
+	if (sprites["DragoonSell"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()))
+	{
+		sprites["SellInfo3"]->SetActive(true);
+		texts["SellInfo3"]->SetActive(true);
+	}
+	else
+	{
+		sprites["SellInfo3"]->SetActive(false);
+		texts["SellInfo3"]->SetActive(false);
+	}
 }
 
 void Interface::UpdateSellRaritySellect(float dt)
@@ -718,6 +981,11 @@ void Interface::UpdateSellRaritySellect(float dt)
 			}
 			rarity[(int)go->GetRarity()]++;
 		}
+		texts["SellRarityInfo1"]->SetString(L"▶ 일반 히드라");
+		texts["SellRarityInfo2"]->SetString(L"▶ 레어 히드라");
+		texts["SellRarityInfo3"]->SetString(L"▶ 고대 히드라");
+		texts["SellRarityInfo4"]->SetString(L"▶ 유물 히드라");
+		texts["SellRarityInfo5"]->SetString(L"▶ 서사 히드라");
 		SetSellUiTexture("Hydralisk", "Normal", 0);
 		SetSellUiTexture("Hydralisk", "Rare", 1);
 		SetSellUiTexture("Hydralisk", "Ancient", 2);
@@ -734,6 +1002,11 @@ void Interface::UpdateSellRaritySellect(float dt)
 			}
 			rarity[(int)go->GetRarity()]++;
 		}
+		texts["SellRarityInfo1"]->SetString(L"▶ 일반 드라군");
+		texts["SellRarityInfo2"]->SetString(L"▶ 레어 드라군");
+		texts["SellRarityInfo3"]->SetString(L"▶ 고대 드라군");
+		texts["SellRarityInfo4"]->SetString(L"▶ 유물 드라군");
+		texts["SellRarityInfo5"]->SetString(L"▶ 서사 드라군");
 		SetSellUiTexture("Dragoon", "Normal", 0);
 		SetSellUiTexture("Dragoon", "Rare", 1);
 		SetSellUiTexture("Dragoon", "Ancient", 2);
@@ -750,6 +1023,11 @@ void Interface::UpdateSellRaritySellect(float dt)
 			}
 			rarity[(int)go->GetRarity()]++;
 		}
+		texts["SellRarityInfo1"]->SetString(L"▶ 일반 고스트");
+		texts["SellRarityInfo2"]->SetString(L"▶ 레어 고스트");
+		texts["SellRarityInfo3"]->SetString(L"▶ 고대 고스트");
+		texts["SellRarityInfo4"]->SetString(L"▶ 유물 고스트");
+		texts["SellRarityInfo5"]->SetString(L"▶ 서사 고스트");
 		SetSellUiTexture("Ghost", "Normal", 0);
 		SetSellUiTexture("Ghost", "Rare", 1);
 		SetSellUiTexture("Ghost", "Ancient", 2);
@@ -759,6 +1037,70 @@ void Interface::UpdateSellRaritySellect(float dt)
 		break;
 	}
 
+	if (sprites["HydraliskNormal"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()))
+	{
+		sprites["SellRarityInfo1"]->SetActive(true);
+		texts["SellRarityInfo1"]->SetActive(true);
+		texts["SellRarityValueInfo1"]->SetActive(true);
+	}
+	else
+	{
+		sprites["SellRarityInfo1"]->SetActive(false);
+		texts["SellRarityInfo1"]->SetActive(false);
+		texts["SellRarityValueInfo1"]->SetActive(false);
+	}
+
+	if (sprites["HydraliskRare"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()))
+	{
+		sprites["SellRarityInfo2"]->SetActive(true);
+		texts["SellRarityInfo2"]->SetActive(true);
+		texts["SellRarityValueInfo2"]->SetActive(true);
+	}
+	else
+	{
+		sprites["SellRarityInfo2"]->SetActive(false);
+		texts["SellRarityInfo2"]->SetActive(false);
+		texts["SellRarityValueInfo2"]->SetActive(false);
+	}
+
+	if (sprites["HydraliskAncient"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()))
+	{
+		sprites["SellRarityInfo3"]->SetActive(true);
+		texts["SellRarityInfo3"]->SetActive(true);
+		texts["SellRarityValueInfo3"]->SetActive(true);
+	}
+	else
+	{
+		sprites["SellRarityInfo3"]->SetActive(false);
+		texts["SellRarityInfo3"]->SetActive(false);
+		texts["SellRarityValueInfo3"]->SetActive(false);
+	}
+
+	if (sprites["HydraliskArtifact"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()))
+	{
+		sprites["SellRarityInfo4"]->SetActive(true);
+		texts["SellRarityInfo4"]->SetActive(true);
+		texts["SellRarityValueInfo4"]->SetActive(true);
+	}
+	else
+	{
+		sprites["SellRarityInfo4"]->SetActive(false);
+		texts["SellRarityInfo4"]->SetActive(false);
+		texts["SellRarityValueInfo4"]->SetActive(false);
+	}
+
+	if (sprites["HydraliskNarrative"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()))
+	{
+		sprites["SellRarityInfo5"]->SetActive(true);
+		texts["SellRarityInfo5"]->SetActive(true);
+		texts["SellRarityValueInfo5"]->SetActive(true);
+	}
+	else
+	{
+		sprites["SellRarityInfo5"]->SetActive(false);
+		texts["SellRarityInfo5"]->SetActive(false);
+		texts["SellRarityValueInfo5"]->SetActive(false);
+	}
 }
 
 void Interface::UpdateUnit(float dt)
@@ -797,6 +1139,8 @@ void Interface::UpdateUnit(float dt)
 		break;
 	}
 
+	texts["UpgradeCount"]->SetString(std::to_wstring(scUnit->GetUpgrade()));
+
 	std::wstringstream ss;
 	ss << std::fixed << std::setprecision(2) << scUnit->GetAttackSpeed();
 	std::wstring result = ss.str();
@@ -814,6 +1158,12 @@ void Interface::UpdateUnit(float dt)
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/HydraliskWarframe.png");
 		warframeName.clear();
 	}
+	if (onDamageInfo)
+	{
+		warframeName << sf::Color::White << L"히드라";
+	}
+	else
+	{
 		switch (scUnit->GetRarity())
 		{
 		case SCUnit::Rarity::Common:
@@ -843,39 +1193,47 @@ void Interface::UpdateUnit(float dt)
 		default:
 			break;
 		}
-		texts["UIAttackType"]->SetString(L"▶ 일반형");
-		texts["WeaponName"]->SetString(L"Needle Spines");
-		break;
-	
+	}
+	texts["UIAttackType"]->SetString(L"▶ 일반형");
+	texts["WeaponName"]->SetString(L"Needle Spines");
+	break;
+
 	case SCUnit::Type::Dragoon:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/DragoonWarframe.png");
 		warframeName.clear();
-		switch (scUnit->GetRarity())
+		if (onDamageInfo)
 		{
-		case SCUnit::Rarity::Common:
-			warframeName << sf::Color::White << L"드라군 " << sf::Color::White << rarityText;
-			break;
-		case SCUnit::Rarity::Rare:
-			warframeName << sf::Color::White << L"드라군 " << sf::Color(0, 128, 0) << rarityText;
-			break;
-		case SCUnit::Rarity::Ancient:
-			warframeName << sf::Color::White << L"드라군 " << sf::Color(128, 0, 128) << rarityText;
-			break;
-		case SCUnit::Rarity::Artifact:
-			warframeName << sf::Color::White << L"드라군 " << sf::Color::Red << rarityText;
-			break;
-		case SCUnit::Rarity::Saga:
-			warframeName << sf::Color::White << L"드라군 " << sf::Color(0, 191, 255) << rarityText;
-			break;
-		case SCUnit::Rarity::Legendary:
-			warframeName << sf::Color::White << L"드라군 " << sf::Color::Yellow << rarityText;
-			break;
-		case SCUnit::Rarity::Mythic:
-			warframeName << sf::Color::White << L"드라군 " << sf::Color::Red << rarityText;
-			break;
-		case SCUnit::Rarity::Primeval:
-			warframeName << sf::Color::White << L"드라군 " << sf::Color(0, 191, 255) << rarityText;
-			break;
+			warframeName << sf::Color::White << L"드라군";
+		}
+		else
+		{
+			switch (scUnit->GetRarity())
+			{
+			case SCUnit::Rarity::Common:
+				warframeName << sf::Color::White << L"드라군 " << sf::Color::White << rarityText;
+				break;
+			case SCUnit::Rarity::Rare:
+				warframeName << sf::Color::White << L"드라군 " << sf::Color(0, 128, 0) << rarityText;
+				break;
+			case SCUnit::Rarity::Ancient:
+				warframeName << sf::Color::White << L"드라군 " << sf::Color(128, 0, 128) << rarityText;
+				break;
+			case SCUnit::Rarity::Artifact:
+				warframeName << sf::Color::White << L"드라군 " << sf::Color::Red << rarityText;
+				break;
+			case SCUnit::Rarity::Saga:
+				warframeName << sf::Color::White << L"드라군 " << sf::Color(0, 191, 255) << rarityText;
+				break;
+			case SCUnit::Rarity::Legendary:
+				warframeName << sf::Color::White << L"드라군 " << sf::Color::Yellow << rarityText;
+				break;
+			case SCUnit::Rarity::Mythic:
+				warframeName << sf::Color::White << L"드라군 " << sf::Color::Red << rarityText;
+				break;
+			case SCUnit::Rarity::Primeval:
+				warframeName << sf::Color::White << L"드라군 " << sf::Color(0, 191, 255) << rarityText;
+				break;
+			}
 		}
 		texts["UIAttackType"]->SetString(L"▶ 폭발형");
 		texts["WeaponName"]->SetString(L"Cast Optical Flare");
@@ -884,32 +1242,39 @@ void Interface::UpdateUnit(float dt)
 	case SCUnit::Type::Ghost:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/GhostWarframe.png");
 		warframeName.clear();
-		switch (scUnit->GetRarity())
+		if (onDamageInfo)
 		{
-		case SCUnit::Rarity::Common:
-			warframeName << sf::Color::White << L"고스트 " << sf::Color::White << rarityText;
-			break;
-		case SCUnit::Rarity::Rare:
-			warframeName << sf::Color::White << L"고스트 " << sf::Color(0, 128, 0) << rarityText;
-			break;
-		case SCUnit::Rarity::Ancient:
-			warframeName << sf::Color::White << L"고스트 " << sf::Color(128, 0, 128) << rarityText;
-			break;
-		case SCUnit::Rarity::Artifact:
-			warframeName << sf::Color::White << L"고스트 " << sf::Color::Red << rarityText;
-			break;
-		case SCUnit::Rarity::Saga:
-			warframeName << sf::Color::White << L"고스트 " << sf::Color(0, 191, 255) << rarityText;
-			break;
-		case SCUnit::Rarity::Legendary:
-			warframeName << sf::Color::White << L"고스트 " << sf::Color::Yellow << rarityText;
-			break;
-		case SCUnit::Rarity::Mythic:
-			warframeName << sf::Color::White << L"고스트 " << sf::Color::Red << rarityText;
-			break;
-		case SCUnit::Rarity::Primeval:
-			warframeName << sf::Color::White << L"고스트 " << sf::Color(0, 191, 255) << rarityText;
-			break;
+			warframeName << sf::Color::White << L"고스트";
+		}
+		else
+		{
+			switch (scUnit->GetRarity())
+			{
+			case SCUnit::Rarity::Common:
+				warframeName << sf::Color::White << L"고스트 " << sf::Color::White << rarityText;
+				break;
+			case SCUnit::Rarity::Rare:
+				warframeName << sf::Color::White << L"고스트 " << sf::Color(0, 128, 0) << rarityText;
+				break;
+			case SCUnit::Rarity::Ancient:
+				warframeName << sf::Color::White << L"고스트 " << sf::Color(128, 0, 128) << rarityText;
+				break;
+			case SCUnit::Rarity::Artifact:
+				warframeName << sf::Color::White << L"고스트 " << sf::Color::Red << rarityText;
+				break;
+			case SCUnit::Rarity::Saga:
+				warframeName << sf::Color::White << L"고스트 " << sf::Color(0, 191, 255) << rarityText;
+				break;
+			case SCUnit::Rarity::Legendary:
+				warframeName << sf::Color::White << L"고스트 " << sf::Color::Yellow << rarityText;
+				break;
+			case SCUnit::Rarity::Mythic:
+				warframeName << sf::Color::White << L"고스트 " << sf::Color::Red << rarityText;
+				break;
+			case SCUnit::Rarity::Primeval:
+				warframeName << sf::Color::White << L"고스트 " << sf::Color(0, 191, 255) << rarityText;
+				break;
+			}
 		}
 		texts["UIAttackType"]->SetString(L"▶ 진동형");
 		texts["WeaponName"]->SetString(L"C-10 Canister Rifle");
@@ -926,11 +1291,22 @@ void Interface::UpdateUnit(float dt)
 	if (sprites["HydraliskUpgradeInfo"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()))
 	{
 		SetWeaponInfoView(true);
+		onDamageInfo = true;
 	}
 	else
 	{
 		SetWeaponInfoView(false);
+		onDamageInfo = false;
 	}
+}
+
+void Interface::UpdateEnemy(float dt)
+{
+	Enemy* enemy = dynamic_cast<Enemy*>(UItarget);//TO-DO 체력바 active true 하기 , 숫자 바꾸기, 다른상황일떄 끄기
+	sprites["Warframe"]->SetTexture("graphics/UI/Interface/HydraliskWarframe.png");
+	warframeName.clear();
+	warframeName << sf::Color::White << L"Select Unit: 10메소";
+	texts["UIAttackType"]->SetString(L"");
 }
 
 void Interface::LateUpdate(float dt)
@@ -953,6 +1329,12 @@ void Interface::SetActiveUpgrade(bool active)
 	sprites["DragoonUpgrade"]->SetActive(active);
 	sprites["GhostUpgrade"]->SetActive(active);
 
+	sprites["UpgradeInfo"]->SetActive(false);
+	texts["UpgradeInfo"]->SetActive(false);
+	texts["UpgradeInfo2"]->SetActive(false);
+	sprites["UpgradeInfoMineral"]->SetActive(false);
+	texts["UpgradeInfo3"]->SetActive(false);
+
 	for (auto& data : buildings)
 	{
 		data.second->SetSelect(active);
@@ -972,6 +1354,13 @@ void Interface::SetActiveSell(bool active)
 			data.second->SetSelect(active);
 		}
 	}
+	sprites["SellInfo1"]->SetActive(false);
+	texts["SellInfo1"]->SetActive(false);
+	sprites["SellInfo2"]->SetActive(false);
+	texts["SellInfo2"]->SetActive(false);
+	sprites["SellInfo3"]->SetActive(false);
+	texts["SellInfo3"]->SetActive(false);
+
 }
 
 void Interface::SetActiveSellInfo(bool active, SCUnit::Type t)
@@ -1000,10 +1389,26 @@ void Interface::SetActiveSellInfo(bool active, SCUnit::Type t)
 		sprites["GhostNarrative"]->SetActive(active);
 		break;
 	}
+	sprites["SellRarityInfo1"]->SetActive(false);
+	texts["SellRarityInfo1"]->SetActive(false);
+	texts["SellRarityValueInfo1"]->SetActive(false);
+	sprites["SellRarityInfo2"]->SetActive(false);
+	texts["SellRarityInfo2"]->SetActive(false);
+	texts["SellRarityValueInfo2"]->SetActive(false);
+	sprites["SellRarityInfo3"]->SetActive(false);
+	texts["SellRarityInfo3"]->SetActive(false);
+	texts["SellRarityValueInfo3"]->SetActive(false);
+	sprites["SellRarityInfo4"]->SetActive(false);
+	texts["SellRarityInfo4"]->SetActive(false);
+	texts["SellRarityValueInfo4"]->SetActive(false);
+	sprites["SellRarityInfo5"]->SetActive(false);
+	texts["SellRarityInfo5"]->SetActive(false);
+	texts["SellRarityValueInfo5"]->SetActive(false);
 }
 
 void Interface::HydraliskSellUpdate()
 {
+
 	if (sprites["HydraliskNormal"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 		InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 	{
@@ -1232,6 +1637,8 @@ void Interface::SetSellUiTexture(const std::string& typeName, const std::string&
 	}
 	else {
 		sprites[textureName]->SetTexture("graphics/UI/Interface/" + typeName + "SellNoHave.png");
+		std::string SellRarityInfo = "SellRarityInfo" + std::to_string(rarityIndex + 1);
+		texts[SellRarityInfo]->SetString(L"▶ 유닛이 없습니다");
 	}
 }
 
@@ -1268,7 +1675,7 @@ void Interface::LoseText(bool active)
 }
 
 void Interface::SetWeaponInfoView(bool active)
-{	
+{
 	sprites["DamageInfo"]->SetActive(active);
 	texts["WeaponName"]->SetActive(active);
 	texts["WeaponInterval"]->SetActive(active);
@@ -1283,12 +1690,15 @@ void Interface::OnUpgradeInfoView(SCUnit::Type t)
 	{
 	case SCUnit::Type::Hydralisk:
 		sprites["HydraliskUpgradeInfo"]->SetActive(true);
+		texts["UpgradeCount"]->SetActive(true);
 		break;
 	case SCUnit::Type::Dragoon:
 		sprites["DragoonUpgradeInfo"]->SetActive(true);
+		texts["UpgradeCount"]->SetActive(true);
 		break;
 	case SCUnit::Type::Ghost:
 		sprites["GhostUpgradeInfo"]->SetActive(true);
+		texts["UpgradeCount"]->SetActive(true);
 		break;
 	}
 }
@@ -1298,4 +1708,5 @@ void Interface::OffUpgradeInfoView()
 	sprites["HydraliskUpgradeInfo"]->SetActive(false);
 	sprites["GhostUpgradeInfo"]->SetActive(false);
 	sprites["DragoonUpgradeInfo"]->SetActive(false);
+	texts["UpgradeCount"]->SetActive(false);
 }

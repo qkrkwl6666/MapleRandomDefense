@@ -637,6 +637,22 @@ void SceneGame::Update(float dt)
 		GetWorldView().move(delta);
 	}
 
+	if (InputMgr::GetKey(sf::Keyboard::A))
+	{
+		GetWorldView().move({-1,0});
+	}
+	if (InputMgr::GetKey(sf::Keyboard::S))
+	{
+		GetWorldView().move({ 0,1 });
+	}
+	if (InputMgr::GetKey(sf::Keyboard::D))
+	{
+		GetWorldView().move({ 1,0 });
+	}
+	if (InputMgr::GetKey(sf::Keyboard::W))
+	{
+		GetWorldView().move({ 0,-1 });
+	}
 }
 
 void SceneGame::LateUpdate(float dt)

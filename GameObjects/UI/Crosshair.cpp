@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Crosshair.h"
 #include "SCUnit.h"
+#include "Building.h"
 #include "SceneGame.h"
 
 
@@ -39,19 +40,39 @@ void Crosshair::Update(float dt)
 	{
 		if (scUnit->GetHitBox().getGlobalBounds().contains(dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos()))
 		{
-			isCursorsCollision = true;
+			isCursorsUnitCollision = true;
 			break;
 		}
-		isCursorsCollision = false;
+		isCursorsUnitCollision = false;
 	}
 
-	if (isCursorsCollision && !isCursorsMoving) 
+	std::unordered_map<std::string, Building*>& allBuilding = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetBuildings();
+	for (const auto& pair : allBuilding)
+	{
+		Building* buildingPtr = pair.second;
+		if (buildingPtr->GetGlobalBounds().contains(dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos()))
+		{
+			isCursorsBuildingCollision = true;
+			break;
+		}
+		isCursorsBuildingCollision = false;
+	}
+
+
+	if ((isCursorsUnitCollision || isCursorsBuildingCollision) && !isCursorsMoving)
 	{
 		animator->Play("MovingCursor", true);
 		isCursorsMoving = true;
 		SetOrigin(Origins::MC);
 	}
-	else if (!isCursorsCollision)
+	else if (!isCursorsUnitCollision && !isCursorsBuildingCollision)
+	{
+		SetOrigin(Origins::TL);
+		SetTexture(textureId);
+		isCursorsMoving = false;
+	}
+
+	if ((SCENE_MGR.GetCurrentScene()) == SCENE_MGR.GetScene(SceneIds::SceneTitle))
 	{
 		SetOrigin(Origins::TL);
 		SetTexture(textureId);

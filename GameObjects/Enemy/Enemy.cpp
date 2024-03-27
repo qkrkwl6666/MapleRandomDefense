@@ -17,9 +17,9 @@ Enemy::~Enemy()
 void Enemy::Init()
 {
 	SpriteAnimatorGo::Init();
+	hpMax = hp;
 
 	float aniangle = -157.5;
-
 	while (aniangle <= 180)
 	{
 		AnimationAngle.push_back(aniangle);

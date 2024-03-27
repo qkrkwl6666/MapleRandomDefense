@@ -6,6 +6,7 @@
 
 class SCUnit;
 class Building;
+class Spawner;
 
 class Interface : public UIGo
 {
@@ -17,6 +18,7 @@ public:
 		SellUnitSellect,
 		SellRaritySellect,
 		Unit,
+		Enemy,
 		COUNT,
 	};
 
@@ -26,7 +28,7 @@ protected:
 	Interface(Interface&&) = delete;
 	Interface& operator=(const Interface&) = delete;
 	Interface& operator=(Interface&&) = delete;
-
+	Spawner* enemySpawer = nullptr;
 	UIStatus uiStatus = UIStatus::NONE;
 	SCUnit::Type uiUnitType = SCUnit::Type::NONE;
 	GameObject* UItarget = nullptr;
@@ -36,6 +38,7 @@ protected:
 	bool noUnits = true;
 	bool mouseOnUi = false;
 	bool onWarframeName = false;
+	bool onDamageInfo = false;
 	sfe::RichText warframeName;
 	int rarity[5] = {};
 	std::list<SCUnit*> isSelectList;
@@ -68,6 +71,7 @@ public:
 	void UpdateSellUnitSellect(float dt);
 	void UpdateSellRaritySellect(float dt);
 	void UpdateUnit(float dt);
+	void UpdateEnemy(float dt);
 	void LateUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 

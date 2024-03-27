@@ -15,7 +15,8 @@ public:
 	void Reset();
 	void Update(float dt);
 	void Draw(sf::RenderWindow& window);	
-	bool isCursorsCollision = false;
+	bool isCursorsUnitCollision = false;
+	bool isCursorsBuildingCollision = false;
 	bool isCursorsMoving = false;
 
 	sf::Vector2f GetPosition() const

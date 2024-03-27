@@ -94,6 +94,7 @@ public:
 	EnemyType enemyType = EnemyType::NONE;
 
 protected:
+	float hpMax;
 	float hp = 10.f;
 
 	ArmorType armor = ArmorType::NONE;
@@ -111,6 +112,8 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 
 	void OnDamege(float damage);
+	const float GetHp() const { return hp; }
+	const float GetHpMax() const { return hpMax; }
 
 	void Dead();
 
