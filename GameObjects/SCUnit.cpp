@@ -395,10 +395,8 @@ void SCUnit::Draw(sf::RenderWindow& window)
 
 void SCUnit::SellThis()
 {
-	//TO-DO ������ ���� �ִϸ��̼� ���
-	sceneGame->SetMineral(sceneGame->GetMineral() + sellingValue); // �ڽ��� �ǸŰ���
-	sceneGame->message(SceneGame::MessageType::SellUnit);
-	sceneGame->message(sellingValue);
+	sceneGame->SetMineral(sceneGame->GetMineral() + sellingValue);
+	sceneGame->message(SceneGame::MessageType::SellUnit , type, rarity);
 	sceneGame->RemoveGo(this);
 	sceneGame->DeleteGo(this);
 }

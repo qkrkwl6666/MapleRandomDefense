@@ -2,10 +2,10 @@
 #include "UIGo.h"
 #include "SCUnit.h"
 #include "ShapeGo.h"
+#include "RichText.h"
 
 class SCUnit;
 class Building;
-
 
 class Interface : public UIGo
 {
@@ -35,9 +35,11 @@ protected:
 	bool isSelecting = false;
 	bool noUnits = true;
 	bool mouseOnUi = false;
+	bool onWarframeName = false;
+	sfe::RichText warframeName;
 	int rarity[5] = {};
 	std::list<SCUnit*> isSelectList;
-
+	
 	sf::Vector2f worldMousePos;
 	sf::Vector2i screenMousePos;
 	std::unordered_map<std::string, Building*> buildings;
@@ -67,6 +69,7 @@ public:
 	void UpdateSellRaritySellect(float dt);
 	void UpdateUnit(float dt);
 	void LateUpdate(float dt) override;
+	void Draw(sf::RenderWindow& window) override;
 
 	void SetActiveUpgrade(bool active);
 	void SetActiveSell(bool active);
@@ -80,6 +83,9 @@ public:
 	void Upgrade();
 
 	void SetWarframeView(bool active);
+	void SetWeaponInfoView(bool active);
+	void OnUpgradeInfoView(SCUnit::Type t);
+	void OffUpgradeInfoView();
 
 	int GetStage() {return currentStage;}
 	void SetStage(int stage) {currentStage = stage;}
