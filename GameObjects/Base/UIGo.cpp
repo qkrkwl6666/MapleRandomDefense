@@ -46,20 +46,19 @@ void UIGo::ObjectsSort()
 	auto it = sprites.begin();
 	while (it != sprites.end())
 	{
-		sortSprites.push_back(it->second);
+		sortGameObject.push_back(it->second);
 		it++;
 	}
-
-	std::sort(sortSprites.begin(), sortSprites.end(), compareBySortLayer<SpriteGo>);
 
 	auto its = texts.begin();
 	while (its != texts.end())
 	{
-		sortTexts.push_back(its->second);
+		sortGameObject.push_back(its->second);
 		its++;
 	}
 
-	std::sort(sortTexts.begin(), sortTexts.end(), compareBySortLayer<TextGo>);
+	std::sort(sortGameObject.begin(), sortGameObject.end(), compareBySortLayer<GameObject>);
+
 }
 
 void UIGo::Draw(sf::RenderWindow& window)
@@ -98,7 +97,7 @@ void UIGo::UiInit()
 void UIGo::UiDraw(sf::RenderWindow& window)
 {
 
-	for (auto data : sortSprites)
+	for (auto data : sortGameObject)
 	{
 		if (data->GetActive())
 		{
@@ -106,13 +105,6 @@ void UIGo::UiDraw(sf::RenderWindow& window)
 		}
 	}
 
-	for (auto data : texts)
-	{
-		if (data.second->GetActive())
-		{
-			data.second->Draw(window);
-		}
-	}
 }
 
 void UIGo::UiDelete()
@@ -124,7 +116,6 @@ void UIGo::UiDelete()
 			delete data.second;
 			data.second = nullptr;
 		}
-
 	}
 
 	for (auto data : texts)
@@ -136,8 +127,7 @@ void UIGo::UiDelete()
 		}
 	}
 
-	sortSprites.clear();
-	sortTexts.clear();
+	sortGameObject.clear();
 }
 
 

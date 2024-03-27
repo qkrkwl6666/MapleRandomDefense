@@ -20,7 +20,6 @@ Interface::~Interface()
 
 void Interface::Init()
 {
-
 	// 메인 인터페이스
 	NewSpriteGo("MainInterface", "graphics/UI/Interface/Interface.png");
 	sprites["MainInterface"]->SetOrigin(Origins::BC);
@@ -309,6 +308,7 @@ void Interface::Init()
 	sprites["DamageInfo"]->sortLayer = 14;
 	sprites["DamageInfo"]->SetActive(false);
 	sprites["DamageInfo"]->SetScale({ 1.f, 1.f });
+
 	NewTextGo("WeaponName", RES_MGR_FONT.Get("font/Kostar.ttf"), L"Cast Optical Flare", 18, sf::Color::White);
 	texts["WeaponName"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
 	0.50f , FRAMEWORK.GetWindowSize().y * 0.76f });
@@ -847,6 +847,7 @@ void Interface::UpdateUnit(float dt)
 			break;
 		}
 		texts["UIAttackType"]->SetString(L"▶ 폭발형");
+		texts["UIAttackType"]->sortLayer = 11;
 		break;
 	case SCUnit::Type::Ghost:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/GhostWarframe.png");
@@ -1225,6 +1226,8 @@ void Interface::ClearText(bool active)
 {
 	texts["TextClear"]->SetActive(active);
 	texts["TextClear1"]->SetActive(active);
+}
+
 void Interface::SetWeaponInfoView(bool active)
 {	
 	sprites["DamageInfo"]->SetActive(active);
