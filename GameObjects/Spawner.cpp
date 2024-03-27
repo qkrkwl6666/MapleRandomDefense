@@ -42,6 +42,7 @@ void Spawner::Init()
 	SetPosition({ 16 * 32 + 16.f , 10 * 32 + 16.f });
 
 	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame));
+	mainInterface = sceneGame->GetInterface();
 }
 
 void Spawner::Release()
@@ -122,9 +123,9 @@ void Spawner::Update(float dt)
 			// Å¬¸®¾î
 			if (Enemys.size() == 0 && isBoss)
 			{
-				SCENE_MGR.ChangeScene(SceneIds::SceneTitle);
-				sceneGame->GetInterface()->SetStage(0);
 				isBoss = false;
+				mainInterface->ClearText(true);
+				FRAMEWORK.SetTimeScale(1.f);
 			}
 	}
 

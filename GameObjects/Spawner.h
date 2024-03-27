@@ -4,6 +4,7 @@
 
 class Enemy;
 class SceneGame;
+class Interface;
 
 class Spawner : public GameObject
 {
@@ -19,8 +20,10 @@ protected:
 	float spawnTimer = 0;
 
 	SceneGame* sceneGame = nullptr;
+	Interface* mainInterface = nullptr;
 	
 	bool isBoss = false;
+	bool isDead = false;
 
 public:
 	Spawner(const std::string& name = "");
@@ -37,5 +40,7 @@ public:
 
 	void SpawnEnemys(Enemy* enemy);
 	void AllRemove();
+
+
 };
 

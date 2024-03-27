@@ -265,6 +265,21 @@ void Interface::Init()
 	texts["currentStage"]->SetOrigin(Origins::MC);
 	texts["currentStage"]->SetActive(false);
 
+	// 클리어 메세지 
+	NewTextGo("TextClear", RES_MGR_FONT.Get("font/Kostar.ttf"), L"메이플 운빨 디펜스", 30, sf::Color::Blue);
+	texts["TextClear"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.5f , FRAMEWORK.GetWindowSize().y * 0.4f });
+	texts["TextClear"]->sortLayer = 15;
+	texts["TextClear"]->SetOrigin(Origins::MC);
+	texts["TextClear"]->SetActive(false);
+
+	NewTextGo("TextClear1", RES_MGR_FONT.Get("font/Kostar.ttf"), L"보스 스테이지 *클리어*", 30, sf::Color::Red);
+	texts["TextClear1"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.5f , FRAMEWORK.GetWindowSize().y * 0.45f });
+	texts["TextClear1"]->sortLayer = 15;
+	texts["TextClear1"]->SetOrigin(Origins::MC);
+	texts["TextClear1"]->SetActive(false);
+
 	UiInit();
 	ObjectsSort();
 }
@@ -532,7 +547,6 @@ void Interface::UpdateUpgrade(float dt)
 	default:
 		break;
 	}
-
 
 	switch (uiUnitType)
 	{
@@ -1040,4 +1054,10 @@ void Interface::SetWarframeView(bool active)
 	sprites["Warframe"]->SetActive(active);
 	texts["UIName"]->SetActive(active);
 	texts["UIAttackType"]->SetActive(active);
+}
+
+void Interface::ClearText(bool active)
+{
+	texts["TextClear"]->SetActive(active);
+	texts["TextClear1"]->SetActive(active);
 }
