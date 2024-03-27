@@ -9,6 +9,13 @@
 #include "DarkTemplar.h"
 #include "Queen.h"
 #include "Overlord.h"
+#include "Mutalisk.h"
+#include "Lurker.h"
+#include "InfestedTerran.h"
+#include "Guardian.h"
+#include "Devourer.h"
+#include "Defiler.h"
+#include "Zealot.h"
 
 Spawner::Spawner(const std::string& name): GameObject(name)
 {
@@ -81,9 +88,28 @@ void Spawner::Update(float dt)
 		case 6:
 			SpawnEnemys(new Overlord());
 			break;
-
+		case 7:
+			SpawnEnemys(new Mutalisk());
+			break;
+		case 8:
+			SpawnEnemys(new Lurker());
+			break;
+		case 9:
+			SpawnEnemys(new InfestedTerran());
+			break;
+		case 10:
+			SpawnEnemys(new Guardian());
+			break;
+		case 11:
+			SpawnEnemys(new Devourer());
+			break;
+		case 12:
+			SpawnEnemys(new Defiler());
+			break;
+		case 13:
+			SpawnEnemys(new Zealot());
+			break;
 	}
-
 
 	for (auto* data : Enemys)
 	{

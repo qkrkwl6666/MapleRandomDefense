@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Civilian.cpp" />
-    <ClCompile Include="DarkTemplar.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Defiler.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Devourer.cpp" />
+    <ClCompile Include="GameObjects\Enemy\DarkTemplar.cpp" />
     <ClCompile Include="DragoonBullet.cpp" />
     <ClCompile Include="GameObjects\Dragoon.cpp" />
-    <ClCompile Include="GameObjects\Enemy.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Enemy.cpp" />
     <ClCompile Include="GameObjects\Building.cpp" />
     <ClCompile Include="GameObjects\Hydralisk.cpp" />
     <ClCompile Include="GameObjects\SCUnit.cpp" />
@@ -43,14 +45,18 @@
     <ClCompile Include="GameObjects\Base\UIGo.cpp" />
     <ClCompile Include="GameObjects\Base\TileEditor.cpp" />
     <ClCompile Include="GameObjects\Ghost.cpp" />
+    <ClCompile Include="GameObjects\Enemy\InfestedTerran.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Guardian.cpp" />
     <ClCompile Include="Interface.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Lurker.cpp" />
     <ClCompile Include="MapleRandomDefense.cpp" />
-    <ClCompile Include="Overlord.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Mutalisk.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Overlord.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="GameObjects\Projectile.cpp" />
-    <ClCompile Include="Queen.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Queen.cpp" />
     <ClCompile Include="Scenes\SceneAnimatorEditer.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Scenes\SceneGame.cpp" />
@@ -61,16 +67,19 @@
     <ClCompile Include="GameObjects\UpgradeBuilding.cpp" />
     <ClCompile Include="GameObjects\SellBuilding.cpp" />
     <ClCompile Include="GameObjects\Spawner.cpp" />
-    <ClCompile Include="GameObjects\Zergling.cpp" />
-    <ClCompile Include="GameObjects\Ultralisk.cpp" />
-    <ClCompile Include="Scourge.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Zergling.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Ultralisk.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Scourge.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Zealot.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Civilian.h" />
-    <ClInclude Include="DarkTemplar.h" />
+    <ClInclude Include="GameObjects\Enemy\Defiler.h" />
+    <ClInclude Include="GameObjects\Enemy\Devourer.h" />
+    <ClInclude Include="GameObjects\Enemy\DarkTemplar.h" />
     <ClInclude Include="DragoonBullet.h" />
     <ClInclude Include="GameObjects\Dragoon.h" />
-    <ClInclude Include="GameObjects\Enemy.h" />
+    <ClInclude Include="GameObjects\Enemy\Enemy.h" />
     <ClInclude Include="GameObjects\Building.h" />
     <ClInclude Include="GameObjects\Hydralisk.h" />
     <ClInclude Include="GameObjects\SCUnit.h" />
@@ -96,11 +105,15 @@
     <ClInclude Include="GameObjects\Base\UIGo.h" />
     <ClInclude Include="GameObjects\Base\TileEditor.h" />
     <ClInclude Include="GameObjects\Ghost.h" />
+    <ClInclude Include="GameObjects\Enemy\InfestedTerran.h" />
+    <ClInclude Include="GameObjects\Enemy\Guardian.h" />
     <ClInclude Include="Interface.h" />
-    <ClInclude Include="Overlord.h" />
+    <ClInclude Include="GameObjects\Enemy\Mutalisk.h" />
+    <ClInclude Include="GameObjects\Enemy\Overlord.h" />
+    <ClInclude Include="GameObjects\Enemy\Lurker.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="GameObjects\Projectile.h" />
-    <ClInclude Include="Queen.h" />
+    <ClInclude Include="GameObjects\Enemy\Queen.h" />
     <ClInclude Include="Scenes\SceneAnimatorEditer.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneGame.h" />
@@ -111,9 +124,10 @@
     <ClInclude Include="GameObjects\UpgradeBuilding.h" />
     <ClInclude Include="GameObjects\SellBuilding.h" />
     <ClInclude Include="GameObjects\Spawner.h" />
-    <ClInclude Include="GameObjects\Zergling.h" />
-    <ClInclude Include="GameObjects\Ultralisk.h" />
-    <ClInclude Include="Scourge.h" />
+    <ClInclude Include="GameObjects\Enemy\Zergling.h" />
+    <ClInclude Include="GameObjects\Enemy\Ultralisk.h" />
+    <ClInclude Include="GameObjects\Enemy\Scourge.h" />
+    <ClInclude Include="GameObjects\Enemy\Zealot.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -205,7 +219,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\Scenes;.\Framework\Manager;.\Framework;.\GameObjects\Base;.\GameObjects\UI;.\GameObjects;.\DataTable;.\;.\SFML-2.6.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GameObjects\Enemy;.\Scenes;.\Framework\Manager;.\Framework;.\GameObjects\Base;.\GameObjects\UI;.\GameObjects;.\DataTable;.\;.\SFML-2.6.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
