@@ -234,11 +234,11 @@ void Interface::Init()
 	sprites["Warframe"]->SetActive(false);
 	sprites["Warframe"]->SetScale({ 1.3f, 1.3f });
 
-	NewTextGo("UIName", RES_MGR_FONT.Get("font/Kostar.ttf"), L"드라군 일반", 20, sf::Color::White);
-	texts["UIName"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
-	0.45f , FRAMEWORK.GetWindowSize().y * 0.81f });
-	texts["UIName"]->sortLayer = 11;
-	texts["UIName"]->SetActive(false);
+	warframeName.setCharacterSize(20);
+	warframeName.setFont(RES_MGR_FONT.Get("font/Kostar.ttf"));
+	warframeName.setPosition({ FRAMEWORK.GetWindowSize().x *
+		0.45f , FRAMEWORK.GetWindowSize().y * 0.81f });
+	warframeName << sf::Color::White;
 
 	NewTextGo("UIAttackType", RES_MGR_FONT.Get("font/Kostar.ttf"), L"▶폭발형", 20, sf::Color::White);
 	texts["UIAttackType"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
@@ -264,6 +264,61 @@ void Interface::Init()
 	texts["currentStage"]->SetCharacterSize(30);
 	texts["currentStage"]->SetOrigin(Origins::MC);
 	texts["currentStage"]->SetActive(false);
+
+	NewSpriteGo("GhostUpgradeInfo", "graphics/UI/Interface/GhostUpgradeInfo.png");
+	sprites["GhostUpgradeInfo"]->SetOrigin(Origins::TL);
+	sprites["GhostUpgradeInfo"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.46f , FRAMEWORK.GetWindowSize().y * 0.91f });
+	sprites["GhostUpgradeInfo"]->sortLayer = 11;
+	sprites["GhostUpgradeInfo"]->SetActive(false);
+	sprites["GhostUpgradeInfo"]->SetScale({ 0.8f, 0.8f });
+	NewSpriteGo("DragoonUpgradeInfo", "graphics/UI/Interface/DragoonUpgradeInfo.png");
+	sprites["DragoonUpgradeInfo"]->SetOrigin(Origins::TL);
+	sprites["DragoonUpgradeInfo"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.46f , FRAMEWORK.GetWindowSize().y * 0.91f });
+	sprites["DragoonUpgradeInfo"]->sortLayer = 11;
+	sprites["DragoonUpgradeInfo"]->SetActive(false);
+	sprites["DragoonUpgradeInfo"]->SetScale({ 0.8f, 0.8f });
+	NewSpriteGo("HydraliskUpgradeInfo", "graphics/UI/Interface/HydraliskUpgradeInfo.png");
+	sprites["HydraliskUpgradeInfo"]->SetOrigin(Origins::TL);
+	sprites["HydraliskUpgradeInfo"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.46f , FRAMEWORK.GetWindowSize().y * 0.91f });
+	sprites["HydraliskUpgradeInfo"]->sortLayer = 11;
+	sprites["HydraliskUpgradeInfo"]->SetActive(false);
+	sprites["HydraliskUpgradeInfo"]->SetScale({ 0.8f, 0.8f });
+
+	NewSpriteGo("DamageInfo", "graphics/UI/Interface/UiInfo.png");
+	sprites["DamageInfo"]->SetOrigin(Origins::BL);
+	sprites["DamageInfo"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.49f , FRAMEWORK.GetWindowSize().y * 0.95f });
+	sprites["DamageInfo"]->sortLayer = 14;
+	sprites["DamageInfo"]->SetActive(false);
+	sprites["DamageInfo"]->SetScale({ 1.f, 1.f });
+	NewTextGo("WeaponName", RES_MGR_FONT.Get("font/Kostar.ttf"), L"Cast Optical Flare", 18, sf::Color::White);
+	texts["WeaponName"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.50f , FRAMEWORK.GetWindowSize().y * 0.76f });
+	texts["WeaponName"]->sortLayer = 14;
+	texts["WeaponName"]->SetActive(false);
+	NewTextGo("WeaponInterval", RES_MGR_FONT.Get("font/Kostar.ttf"), L"공격속도 : ", 18, sf::Color::White);
+	texts["WeaponInterval"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.50f , FRAMEWORK.GetWindowSize().y * 0.795f });
+	texts["WeaponInterval"]->sortLayer = 14;
+	texts["WeaponInterval"]->SetActive(false);
+	NewTextGo("WeaponMethod", RES_MGR_FONT.Get("font/Kostar.ttf"), L"공격방식 : ", 18, sf::Color::White);
+	texts["WeaponMethod"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.50f , FRAMEWORK.GetWindowSize().y * 0.830f });
+	texts["WeaponMethod"]->sortLayer = 14;
+	texts["WeaponMethod"]->SetActive(false);
+	NewTextGo("WeaponRange", RES_MGR_FONT.Get("font/Kostar.ttf"), L"사거리 : ", 18, sf::Color::White);
+	texts["WeaponRange"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.50f , FRAMEWORK.GetWindowSize().y * 0.865f });
+	texts["WeaponRange"]->sortLayer = 14;
+	texts["WeaponRange"]->SetActive(false);
+	NewTextGo("WeaponDamage", RES_MGR_FONT.Get("font/Kostar.ttf"), L"Damage : ", 18, sf::Color::White);
+	texts["WeaponDamage"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.50f , FRAMEWORK.GetWindowSize().y * 0.90f });
+	texts["WeaponDamage"]->sortLayer = 14;
+	texts["WeaponDamage"]->SetActive(false);
 
 	UiInit();
 	ObjectsSort();
@@ -390,6 +445,8 @@ void Interface::Update(float dt)
 				SetActiveSellInfo(false, SCUnit::Type::Dragoon);
 				noUnits = false;
 				isSelectList.push_back(scUnit);
+				OffUpgradeInfoView();
+				OnUpgradeInfoView(scUnit->GetType());
 				scUnit->SetSelect(true);
 				uiStatus = UIStatus::Unit;
 			}
@@ -415,6 +472,7 @@ void Interface::Update(float dt)
 					SetActiveSellInfo(false, SCUnit::Type::Hydralisk);
 					SetActiveSellInfo(false, SCUnit::Type::Ghost);
 					SetActiveSellInfo(false, SCUnit::Type::Dragoon);
+					OffUpgradeInfoView();
 					switch (building->GetBuildingType())
 					{
 					case Building::BuildingType::UPGRADE:
@@ -466,6 +524,7 @@ void Interface::Update(float dt)
 				SetActiveSellInfo(false, SCUnit::Type::Ghost);
 				SetActiveSellInfo(false, SCUnit::Type::Dragoon);
 				SetWarframeView(false);
+				OffUpgradeInfoView();
 			}
 		}
 
@@ -505,17 +564,20 @@ void Interface::UpdateUpgrade(float dt)
 		break;
 	case UpgradeBuilding::Races::Terran:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/TerranWarframe.png");
-		texts["UIName"]->SetString(L"UNIT ▶UPGRADE");
+		warframeName.clear();
+		warframeName << sf::Color::White << L"UNIT ▶UPGRADE";
 		texts["UIAttackType"]->SetString(L"");
 		break;
 	case UpgradeBuilding::Races::Zerg:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/ZergWarframe.png");
-		texts["UIName"]->SetString(L"UNIT ▶UPGRADE");
+		warframeName.clear();
+		warframeName << sf::Color::White << L"UNIT ▶UPGRADE";
 		texts["UIAttackType"]->SetString(L"");
 		break;
 	case UpgradeBuilding::Races::Protoss:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/ProtossWarframe.png");
-		texts["UIName"]->SetString(L"UNIT ▶UPGRADE");
+		warframeName.clear();
+		warframeName << sf::Color::White << L"UNIT ▶UPGRADE";
 		texts["UIAttackType"]->SetString(L"");
 		break;
 	default:
@@ -557,7 +619,8 @@ void Interface::UpdateSellUnitSellect(float dt)
 {
 	Building* building = dynamic_cast<Building*>(UItarget);
 	sprites["Warframe"]->SetTexture("graphics/UI/Interface/SellWarframe.png");
-	texts["UIName"]->SetString(L"UNIT ▶판매 & 교환");
+	warframeName.clear();
+	warframeName << sf::Color::White << L"UNIT ▶판매 & 교환";
 	texts["UIAttackType"]->SetString(L"");
 
 	// 판매 건물 상호작용
@@ -592,7 +655,8 @@ void Interface::UpdateSellRaritySellect(float dt)
 {
 	Building* building = dynamic_cast<Building*>(UItarget);
 	sprites["Warframe"]->SetTexture("graphics/UI/Interface/SellWarframe.png");
-	texts["UIName"]->SetString(L"UNIT ▶판매 & 교환");
+	warframeName.clear();
+	warframeName << sf::Color::White << L"UNIT ▶판매 & 교환";
 	texts["UIAttackType"]->SetString(L"");
 	building->SetSelect(true);
 	for (int i = 0; i < 5; ++i) {
@@ -695,32 +759,133 @@ void Interface::UpdateUnit(float dt)
 		break;
 	case SCUnit::Type::Hydralisk:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/HydraliskWarframe.png");
-		texts["UIName"]->SetString(L"히드라리스크 " + rarityText);
+		warframeName.clear();
+		switch (scUnit->GetRarity())
+		{
+		case SCUnit::Rarity::Common:
+			warframeName << sf::Color::White << L"히드라리스크 " << sf::Color::White << rarityText;
+			break;
+		case SCUnit::Rarity::Rare:
+			warframeName << sf::Color::White << L"히드라리스크 " << sf::Color(0, 128, 0) << rarityText;
+			break;
+		case SCUnit::Rarity::Ancient:
+			warframeName << sf::Color::White << L"히드라리스크 " << sf::Color(128, 0, 128) << rarityText;
+			break;
+		case SCUnit::Rarity::Artifact:
+			warframeName << sf::Color::White << L"히드라리스크 " << sf::Color::Red << rarityText;
+			break;
+		case SCUnit::Rarity::Saga:
+			warframeName << sf::Color::White << L"히드라리스크 " << sf::Color(0, 191, 255) << rarityText;
+			break;
+		case SCUnit::Rarity::Legendary:
+			warframeName << sf::Color::White << L"히드라리스크 " << sf::Color::Yellow << rarityText;
+			break;
+		case SCUnit::Rarity::Mythic:
+			warframeName << sf::Color::White << L"히드라리스크 " << sf::Color::Red << rarityText;
+			break;
+		case SCUnit::Rarity::Primeval:
+			warframeName << sf::Color::White << L"히드라리스크 " << sf::Color(0, 191, 255) << rarityText;
+			break;
+		default:
+			break;
+		}
 		texts["UIAttackType"]->SetString(L"▶ 일반형");
 		break;
 	case SCUnit::Type::Dragoon:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/DragoonWarframe.png");
-		texts["UIName"]->SetString(L"드라군 " + rarityText);
+		warframeName.clear();
+		switch (scUnit->GetRarity())
+		{
+		case SCUnit::Rarity::Common:
+			warframeName << sf::Color::White << L"드라군 " << sf::Color::White << rarityText;
+			break;
+		case SCUnit::Rarity::Rare:
+			warframeName << sf::Color::White << L"드라군 " << sf::Color(0, 128, 0) << rarityText;
+			break;
+		case SCUnit::Rarity::Ancient:
+			warframeName << sf::Color::White << L"드라군 " << sf::Color(128, 0, 128) << rarityText;
+			break;
+		case SCUnit::Rarity::Artifact:
+			warframeName << sf::Color::White << L"드라군 " << sf::Color::Red << rarityText;
+			break;
+		case SCUnit::Rarity::Saga:
+			warframeName << sf::Color::White << L"드라군 " << sf::Color(0, 191, 255) << rarityText;
+			break;
+		case SCUnit::Rarity::Legendary:
+			warframeName << sf::Color::White << L"드라군 " << sf::Color::Yellow << rarityText;
+			break;
+		case SCUnit::Rarity::Mythic:
+			warframeName << sf::Color::White << L"드라군 " << sf::Color::Red << rarityText;
+			break;
+		case SCUnit::Rarity::Primeval:
+			warframeName << sf::Color::White << L"드라군 " << sf::Color(0, 191, 255) << rarityText;
+			break;
+		}
 		texts["UIAttackType"]->SetString(L"▶ 폭발형");
 		break;
 	case SCUnit::Type::Ghost:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/GhostWarframe.png");
-		texts["UIName"]->SetString(L"고스트 " + rarityText);
+		warframeName.clear();
+		switch (scUnit->GetRarity())
+		{
+		case SCUnit::Rarity::Common:
+			warframeName << sf::Color::White << L"고스트 " << sf::Color::White << rarityText;
+			break;
+		case SCUnit::Rarity::Rare:
+			warframeName << sf::Color::White << L"고스트 " << sf::Color(0, 128, 0) << rarityText;
+			break;
+		case SCUnit::Rarity::Ancient:
+			warframeName << sf::Color::White << L"고스트 " << sf::Color(128, 0, 128) << rarityText;
+			break;
+		case SCUnit::Rarity::Artifact:
+			warframeName << sf::Color::White << L"고스트 " << sf::Color::Red << rarityText;
+			break;
+		case SCUnit::Rarity::Saga:
+			warframeName << sf::Color::White << L"고스트 " << sf::Color(0, 191, 255) << rarityText;
+			break;
+		case SCUnit::Rarity::Legendary:
+			warframeName << sf::Color::White << L"고스트 " << sf::Color::Yellow << rarityText;
+			break;
+		case SCUnit::Rarity::Mythic:
+			warframeName << sf::Color::White << L"고스트 " << sf::Color::Red << rarityText;
+			break;
+		case SCUnit::Rarity::Primeval:
+			warframeName << sf::Color::White << L"고스트 " << sf::Color(0, 191, 255) << rarityText;
+			break;
+		}
 		texts["UIAttackType"]->SetString(L"▶ 진동형");
 		break;
 	case SCUnit::Type::Civilian:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/CivilianWarframe.png");
-		texts["UIName"]->SetString(L"Select Unit: 10메소");
+		warframeName.clear();
+		warframeName << sf::Color::White << L"Select Unit: 10메소";
 		texts["UIAttackType"]->SetString(L"");
 		break;
 	default:
 		break;
+	}
+	if (sprites["HydraliskUpgradeInfo"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()))
+	{
+		SetWeaponInfoView(true);
+	}
+	else
+	{
+		SetWeaponInfoView(false);
 	}
 }
 
 void Interface::LateUpdate(float dt)
 {
 	UIGo::LateUpdate(dt);
+}
+
+void Interface::Draw(sf::RenderWindow& window)
+{
+	UIGo::Draw(window);
+	if (onWarframeName)
+	{
+		window.draw(warframeName);
+	}
 }
 
 void Interface::SetActiveUpgrade(bool active)
@@ -1027,6 +1192,39 @@ void Interface::Upgrade()
 void Interface::SetWarframeView(bool active)
 {
 	sprites["Warframe"]->SetActive(active);
-	texts["UIName"]->SetActive(active);
+	onWarframeName = active;
 	texts["UIAttackType"]->SetActive(active);
+}
+
+void Interface::SetWeaponInfoView(bool active)
+{	
+	sprites["DamageInfo"]->SetActive(active);
+	texts["WeaponName"]->SetActive(active);
+	texts["WeaponInterval"]->SetActive(active);
+	texts["WeaponMethod"]->SetActive(active);
+	texts["WeaponRange"]->SetActive(active);
+	texts["WeaponDamage"]->SetActive(active);
+}
+
+void Interface::OnUpgradeInfoView(SCUnit::Type t)
+{
+	switch (t)
+	{
+	case SCUnit::Type::Hydralisk:
+		sprites["HydraliskUpgradeInfo"]->SetActive(true);
+		break;
+	case SCUnit::Type::Dragoon:
+		sprites["DragoonUpgradeInfo"]->SetActive(true);
+		break;
+	case SCUnit::Type::Ghost:
+		sprites["GhostUpgradeInfo"]->SetActive(true);
+		break;
+	}
+}
+
+void Interface::OffUpgradeInfoView()
+{
+	sprites["HydraliskUpgradeInfo"]->SetActive(false);
+	sprites["GhostUpgradeInfo"]->SetActive(false);
+	sprites["DragoonUpgradeInfo"]->SetActive(false);
 }

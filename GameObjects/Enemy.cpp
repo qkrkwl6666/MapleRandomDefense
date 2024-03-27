@@ -52,8 +52,6 @@ void Enemy::Update(float dt)
 
 	animator->Update(dt, currentAngle);
 
-	//std::cout << GetPosition().x << " " << GetPosition().y << std::endl;
-
 	if (hp <= 0)
 	{
 		Dead();

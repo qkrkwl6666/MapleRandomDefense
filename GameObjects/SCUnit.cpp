@@ -85,9 +85,6 @@ void SCUnit::Update(float dt)
 	SpriteGo::Update(dt);
 	hitBox.setPosition(position);
 
-	/*if(type == Type::Hydralisk)
-		std::cout << (int)currentStatus << std::endl;*/
-
 	if (InputMgr::GetKeyUp(sf::Keyboard::Space))
 	{
 		if (isSelectSprite->GetActive() && isSelect)
@@ -373,10 +370,8 @@ void SCUnit::Draw(sf::RenderWindow& window)
 
 void SCUnit::SellThis()
 {
-	//TO-DO ������ ���� �ִϸ��̼� ���
-	sceneGame->SetMineral(sceneGame->GetMineral() + sellingValue); // �ڽ��� �ǸŰ���
-	sceneGame->message(SceneGame::MessageType::SellUnit);
-	sceneGame->message(sellingValue);
+	sceneGame->SetMineral(sceneGame->GetMineral() + sellingValue);
+	sceneGame->message(SceneGame::MessageType::SellUnit , type, rarity);
 	sceneGame->RemoveGo(this);
 	sceneGame->DeleteGo(this);
 }

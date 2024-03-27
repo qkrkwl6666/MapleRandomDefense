@@ -3,6 +3,8 @@
 #include "ShapeGo.h"
 #include "SCUnit.h"
 #include "TextGo.h"
+#include "RichText.h"
+
 
 class Hydralisk;
 class Dragoon;
@@ -35,12 +37,12 @@ public:
 	{
 		SystemMessage()
 		{
-			systemMessage = new TextGo();
+			systemMessage = new sfe::RichText();
 		}
 		~SystemMessage()
 		{
 		}
-		TextGo* systemMessage;
+		sfe::RichText* systemMessage;
 		float messageTimer = 0;
 		float messageInterval = 12.f;
 		void Update(float dt)
@@ -123,8 +125,10 @@ public:
 
 	void message(MessageType m);
 	void message(MessageType m, SCUnit::Type t, SCUnit::Rarity r);
-	void message(int i);
 	void MessageUpdate(float dt);
+	void MessageOpen();
+	void MessageClose();
+
 	void UpgradeUpdate();
 
 	void Init() override;
@@ -150,5 +154,6 @@ public:
 
 	void BuyUnit();
 
+	void BuyUnit(int d);
 };
 
