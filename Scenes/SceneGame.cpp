@@ -18,6 +18,7 @@
 #include "Spawner.h"
 #include "Civilian.h"
 #include "RichText.h"
+#include "DeveloperMode.h"
 
 SceneGame::SceneGame(SceneIds id) : Scene(id)
 {
@@ -96,6 +97,14 @@ void SceneGame::Init()
 	spawner = new Spawner("Spawner");
 	AddGo(spawner, Layers::World);
 
+	developerMode = new DeveloperMode();
+	developerMode->SetActive(false);
+	developerMode->sortLayer = 99;
+
+	EnemyList = spawner->GetEnemys();
+
+	AddGo(developerMode, Layers::Ui);
+
 	Scene::Init();
 
 	tileSet->LoadTileMap("tilejson/Map.json", 0.5f);
@@ -106,8 +115,6 @@ void SceneGame::Init()
 	civilian->Init();
 	civilian->SetPosition({ 27.f * 32.f + 16.f, 29.f * 32.f + 16.f });
 	AllUnitList.push_back(civilian);
-
-	EnemyList = spawner->GetEnemys();
 
 	mineral = 25; // 초기자금
 
@@ -468,29 +475,6 @@ void SceneGame::Update(float dt)
 	MessageUpdate(dt);
 
 	// *************** 개발자 모드
-	if (InputMgr::GetKeyDown(sf::Keyboard::D))
-	{
-		if (!modeDeveloper)
-		{
-			modeDeveloper = true;
-			return;
-		}
-		if (modeDeveloper)
-		{
-			modeDeveloper = false;
-			return;
-		}
-	}
-
-	if (modeDeveloper)
-	{
-		std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
-		if (InputMgr::GetKeyDown(sf::Keyboard::Z))
-		{
-			mineral += 20;
-		}
-	}
-	// *************** 개발자 모드
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Middle))
 	{
@@ -510,6 +494,18 @@ void SceneGame::Update(float dt)
 void SceneGame::LateUpdate(float dt)
 {
 	Scene::LateUpdate(dt);
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::F7))
+	{
+		if (!developerMode->GetActive())
+		{
+			developerMode->SetActive(true);
+		}
+		else
+		{
+			developerMode->SetActive(false);
+		}
+	}
 
 	if (civilian->GetPosition().x >= 900)
 	{

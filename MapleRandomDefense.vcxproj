@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Civilian.cpp" />
+    <ClCompile Include="GameObjects\UI\DeveloperMode.cpp" />
     <ClCompile Include="GameObjects\Enemy\Defiler.cpp" />
     <ClCompile Include="GameObjects\Enemy\Devourer.cpp" />
     <ClCompile Include="GameObjects\Enemy\DarkTemplar.cpp" />
@@ -75,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Civilian.h" />
+    <ClInclude Include="GameObjects\UI\DeveloperMode.h" />
     <ClInclude Include="GameObjects\Enemy\Defiler.h" />
     <ClInclude Include="GameObjects\Enemy\Devourer.h" />
     <ClInclude Include="GameObjects\Enemy\DarkTemplar.h" />

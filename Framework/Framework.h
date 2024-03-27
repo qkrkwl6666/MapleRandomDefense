@@ -34,6 +34,8 @@ protected:
 
 	sf::Time fixedDeltaTime;
 
+	int frameRate = 0;
+
 	bool isFocus = true;
 
 
@@ -49,6 +51,8 @@ public:
 	float GetTime() const { return time.asSeconds(); }
 	float GetRealDT() const { return realDeltaTime.asSeconds(); }
 	float GetDT() const { return deltaTime.asSeconds(); }
+
+	int GetFrame() const { return frameRate; }
 	
 	float GetTimeScale() const { return timeScale; }
 	void SetTimeScale(float scale) { timeScale = scale; }

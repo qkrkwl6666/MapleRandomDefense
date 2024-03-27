@@ -34,5 +34,6 @@ public:
 	std::list<Enemy*>* GetEnemys() { return &Enemys; }
 
 	void SpawnEnemys(Enemy* enemy);
+	void AllRemove();
 };
 

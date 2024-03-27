@@ -138,12 +138,6 @@ void Spawner::Update(float dt)
 		break;
 	}
 
-	if (InputMgr::GetKeyDown(sf::Keyboard::L))
-	{
-		Zergling* zergling = new Zergling();
-		zergling->Init();
-		Enemys.push_back(zergling);
-	}
 }
 
 void Spawner::Draw(sf::RenderWindow& window)
@@ -174,4 +168,16 @@ void Spawner::SpawnEnemys(Enemy* enemy)
 		Enemys.push_back(enemy);
 		spawnTimer = 0.f;
 	}
+}
+
+void Spawner::AllRemove()
+{
+	auto it = Enemys.begin();
+	while (it != Enemys.end())
+	{
+		removeEnemys.push_back(*it);
+		it = Enemys.erase(it);
+	}
+
+
 }
