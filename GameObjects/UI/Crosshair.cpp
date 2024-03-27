@@ -16,7 +16,7 @@ Crosshair::Crosshair(const std::string& name)
 void Crosshair::Init()
 {
 	SpriteAnimatorGo::Init();
-	//animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/MovingCursor.csv"));
+	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/MovingCursor.csv"));
 }
 
 void Crosshair::Release()
@@ -45,18 +45,18 @@ void Crosshair::Update(float dt)
 		isCursorsCollision = false;
 	}
 
-	//if (isCursorsCollision && !isCursorsMoving) 
-	//{
-	//	animator->Play("MovingCursor", true);
-	//	isCursorsMoving = true;
-	//	SetOrigin(Origins::MC);
-	//}
-	//else if (!isCursorsCollision)
-	//{
-	//	SetOrigin(Origins::TL);
-	//	SetTexture(textureId);
-	//	isCursorsMoving = false;
-	//}
+	if (isCursorsCollision && !isCursorsMoving) 
+	{
+		animator->Play("MovingCursor", true);
+		isCursorsMoving = true;
+		SetOrigin(Origins::MC);
+	}
+	else if (!isCursorsCollision)
+	{
+		SetOrigin(Origins::TL);
+		SetTexture(textureId);
+		isCursorsMoving = false;
+	}
 }
 
 void Crosshair::Draw(sf::RenderWindow& window)

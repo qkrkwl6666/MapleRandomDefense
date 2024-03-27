@@ -6,6 +6,9 @@
 #include "Interface.h"
 #include "Ultralisk.h"
 #include "Scourge.h"
+#include "DarkTemplar.h"
+#include "Queen.h"
+#include "Overlord.h"
 
 Spawner::Spawner(const std::string& name): GameObject(name)
 {
@@ -69,6 +72,16 @@ void Spawner::Update(float dt)
 		case 3:
 			SpawnEnemys(new Ultralisk());
 			break;
+		case 4:
+			SpawnEnemys(new DarkTemplar());
+			break;
+		case 5:
+			SpawnEnemys(new Queen());
+			break;
+		case 6:
+			SpawnEnemys(new Overlord());
+			break;
+
 	}
 
 

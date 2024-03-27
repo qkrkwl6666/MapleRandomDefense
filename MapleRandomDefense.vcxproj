@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Civilian.cpp" />
+    <ClCompile Include="DarkTemplar.cpp" />
     <ClCompile Include="DragoonBullet.cpp" />
     <ClCompile Include="GameObjects\Dragoon.cpp" />
     <ClCompile Include="GameObjects\Enemy.cpp" />
@@ -44,10 +45,12 @@
     <ClCompile Include="GameObjects\Ghost.cpp" />
     <ClCompile Include="Interface.cpp" />
     <ClCompile Include="MapleRandomDefense.cpp" />
+    <ClCompile Include="Overlord.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="GameObjects\Projectile.cpp" />
+    <ClCompile Include="Queen.cpp" />
     <ClCompile Include="Scenes\SceneAnimatorEditer.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Scenes\SceneGame.cpp" />
@@ -64,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Civilian.h" />
+    <ClInclude Include="DarkTemplar.h" />
     <ClInclude Include="DragoonBullet.h" />
     <ClInclude Include="GameObjects\Dragoon.h" />
     <ClInclude Include="GameObjects\Enemy.h" />
@@ -93,8 +97,10 @@
     <ClInclude Include="GameObjects\Base\TileEditor.h" />
     <ClInclude Include="GameObjects\Ghost.h" />
     <ClInclude Include="Interface.h" />
+    <ClInclude Include="Overlord.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="GameObjects\Projectile.h" />
+    <ClInclude Include="Queen.h" />
     <ClInclude Include="Scenes\SceneAnimatorEditer.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneGame.h" />
