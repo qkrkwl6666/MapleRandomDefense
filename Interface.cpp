@@ -268,6 +268,36 @@ void Interface::Init()
 	texts["currentStage"]->SetOrigin(Origins::MC);
 	texts["currentStage"]->SetActive(false);
 
+	// 클리어 메세지 
+	NewTextGo("TextClear", RES_MGR_FONT.Get("font/Kostar.ttf"), L"메이플 운빨 디펜스", 30, sf::Color::Blue);
+	texts["TextClear"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.5f , FRAMEWORK.GetWindowSize().y * 0.4f });
+	texts["TextClear"]->sortLayer = 15;
+	texts["TextClear"]->SetOrigin(Origins::MC);
+	texts["TextClear"]->SetActive(false);
+
+	NewTextGo("TextClear1", RES_MGR_FONT.Get("font/Kostar.ttf"), L"보스 스테이지 *클리어*", 30, sf::Color::Red);
+	texts["TextClear1"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.5f , FRAMEWORK.GetWindowSize().y * 0.45f });
+	texts["TextClear1"]->sortLayer = 15;
+	texts["TextClear1"]->SetOrigin(Origins::MC);
+	texts["TextClear1"]->SetActive(false);
+
+	// 패배 메세지
+	NewTextGo("TextLose", RES_MGR_FONT.Get("font/Kostar.ttf"), L"메이플 운빨 디펜스", 30, sf::Color::Blue);
+	texts["TextLose"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.5f , FRAMEWORK.GetWindowSize().y * 0.4f });
+	texts["TextLose"]->sortLayer = 15;
+	texts["TextLose"]->SetOrigin(Origins::MC);
+	texts["TextLose"]->SetActive(false);
+
+	NewTextGo("TextLose1", RES_MGR_FONT.Get("font/Kostar.ttf"), L"패배", 30, sf::Color::Red);
+	texts["TextLose1"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.5f , FRAMEWORK.GetWindowSize().y * 0.45f });
+	texts["TextLose1"]->sortLayer = 15;
+	texts["TextLose1"]->SetOrigin(Origins::MC);
+	texts["TextLose1"]->SetActive(false);
+
 	NewSpriteGo("GhostUpgradeInfo", "graphics/UI/Interface/GhostUpgradeInfo.png");
 	sprites["GhostUpgradeInfo"]->SetOrigin(Origins::TL);
 	sprites["GhostUpgradeInfo"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
@@ -297,6 +327,7 @@ void Interface::Init()
 	sprites["DamageInfo"]->sortLayer = 14;
 	sprites["DamageInfo"]->SetActive(false);
 	sprites["DamageInfo"]->SetScale({ 1.f, 1.f });
+
 	NewTextGo("WeaponName", RES_MGR_FONT.Get("font/Kostar.ttf"), L"Cast Optical Flare", 18, sf::Color::White);
 	texts["WeaponName"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
 	0.50f , FRAMEWORK.GetWindowSize().y * 0.76f });
@@ -598,7 +629,6 @@ void Interface::UpdateUpgrade(float dt)
 		break;
 	}
 
-
 	switch (uiUnitType)
 	{
 	case SCUnit::Type::Hydralisk:
@@ -849,6 +879,7 @@ void Interface::UpdateUnit(float dt)
 		}
 		texts["UIAttackType"]->SetString(L"▶ 폭발형");
 		texts["WeaponName"]->SetString(L"Cast Optical Flare");
+		texts["UIAttackType"]->sortLayer = 11;
 		break;
 	case SCUnit::Type::Ghost:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/GhostWarframe.png");
@@ -1222,6 +1253,18 @@ void Interface::SetWarframeView(bool active)
 	sprites["Warframe"]->SetActive(active);
 	onWarframeName = active;
 	texts["UIAttackType"]->SetActive(active);
+}
+
+void Interface::ClearText(bool active)
+{
+	texts["TextClear"]->SetActive(active);
+	texts["TextClear1"]->SetActive(active);
+}
+
+void Interface::LoseText(bool active)
+{
+	texts["TextLose"]->SetActive(active);
+	texts["TextLose1"]->SetActive(active);
 }
 
 void Interface::SetWeaponInfoView(bool active)

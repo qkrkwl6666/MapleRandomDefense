@@ -89,5 +89,8 @@ public:
 
 	int GetStage() {return currentStage;}
 	void SetStage(int stage) {currentStage = stage;}
+
+	void ClearText(bool active);
+	void LoseText(bool active);
 };
 

@@ -42,6 +42,7 @@ void Spawner::Init()
 	SetPosition({ 16 * 32 + 16.f , 10 * 32 + 16.f });
 
 	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame));
+	mainInterface = sceneGame->GetInterface();
 }
 
 void Spawner::Release()
@@ -122,9 +123,17 @@ void Spawner::Update(float dt)
 			// Å¬¸®¾î
 			if (Enemys.size() == 0 && isBoss)
 			{
-				SCENE_MGR.ChangeScene(SceneIds::SceneTitle);
-				sceneGame->GetInterface()->SetStage(0);
 				isBoss = false;
+				mainInterface->ClearText(true);
+				FRAMEWORK.SetTimeScale(0.f);
+			}
+			break;
+		case 15:
+			if (Enemys.size() != 0)
+			{
+				isBoss = false;
+				mainInterface->LoseText(true);
+				FRAMEWORK.SetTimeScale(0.f);
 			}
 	}
 
@@ -155,6 +164,8 @@ void Spawner::Update(float dt)
 		break;
 	}
 
+
+
 }
 
 void Spawner::Draw(sf::RenderWindow& window)
@@ -175,6 +186,12 @@ void Spawner::Draw(sf::RenderWindow& window)
 void Spawner::LateUpdate(float dt)
 {
 	GameObject::LateUpdate(dt);
+
+	if (Enemys.size() >= 150)
+	{
+		mainInterface->LoseText(true);
+		FRAMEWORK.SetTimeScale(0.f);
+	}
 }
 
 void Spawner::SpawnEnemys(Enemy* enemy)

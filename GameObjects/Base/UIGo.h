@@ -10,8 +10,7 @@ protected:
 	std::unordered_map<std::string, SpriteGo*> sprites;
 	std::unordered_map<std::string, TextGo*> texts;
 
-	std::vector<SpriteGo*> sortSprites;
-	std::vector<TextGo*> sortTexts;
+	std::vector<GameObject*> sortGameObject;
 
 	Crosshair* mouse = nullptr;
 
