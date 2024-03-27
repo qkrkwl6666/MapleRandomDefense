@@ -624,68 +624,6 @@ void SceneGame::Update(float dt)
 
 	MessageUpdate(dt);
 
-	// *************** 개발자 모드
-<<<<<<< HEAD
-	if (InputMgr::GetKeyDown(sf::Keyboard::D))
-	{
-		if (!modeDeveloper)
-		{
-			modeDeveloper = true;
-			return;
-		}
-		if (modeDeveloper)
-		{
-			modeDeveloper = false;
-			return;
-		}
-	}
-
-	if (modeDeveloper)
-	{
-		std::cout << (int)worldPos.x / 32 << " " << (int)worldPos.y / 32 << std::endl;
-
-		if (InputMgr::GetKeyDown(sf::Keyboard::A))
-		{
-			mineral = 1000;
-		}
-
-		if (InputMgr::GetKeyDown(sf::Keyboard::Z))
-		{
-			BuyUnit(4000);
-		}
-		if (InputMgr::GetKeyDown(sf::Keyboard::X))
-		{
-			BuyUnit(5005);
-		}
-		if (InputMgr::GetKeyDown(sf::Keyboard::C))
-		{
-			BuyUnit(8311);
-		}
-		if (InputMgr::GetKeyDown(sf::Keyboard::V))
-		{
-			BuyUnit(9331);
-		}
-		if (InputMgr::GetKeyDown(sf::Keyboard::B))
-		{
-			BuyUnit(9841);
-		}
-		if (InputMgr::GetKeyDown(sf::Keyboard::N))
-		{
-			BuyUnit(9921);
-		}	
-		if (InputMgr::GetKeyDown(sf::Keyboard::M))
-		{
-			BuyUnit(9971);
-		}	
-		if (InputMgr::GetKeyDown(sf::Keyboard::L))
-		{
-			BuyUnit(9999);
-		}
-	}
-	// *************** 개발자 모드
-=======
->>>>>>> develop
-
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Middle))
 	{
 		lastMouseWorldPos = worldPos;
