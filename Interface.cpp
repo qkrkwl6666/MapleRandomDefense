@@ -20,7 +20,6 @@ Interface::~Interface()
 
 void Interface::Init()
 {
-
 	// 메인 인터페이스
 	NewSpriteGo("MainInterface", "graphics/UI/Interface/Interface.png");
 	sprites["MainInterface"]->SetOrigin(Origins::BC);

@@ -50,6 +50,7 @@ public:
 			messageTimer += dt;
 		}
 	};
+	// Å×½ºÆ®
 
 protected:
 	TileSet* tileSet = nullptr;
