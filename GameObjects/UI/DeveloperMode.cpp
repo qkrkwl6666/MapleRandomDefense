@@ -66,6 +66,12 @@ void DeveloperMode::Update(float dt)
 	{
 		FRAMEWORK.SetTimeScale(10.f);
 	}
+
+	// ¼Óµµ 50¹è
+	if (InputMgr::GetKeyDown(sf::Keyboard::F11))
+	{
+		FRAMEWORK.SetTimeScale(50.f);
+	}
 }
 
 void DeveloperMode::LateUpdate(float dt)

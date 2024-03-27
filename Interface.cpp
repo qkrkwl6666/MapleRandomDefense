@@ -1302,6 +1302,7 @@ void Interface::UpdateUnit(float dt)
 
 void Interface::UpdateEnemy(float dt)
 {
+	// 보스잡으면 에러
 	Enemy* enemy = dynamic_cast<Enemy*>(UItarget);//TO-DO 체력바 active true 하기 , 숫자 바꾸기, 다른상황일떄 끄기
 	sprites["Warframe"]->SetTexture("graphics/UI/Interface/HydraliskWarframe.png");
 	warframeName.clear();
