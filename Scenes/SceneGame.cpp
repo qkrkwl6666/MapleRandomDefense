@@ -427,6 +427,16 @@ void SceneGame::message(MessageType m, SCUnit::Type t, SCUnit::Rarity r)
 	case SceneGame::MessageType::SellUnit:
 		switch (r)
 		{
+		case SCUnit::Rarity::NONE:
+		{
+			SystemMessage message;
+			message.systemMessage->setCharacterSize(20);
+			message.systemMessage->setFont(RES_MGR_FONT.Get("font/Kostar.ttf"));
+			(*message.systemMessage) << sfe::Outline{ sf::Color::Black, 0.5f };
+			(*message.systemMessage) << sf::Color::White << L"+5";
+			messageContainer.push_front(message);
+		}
+			break;
 		case SCUnit::Rarity::Common:
 		{
 			SystemMessage message;
@@ -620,6 +630,7 @@ void SceneGame::Update(float dt)
 	{
 		gas -= 10;
 		mineral += 5;
+		message(MessageType::SellUnit, SCUnit::Type::Hydralisk, SCUnit::Rarity::NONE);
 	}
 
 	MessageUpdate(dt);
@@ -841,12 +852,6 @@ void SceneGame::BuyUnit()
 
 void SceneGame::BuyUnit(int d)
 {
-	if (mineral < 10)
-	{
-		message(MessageType::NotEnoughMinerals);
-		return;
-	}
-	mineral -= 10;
 	UnitSummonLocation.setPosition(basePosition);
 	std::vector<sf::Vector2f> directions = {
 	{32, 0},

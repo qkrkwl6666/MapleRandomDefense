@@ -3,6 +3,7 @@
 #include "Crosshair.h"
 #include "ShapeGo.h"
 #include "SceneGame.h"
+#include "Interface.h"
 
 Enemy::Enemy(const std::string& name, const std::string& animationName)
 	: SpriteAnimatorGo(name) , animationName(animationName)
@@ -39,6 +40,12 @@ void Enemy::Init()
 
 	currentDirection = front[Dir];
 	currentAngle = angleMMap[Dir];
+
+	isSelectSprite = std::make_shared<SpriteGo>();
+	isSelectSprite->SetTexture("graphics/UI/EnemySelect.png");
+	isSelectSprite->SetScale({ 1.5f , 1.5f });
+	isSelectSprite->SetOrigin(Origins::MC);
+	isSelectSprite->SetActive(false);
 }
 
 void Enemy::Reset()
@@ -163,6 +170,12 @@ void Enemy::Update(float dt)
 			Translate(currentDirection * dt * (moveSpeed / 2.f));
 			break;
 	}
+	if (
+		dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetInterface()->GetUiTarget()
+		!= this)
+	{
+		SetSelect(false);
+	}
 }
 
 void Enemy::LateUpdate(float dt)
@@ -174,6 +187,10 @@ void Enemy::LateUpdate(float dt)
 
 void Enemy::Draw(sf::RenderWindow& window)
 {
+	if (isSelectSprite->GetActive() && isSelect == true)
+	{
+		isSelectSprite->Draw(window);
+	}
 	SpriteAnimatorGo::Draw(window);
 }
 
@@ -185,5 +202,18 @@ void Enemy::OnDamege(float damage)
 void Enemy::Dead()
 {
 	dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GasUp();
+	dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->DeleteGo(this);
+	if (
+		dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetInterface()->GetUiTarget()
+		== this)
+	{
+		dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetInterface()->SetUiTarget(nullptr);
+	}
 	SetActive(false);
+}
+
+void Enemy::SetSelect(bool isSelect)
+{
+	this->isSelect = isSelect;
+	isSelectSprite->SetActive(isSelect);
 }

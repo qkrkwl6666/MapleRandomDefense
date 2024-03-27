@@ -66,6 +66,46 @@ void DeveloperMode::Update(float dt)
 	{
 		FRAMEWORK.SetTimeScale(10.f);
 	}
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::Num1))
+	{
+		sceneGame->BuyUnit(2000);
+	}
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::Num2))
+	{
+		sceneGame->BuyUnit(5001);
+	}
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::Num3))
+	{
+		sceneGame->BuyUnit(8311);
+	}
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::Num4))
+	{
+		sceneGame->BuyUnit(9331);
+	}
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::Num5))
+	{
+		sceneGame->BuyUnit(9841);
+	}
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::Num6))
+	{
+		sceneGame->BuyUnit(9921);
+	}
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::Num7))
+	{
+		sceneGame->BuyUnit(9971);
+	}
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::Num8))
+	{
+		sceneGame->BuyUnit(9999);
+	}
 }
 
 void DeveloperMode::LateUpdate(float dt)

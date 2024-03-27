@@ -96,10 +96,14 @@ public:
 protected:
 	float hpMax;
 	float hp = 10.f;
-
+	std::string warframePath; //TO-DO 전부 이름짓고 워프레임 패스 넣어주기
+	std::wstring nickName;
 	ArmorType armor = ArmorType::NONE;
 
 	std::vector<sf::Vector2f> changeDirPos;
+
+	bool isSelect = false;
+	std::shared_ptr<SpriteGo> isSelectSprite;
 
 public:
 	Enemy(const std::string& name = "", const std::string & animationName = "");
@@ -112,10 +116,13 @@ public:
 	void Draw(sf::RenderWindow& window) override;
 
 	void OnDamege(float damage);
-	const float GetHp() const { return hp; }
-	const float GetHpMax() const { return hpMax; }
+	const int GetHp() const { return hp; }
+	const int GetHpMax() const { return hpMax; }
+	ArmorType GetArmor() const { return armor; }
+	std::wstring GetNickName() const { return nickName; }
+	std::string GetWarframePath() const { return warframePath; }
 
 	void Dead();
-
+	void SetSelect(bool isSelect);
 };
 

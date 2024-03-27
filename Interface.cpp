@@ -670,6 +670,7 @@ void Interface::Update(float dt)
 				OffUpgradeInfoView();
 				OnUpgradeInfoView(scUnit->GetType());
 				scUnit->SetSelect(true);
+				texts["EnemyHP"]->SetActive(false);
 				uiStatus = UIStatus::Unit;
 			}
 		}
@@ -695,6 +696,7 @@ void Interface::Update(float dt)
 					SetActiveSellInfo(false, SCUnit::Type::Ghost);
 					SetActiveSellInfo(false, SCUnit::Type::Dragoon);
 					OffUpgradeInfoView();
+					texts["EnemyHP"]->SetActive(false);
 					switch (building->GetBuildingType())
 					{
 					case Building::BuildingType::UPGRADE:
@@ -752,6 +754,8 @@ void Interface::Update(float dt)
 						SetActiveSellInfo(false, SCUnit::Type::Ghost);
 						SetActiveSellInfo(false, SCUnit::Type::Dragoon);
 						OffUpgradeInfoView();
+						enemy->SetSelect(true);
+						texts["EnemyHP"]->SetActive(true);
 						uiStatus = UIStatus::Enemy;
 						return;
 					}
@@ -768,6 +772,7 @@ void Interface::Update(float dt)
 				SetActiveSellInfo(false, SCUnit::Type::Dragoon);
 				SetWarframeView(false);
 				OffUpgradeInfoView();
+				texts["EnemyHP"]->SetActive(false);
 			}
 		}
 
@@ -1302,11 +1307,38 @@ void Interface::UpdateUnit(float dt)
 
 void Interface::UpdateEnemy(float dt)
 {
-	Enemy* enemy = dynamic_cast<Enemy*>(UItarget);//TO-DO 체력바 active true 하기 , 숫자 바꾸기, 다른상황일떄 끄기
-	sprites["Warframe"]->SetTexture("graphics/UI/Interface/HydraliskWarframe.png");
+	if (UItarget == nullptr)
+	{
+		UItarget = nullptr;
+		uiStatus = UIStatus::NONE;
+		SetActiveSell(false);
+		SetActiveUpgrade(false);
+		SetActiveSellInfo(false, SCUnit::Type::Hydralisk);
+		SetActiveSellInfo(false, SCUnit::Type::Ghost);
+		SetActiveSellInfo(false, SCUnit::Type::Dragoon);
+		SetWarframeView(false);
+		OffUpgradeInfoView();
+		texts["EnemyHP"]->SetActive(false);
+		return;
+	}
+
+	Enemy* enemy = dynamic_cast<Enemy*>(UItarget);
+	sprites["Warframe"]->SetTexture(enemy->GetWarframePath());
 	warframeName.clear();
-	warframeName << sf::Color::White << L"Select Unit: 10메소";
-	texts["UIAttackType"]->SetString(L"");
+	warframeName << sf::Color::White << enemy->GetNickName();
+	switch (enemy->GetArmor())
+	{
+	case Enemy::ArmorType::SMALL:
+		texts["UIAttackType"]->SetString(L"★ 소 형");
+	break;
+	case Enemy::ArmorType::MEDIUM:
+		texts["UIAttackType"]->SetString(L"★ 중 형");
+		break;
+	case Enemy::ArmorType::LARGE:
+		texts["UIAttackType"]->SetString(L"★ 대 형");
+		break;
+	}
+	texts["EnemyHP"]->SetString(std::to_wstring(enemy->GetHp()) + L"/" + std::to_wstring(enemy->GetHpMax()));
 }
 
 void Interface::LateUpdate(float dt)

@@ -4,7 +4,10 @@
 Zergling::Zergling(const std::string& name, const std::string& animationName)
 	: Enemy(name , "Zergling")
 {
-
+	armor = ArmorType::SMALL;
+	hp = 10.f;
+	nickName = L"´ÞÆØÀÌ";
+	warframePath = "graphics/UI/Interface/HydraliskWarframe.png";
 }
 
 Zergling::~Zergling()
@@ -36,7 +39,7 @@ void Zergling::Reset()
 void Zergling::Update(float dt)
 {
 	Enemy::Update(dt);
-
+	isSelectSprite->SetPosition({ GetPosition().x , GetPosition().y + 10.f });
 }
 
 void Zergling::LateUpdate(float dt)

@@ -17,6 +17,7 @@ public:
 	void Draw(sf::RenderWindow& window);	
 	bool isCursorsUnitCollision = false;
 	bool isCursorsBuildingCollision = false;
+	bool isCursorsEnemyCollision = false;
 	bool isCursorsMoving = false;
 
 	sf::Vector2f GetPosition() const

@@ -3,6 +3,8 @@
 #include "SCUnit.h"
 #include "Building.h"
 #include "SceneGame.h"
+#include "Spawner.h"
+#include "Enemy.h"
 
 
 Crosshair::Crosshair(const std::string& name)
@@ -18,6 +20,7 @@ void Crosshair::Init()
 {
 	SpriteAnimatorGo::Init();
 	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/MovingCursor.csv"));
+	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/EnemyMovingCursor.csv"));
 }
 
 void Crosshair::Release()
@@ -58,14 +61,32 @@ void Crosshair::Update(float dt)
 		isCursorsBuildingCollision = false;
 	}
 
-
+	std::list<Enemy*>* enemyListPtr = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetSpawner()->GetEnemys();
+	if (enemyListPtr) {
+		std::list<Enemy*>& enemyList = *enemyListPtr;
+		for (Enemy* enemy : enemyList)
+		{
+			if (enemy->GetGlobalBounds().contains(dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos()))
+			{
+				isCursorsEnemyCollision = true;
+				break;
+			}
+			isCursorsEnemyCollision = false;
+		}
+	}
 	if ((isCursorsUnitCollision || isCursorsBuildingCollision) && !isCursorsMoving)
 	{
 		animator->Play("MovingCursor", true);
 		isCursorsMoving = true;
 		SetOrigin(Origins::MC);
 	}
-	else if (!isCursorsUnitCollision && !isCursorsBuildingCollision)
+	else if ((isCursorsEnemyCollision || isCursorsBuildingCollision) && !isCursorsMoving)
+	{
+		animator->Play("EnemyMovingCursor", true);
+		isCursorsMoving = true;
+		SetOrigin(Origins::MC);
+	}
+	else if (!isCursorsUnitCollision && !isCursorsBuildingCollision && !isCursorsEnemyCollision)
 	{
 		SetOrigin(Origins::TL);
 		SetTexture(textureId);

@@ -91,8 +91,10 @@ public:
 	void OnUpgradeInfoView(SCUnit::Type t);
 	void OffUpgradeInfoView();
 
-	int GetStage() {return currentStage;}
+	const int GetStage() const {return currentStage;}
 	void SetStage(int stage) {currentStage = stage;}
+	void SetUiTarget(GameObject* t) { UItarget = t; }
+	const GameObject* GetUiTarget() const { return UItarget; }
 
 	void ClearText(bool active);
 	void LoseText(bool active);
