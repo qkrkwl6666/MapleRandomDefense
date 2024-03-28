@@ -8,6 +8,7 @@ void Framework::Init(int width, int height, const std::string& name  , sf::Uint6
 
 	windowSize.x = width;
 	windowSize.y = height;
+	screenType = style;
 
 	window.create(sf::VideoMode(windowSize.x, windowSize.y), name , style);
 	//window.setFramerateLimit(15);
