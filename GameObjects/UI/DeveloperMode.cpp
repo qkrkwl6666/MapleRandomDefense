@@ -66,6 +66,11 @@ void DeveloperMode::Update(float dt)
 	{
 		FRAMEWORK.SetTimeScale(10.f);
 	}
+	// ¼Óµµ 50¹è
+	if (InputMgr::GetKeyDown(sf::Keyboard::F11))
+	{
+		FRAMEWORK.SetTimeScale(50.f);
+	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num1))
 	{
@@ -105,7 +110,7 @@ void DeveloperMode::Update(float dt)
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num8))
 	{
 		sceneGame->BuyUnit(9999);
-	}
+
 }
 
 void DeveloperMode::LateUpdate(float dt)
