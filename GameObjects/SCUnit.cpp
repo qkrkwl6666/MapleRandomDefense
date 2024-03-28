@@ -290,7 +290,7 @@ void SCUnit::Update(float dt)
 					{
 						attackTimer = 0.f;
 						if(target != nullptr)
-						target->OnDamege(damage);
+						target->OnDamege(damage,type);
 					}
 				}
 

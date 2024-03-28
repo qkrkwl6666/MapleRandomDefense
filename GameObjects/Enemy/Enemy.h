@@ -115,7 +115,7 @@ public:
 	void LateUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
-	void OnDamege(float damage);
+	void OnDamege(float damage , SCUnit::Type t);
 	const int GetHp() const { return hp; }
 	const int GetHpMax() const { return hpMax; }
 	ArmorType GetArmor() const { return armor; }

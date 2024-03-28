@@ -13,6 +13,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include "RenderWindowRBR.h"
 
 Interface::Interface(const std::string& name)
 {
@@ -702,13 +703,27 @@ void Interface::Update(float dt)
 	worldMousePos = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos();
 	screenMousePos = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetScreenMousePos();
 
-	if ((screenMousePos.x > 970 && screenMousePos.y > 560) || screenMousePos.y > 600)
+	if (FRAMEWORK.GetScreenType() == sf::Style::Default)
 	{
-		mouseOnUi = true;
+		if ((screenMousePos.x > 970 && screenMousePos.y > 560) || screenMousePos.y > 600)
+		{
+			mouseOnUi = true;
+		}
+		else
+		{
+			mouseOnUi = false;
+		}
 	}
-	else
+	if (FRAMEWORK.GetScreenType() == sf::Style::Fullscreen)
 	{
-		mouseOnUi = false;
+		if ((screenMousePos.x > 1350 && screenMousePos.y > 800) || screenMousePos.y > 850)
+		{
+			mouseOnUi = true;
+		}
+		else
+		{
+			mouseOnUi = false;
+		}
 	}
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left) && !isSelecting)
@@ -1406,6 +1421,7 @@ void Interface::UpdateEnemy(float dt)
 		texts["EnemyHP"]->SetActive(false);
 		return;
 	}
+
 
 	Enemy* enemy = dynamic_cast<Enemy*>(UItarget);
 	sprites["Warframe"]->SetTexture(enemy->GetWarframePath());

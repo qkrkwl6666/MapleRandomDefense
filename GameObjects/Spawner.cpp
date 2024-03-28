@@ -143,7 +143,7 @@ void Spawner::Update(float dt)
 	{
 		if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
 		{
-			SCENE_MGR.ChangeScene(SceneIds::SceneGame);
+			SCENE_MGR.ChangeScene(SceneIds::SceneTitle);
 		}
 	}
 

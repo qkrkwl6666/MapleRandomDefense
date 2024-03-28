@@ -46,7 +46,7 @@ void DragoonBullet::Update(float dt)
 		SetActive(false);
 		if (target != nullptr)
 		{
-			target->OnDamege(damage);
+			target->OnDamege(damage, SCUnit::Type::Dragoon);
 		}
 		dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->DeleteGo(this);
 	}
