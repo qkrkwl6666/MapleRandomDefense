@@ -6,6 +6,8 @@ Scourge::Scourge(const std::string& name, const std::string& animationName)
 {
 	armor = ArmorType::SMALL;
 	hp = 80.f;
+	nickName = L"»¡°£ ´ÞÆØÀÌ";
+	warframePath = "graphics/Enemy/ScourgeWarframe.png";
 }
 
 Scourge::~Scourge()
@@ -37,6 +39,7 @@ void Scourge::Reset()
 void Scourge::Update(float dt)
 {
 	Enemy::Update(dt);
+	isSelectSprite->SetPosition({ GetPosition().x , GetPosition().y + 10.f });
 }
 
 void Scourge::LateUpdate(float dt)

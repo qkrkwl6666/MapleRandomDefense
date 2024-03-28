@@ -6,6 +6,8 @@ Mutalisk::Mutalisk(const std::string& name, const std::string& animationName)
 {
 	armor = ArmorType::MEDIUM;
 	hp = 400.f;
+	nickName = L"루나픽시";
+	warframePath = "graphics/Enemy/MutaliskWarframe.png";
 }
 
 Mutalisk::~Mutalisk()
@@ -36,6 +38,7 @@ void Mutalisk::Reset()
 void Mutalisk::Update(float dt)
 {
 	Enemy::Update(dt);
+	isSelectSprite->SetPosition({ GetPosition().x , GetPosition().y + 15.f });
 }
 
 void Mutalisk::LateUpdate(float dt)

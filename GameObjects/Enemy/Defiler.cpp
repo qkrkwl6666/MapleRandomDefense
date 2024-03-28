@@ -6,6 +6,8 @@ Defiler::Defiler(const std::string& name, const std::string& animationName)
 {
 	armor = ArmorType::SMALL;
 	hp = 1700.f;
+	nickName = L"วํลอ";
+	warframePath = "graphics/Enemy/DefilerWarframe.png";
 }
 
 Defiler::~Defiler()
@@ -36,6 +38,7 @@ void Defiler::Reset()
 void Defiler::Update(float dt)
 {
 	Enemy::Update(dt);
+	isSelectSprite->SetPosition({ GetPosition().x , GetPosition().y + 15.f });
 }
 
 void Defiler::LateUpdate(float dt)

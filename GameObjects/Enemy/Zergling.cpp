@@ -7,7 +7,7 @@ Zergling::Zergling(const std::string& name, const std::string& animationName)
 	armor = ArmorType::SMALL;
 	hp = 10.f;
 	nickName = L"¥ﬁ∆ÿ¿Ã";
-	warframePath = "graphics/UI/Interface/HydraliskWarframe.png";
+	warframePath = "graphics/Enemy/ZerglingWarframe.png";
 }
 
 Zergling::~Zergling()

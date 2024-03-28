@@ -6,6 +6,8 @@ Queen::Queen(const std::string& name, const std::string& animationName)
 {
 	armor = ArmorType::LARGE;
 	hp = 250.f;
+	nickName = L"주니어 레이스";
+	warframePath = "graphics/Enemy/QueenWarframe.png";
 }
 
 Queen::~Queen()
@@ -36,6 +38,7 @@ void Queen::Reset()
 void Queen::Update(float dt)
 {
 	Enemy::Update(dt);
+	isSelectSprite->SetPosition({ GetPosition().x , GetPosition().y + 15.f });
 }
 
 void Queen::LateUpdate(float dt)

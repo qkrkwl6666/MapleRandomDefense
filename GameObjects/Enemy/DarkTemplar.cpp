@@ -6,6 +6,8 @@ DarkTemplar::DarkTemplar(const std::string& name, const std::string& animationNa
 {
 	armor = ArmorType::SMALL;
 	hp = 200.f;
+	nickName = L"½ºÄÌ·¹Åæ Àå±³";
+	warframePath = "graphics/Enemy/DarkTemplarWarframe.png";
 }
 
 DarkTemplar::~DarkTemplar()
@@ -23,6 +25,7 @@ void DarkTemplar::Init()
 	SetOrigin(Origins::MC);
 
 	SetScale({ 1.5f , 1.5f });
+	isSelectSprite->SetScale({ 1.5f,1.5f });
 
 	animator->AddClip(RES_MGR_ANIMATIONCLIP.Get("Animation/AnimatorEditer/DarkTemplar.csv"));
 	animator->Play("DarkTemplarMove", true, true, currentAngle);
@@ -36,6 +39,7 @@ void DarkTemplar::Reset()
 void DarkTemplar::Update(float dt)
 {
 	Enemy::Update(dt);
+	isSelectSprite->SetPosition({ GetPosition().x , GetPosition().y + 25.f });
 }
 
 void DarkTemplar::LateUpdate(float dt)

@@ -6,6 +6,8 @@ InfestedTerran::InfestedTerran(const std::string& name, const std::string& anima
 {
 	armor = ArmorType::SMALL;
 	hp = 700.f;
+	nickName = L"Á»ºñ¹ö¼¸";
+	warframePath = "graphics/Enemy/InfestedTerranWarframe.png";
 }
 
 InfestedTerran::~InfestedTerran()
@@ -36,6 +38,7 @@ void InfestedTerran::Reset()
 void InfestedTerran::Update(float dt)
 {
 	Enemy::Update(dt);
+	isSelectSprite->SetPosition({ GetPosition().x , GetPosition().y + 10.f });
 }
 
 void InfestedTerran::LateUpdate(float dt)

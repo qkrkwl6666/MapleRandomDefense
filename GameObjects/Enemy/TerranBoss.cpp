@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "TerranBoss.h"
+#include "SceneGame.h"
+#include "Interface.h"
 
 TerranBoss::TerranBoss(const std::string& name, const std::string& animationName)
 	: Enemy(name, "TerranBoss")
@@ -7,6 +9,8 @@ TerranBoss::TerranBoss(const std::string& name, const std::string& animationName
 	hp = 50000.f;
 	armor = ArmorType::LARGE;
 	enemyType = EnemyType::BOSS;
+	nickName = L"시그너스";
+	warframePath = "graphics/Enemy/TerranBossWarframe.png";
 }
 
 TerranBoss::~TerranBoss()
@@ -23,6 +27,7 @@ void TerranBoss::Init()
 	SetScale({ 1.f , 1.f });
 
 	SetOrigin(Origins::MC);
+	isSelectSprite->SetScale({ 5.f,5.f });
 }
 
 void TerranBoss::Reset()
@@ -33,6 +38,7 @@ void TerranBoss::Reset()
 void TerranBoss::Update(float dt)
 {
 	SpriteGo::Update(dt);
+	isSelectSprite->SetPosition({ GetPosition().x - 10 , GetPosition().y + 30.f });
 
 	if (hp <= 0)
 	{
@@ -144,6 +150,13 @@ void TerranBoss::Update(float dt)
 			}
 			Translate(currentDirection * dt * (moveSpeed / 2.f));
 			break;
+	}
+
+	if (
+		dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetInterface()->GetUiTarget()
+		!= this)
+	{
+		SetSelect(false);
 	}
 }
 

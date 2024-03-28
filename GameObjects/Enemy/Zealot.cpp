@@ -6,6 +6,8 @@ Zealot::Zealot(const std::string& name, const std::string& animationName)
 {
 	armor = ArmorType::SMALL;
 	hp = 2000.f;
+	nickName = L"Äð¸®Á»ºñ";
+	warframePath = "graphics/Enemy/ZealotWarframe.png";
 }
 
 Zealot::~Zealot()
@@ -36,6 +38,7 @@ void Zealot::Reset()
 void Zealot::Update(float dt)
 {
 	Enemy::Update(dt);
+	isSelectSprite->SetPosition({ GetPosition().x , GetPosition().y + 10.f });
 }
 
 void Zealot::LateUpdate(float dt)

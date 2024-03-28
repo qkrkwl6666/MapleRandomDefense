@@ -6,6 +6,8 @@ Lurker::Lurker(const std::string& name, const std::string& animationName)
 {
 	armor = ArmorType::MEDIUM;
 	hp = 550.f;
+	nickName = L"¿ÁÅäÆÛ½º";
+	warframePath = "graphics/Enemy/LurkerWarframe.png";
 }
 
 Lurker::~Lurker()
@@ -36,6 +38,7 @@ void Lurker::Reset()
 void Lurker::Update(float dt)
 {
 	Enemy::Update(dt);
+	isSelectSprite->SetPosition({ GetPosition().x , GetPosition().y + 15.f });
 }
 
 void Lurker::LateUpdate(float dt)

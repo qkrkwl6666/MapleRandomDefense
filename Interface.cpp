@@ -547,7 +547,6 @@ void Interface::Reset()
 
 void Interface::Update(float dt)
 {
-	std::cout << (int)uiStatus << std::endl;
 	UIGo::Update(dt);
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::F1))
