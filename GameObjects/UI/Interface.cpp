@@ -700,9 +700,12 @@ void Interface::Update(float dt)
 				}
 
 				{
-					min = 2;
-					gameTimer = 20;
-					uiTimerString = "02:20";
+					if (currentStage != 14)
+					{
+						min = 2;
+						gameTimer = 20;
+						uiTimerString = "02:20";
+					}
 					texts["currentStage"]->SetString(stageName);
 					texts["currentStage"]->SetActive(true);
 					currentStageTimer = 0.f;
