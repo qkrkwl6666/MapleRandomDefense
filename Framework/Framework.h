@@ -22,7 +22,7 @@ protected:
 	float fixedInterval = 1.f/60.f;
 	Crosshair* mouse;
 	sf::Event event;
-
+	sf::Uint64 screenType;
 	sf::Clock clock;
 	float timeScale = 1.f;
 
@@ -68,6 +68,7 @@ public:
 
 	sf::Event& GetEvent() { return event; }
 
+	sf::Uint64 GetScreenType() { return screenType; }
 };
 
 #define FRAMEWORK (Singleton<Framework>::Instance())
