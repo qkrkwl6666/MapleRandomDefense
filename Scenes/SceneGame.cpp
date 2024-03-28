@@ -612,9 +612,33 @@ void SceneGame::Release()
 
 void SceneGame::Reset()
 {
+	GetInterface()->Reset();
+	GetSpawner()->Reset();
+	for (auto it = AllUnitList.begin(); it != AllUnitList.end();)
+	{
+		SCUnit* scUnit = *it;
+		if (scUnit->GetType() != SCUnit::Type::Civilian)
+		{
+			RemoveGo(scUnit);
+			DeleteGo(scUnit);
+			it = AllUnitList.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
+	HydraliskList.clear();
+	DragoonList.clear();
+	GhostList.clear();
+	messageContainer.clear();
 	hydraliskUpgrade = 0;
 	dragoonUpgrade = 0;
 	ghostUpgrade = 0;
+	UpgradeUpdate();
+	mineral = 25;
+	gas = 0;
+	
 }
 
 void SceneGame::Enter()

@@ -23,7 +23,6 @@ void SceneTitle::Init()
 	RES_MGR_SOUND_BUFFER.Load("sounds/elnath.mp3");
 	RES_MGR_SOUND_BUFFER.Load("sounds/boss.mp3");
 
-	SOUND_MGR.PlayBGM("sounds/Lith.mp3");
 	SOUND_MGR.SetVolumeBGM(100.f);
 
 	TitleImage = new SpriteGo("titleImage");
@@ -74,6 +73,8 @@ void SceneTitle::Update(float dt)
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
 	{
+		SCENE_MGR.GetScene(SceneIds::SceneGame)->Reset();
+		FRAMEWORK.SetTimeScale(1.f);
 		SCENE_MGR.ChangeScene(SceneIds::SceneGame);
 	}
 
@@ -86,6 +87,7 @@ void SceneTitle::Update(float dt)
 void SceneTitle::Enter()
 {
 	Scene::Enter();
+	SCENE_MGR.TitleBgm();
 }
 
 void SceneTitle::Draw(sf::RenderWindow& window)

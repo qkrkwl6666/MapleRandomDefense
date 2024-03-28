@@ -53,6 +53,12 @@ void Spawner::Release()
 void Spawner::Reset()
 {
 	GameObject::Reset();
+	isBoss = false;
+	isDead = false;
+	isEnd = false;
+	AllRemove();
+	RemoveKillCount();
+	Enemys.clear();
 }
 
 void Spawner::Update(float dt)
@@ -143,6 +149,7 @@ void Spawner::Update(float dt)
 	{
 		if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
 		{
+			Reset();
 			SCENE_MGR.ChangeScene(SceneIds::SceneTitle);
 		}
 	}

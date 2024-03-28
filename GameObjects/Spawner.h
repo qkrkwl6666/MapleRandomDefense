@@ -47,7 +47,7 @@ public:
 	void AllRemove();
 
 	int& GetKillCount() { return killCount; }
-
+	void RemoveKillCount() { killCount = 0; }
 
 };
 

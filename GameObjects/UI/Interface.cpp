@@ -571,6 +571,27 @@ void Interface::Release()
 void Interface::Reset()
 {
 	UIGo::Reset();
+	uiStatus = UIStatus::NONE;
+	UItarget = nullptr;
+	SetActiveSell(false);
+	SetActiveUpgrade(false);
+	SetActiveSellInfo(false, SCUnit::Type::Hydralisk);
+	SetActiveSellInfo(false, SCUnit::Type::Ghost);
+	SetActiveSellInfo(false, SCUnit::Type::Dragoon);
+	SetWarframeView(false);
+	OffUpgradeInfoView();
+	texts["EnemyHP"]->SetActive(false);
+	sprites["Face"]->SetActive(false);
+	currentStage = 0;
+	currentStageTimer = 100;
+	gameTimer = 30;
+	min = 0;
+	uiTimerString.replace(0, 2, "0" + std::to_string(min));
+	texts["TextEnd"]->SetActive(false);
+	texts["TextLose"]->SetActive(false);
+	texts["TextLose1"]->SetActive(false);
+	texts["TextClear"]->SetActive(false);
+	texts["TextClear1"]->SetActive(false);
 }
 
 void Interface::Update(float dt)
