@@ -14,6 +14,18 @@ void SceneTitle::Init()
 {
 	worldView.zoom(1.0f / 0.65f);
 
+	RES_MGR_SOUND_BUFFER.Load("sounds/Lith.mp3");
+	RES_MGR_SOUND_BUFFER.Load("sounds/Henesys.mp3");
+	RES_MGR_SOUND_BUFFER.Load("sounds/perion.mp3");
+	RES_MGR_SOUND_BUFFER.Load("sounds/ellinia.mp3");
+	RES_MGR_SOUND_BUFFER.Load("sounds/cunning.mp3");
+	RES_MGR_SOUND_BUFFER.Load("sounds/sleepywood.mp3");
+	RES_MGR_SOUND_BUFFER.Load("sounds/elnath.mp3");
+	RES_MGR_SOUND_BUFFER.Load("sounds/boss.mp3");
+
+	SOUND_MGR.PlayBGM("sounds/Lith.mp3");
+	SOUND_MGR.SetVolumeBGM(100.f);
+
 	TitleImage = new SpriteGo("titleImage");
 	TitleImage->SetTexture("graphics/Title.png");
 	TitleImage->SetOrigin(Origins::MC);

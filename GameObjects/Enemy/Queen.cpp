@@ -6,7 +6,7 @@ Queen::Queen(const std::string& name, const std::string& animationName)
 {
 	armor = ArmorType::LARGE;
 	hp = 250.f;
-	nickName = L"주니어 레이스";
+	nickName = L"슬라임";
 	warframePath = "graphics/Enemy/QueenWarframe.png";
 }
 

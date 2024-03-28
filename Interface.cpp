@@ -35,6 +35,13 @@ void Interface::Init()
 	sprites["MainInterface"]->SetScale({ 1.0f , 1.0f });
 	sprites["MainInterface"]->sortLayer = 10;
 
+	NewSpriteGo("minimap", "graphics/UI/Bg.png");
+	sprites["minimap"]->SetOrigin(Origins::TL);
+	sprites["minimap"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.13f , FRAMEWORK.GetWindowSize().y * 0.72f });
+	sprites["minimap"]->sortLayer = 11;
+	sprites["minimap"]->SetScale({ 0.3f, 0.3f });
+
 	// 미네랄 
 	NewSpriteGo("minerals", "graphics/UI/Interface/minerals.png");
 	sprites["minerals"]->SetOrigin(Origins::MC);
@@ -535,6 +542,14 @@ void Interface::Init()
 	texts["KillCount"]->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.14f , 0.f });
 	texts["KillCount"]->sortLayer = 15;
 
+	NewSpriteGo("Face", "graphics/UI/Interface/HydraliskFace.png");
+	sprites["Face"]->SetOrigin(Origins::TL);
+	sprites["Face"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.613f , FRAMEWORK.GetWindowSize().y * 0.868f });
+	sprites["Face"]->sortLayer = 14;
+	sprites["Face"]->SetActive(false);
+	sprites["Face"]->SetScale({ 1.4f, 1.4f });
+
 	UiInit();
 	ObjectsSort();
 }
@@ -591,12 +606,35 @@ void Interface::Update(float dt)
 			{
 				// 다음 스테이지
 				currentStage++;
-
+				switch (currentStage)
+				{
+				case 1:
+					SOUND_MGR.PlayBGM("sounds/Henesys.mp3");
+					break;
+				case 3:
+					SOUND_MGR.PlayBGM("sounds/perion.mp3");
+					break;
+				case 5:
+					SOUND_MGR.PlayBGM("sounds/ellinia.mp3");
+					break;
+				case 7:
+					SOUND_MGR.PlayBGM("sounds/cunning.mp3");
+					break;
+				case 9:
+					SOUND_MGR.PlayBGM("sounds/sleepywood.mp3");
+					break;
+				case 12:
+					SOUND_MGR.PlayBGM("sounds/elnath.mp3");
+					break;
+				default:
+					break;
+				}
 				if (currentStage == 14)
 				{
 					min = 5;
 					gameTimer = 20;
 					uiTimerString = "05:20";
+					SOUND_MGR.PlayBGM("sounds/boss.mp3");
 				}
 				else
 				{
@@ -675,6 +713,7 @@ void Interface::Update(float dt)
 				OnUpgradeInfoView(scUnit->GetType());
 				scUnit->SetSelect(true);
 				texts["EnemyHP"]->SetActive(false);
+				sprites["Face"]->SetActive(true);
 				uiStatus = UIStatus::Unit;
 			}
 		}
@@ -701,6 +740,7 @@ void Interface::Update(float dt)
 					SetActiveSellInfo(false, SCUnit::Type::Dragoon);
 					OffUpgradeInfoView();
 					texts["EnemyHP"]->SetActive(false);
+					sprites["Face"]->SetActive(false);
 					switch (building->GetBuildingType())
 					{
 					case Building::BuildingType::UPGRADE:
@@ -760,6 +800,7 @@ void Interface::Update(float dt)
 						OffUpgradeInfoView();
 						enemy->SetSelect(true);
 						texts["EnemyHP"]->SetActive(true);
+						sprites["Face"]->SetActive(false);
 						uiStatus = UIStatus::Enemy;
 						return;
 					}
@@ -777,6 +818,7 @@ void Interface::Update(float dt)
 				SetWarframeView(false);
 				OffUpgradeInfoView();
 				texts["EnemyHP"]->SetActive(false);
+				sprites["Face"]->SetActive(false);
 			}
 		}
 
@@ -1165,6 +1207,7 @@ void Interface::UpdateUnit(float dt)
 	case SCUnit::Type::Hydralisk:
 	{
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/HydraliskWarframe.png");
+		sprites["Face"]->SetTexture("graphics/UI/Interface/HydraliskFace.png");
 		warframeName.clear();
 	}
 	if (onDamageInfo)
@@ -1209,6 +1252,7 @@ void Interface::UpdateUnit(float dt)
 
 	case SCUnit::Type::Dragoon:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/DragoonWarframe.png");
+		sprites["Face"]->SetTexture("graphics/UI/Interface/DragoonFace.png");
 		warframeName.clear();
 		if (onDamageInfo)
 		{
@@ -1250,6 +1294,7 @@ void Interface::UpdateUnit(float dt)
 		break;
 	case SCUnit::Type::Ghost:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/GhostWarframe.png");
+		sprites["Face"]->SetTexture("graphics/UI/Interface/GhostFace.png");
 		warframeName.clear();
 		if (onDamageInfo)
 		{
@@ -1290,6 +1335,7 @@ void Interface::UpdateUnit(float dt)
 		break;
 	case SCUnit::Type::Civilian:
 		sprites["Warframe"]->SetTexture("graphics/UI/Interface/CivilianWarframe.png");
+		sprites["Face"]->SetTexture("graphics/UI/Interface/CivilianFace.png");
 		warframeName.clear();
 		warframeName << sf::Color::White << L"Select Unit: 10메소";
 		texts["UIAttackType"]->SetString(L"");

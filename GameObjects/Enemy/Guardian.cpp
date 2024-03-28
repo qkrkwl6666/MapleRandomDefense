@@ -6,7 +6,7 @@ Guardian::Guardian(const std::string& name, const std::string& animationName)
 {
 	armor = ArmorType::LARGE;
 	hp = 1000.f;
-	nickName = L"러스터픽시";
+	nickName = L"드레이크";
 	warframePath = "graphics/Enemy/GuardianWarframe.png";
 
 }

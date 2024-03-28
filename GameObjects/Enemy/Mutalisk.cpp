@@ -6,7 +6,7 @@ Mutalisk::Mutalisk(const std::string& name, const std::string& animationName)
 {
 	armor = ArmorType::MEDIUM;
 	hp = 400.f;
-	nickName = L"루나픽시";
+	nickName = L"레이스";
 	warframePath = "graphics/Enemy/MutaliskWarframe.png";
 }
 

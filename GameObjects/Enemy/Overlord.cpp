@@ -6,7 +6,7 @@ Overlord::Overlord(const std::string& name, const std::string& animationName)
 {
 	armor = ArmorType::LARGE;
 	hp = 400.f;
-	nickName = L"¾öÆ¼";
+	nickName = L"·çÆÎ";
 	warframePath = "graphics/Enemy/OverlordWarframe.png";
 }
 
