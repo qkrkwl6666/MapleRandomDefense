@@ -178,7 +178,6 @@ protected:
 	bool isAster = false;
 
 	float moveSpeed = 100.f;
-
 	
 public:
 	SCUnit(const std::string& name = "" , 

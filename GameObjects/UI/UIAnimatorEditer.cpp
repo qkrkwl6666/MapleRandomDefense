@@ -121,6 +121,7 @@ void UIAnimatorEditer::Init()
 	texts.insert({ "XYText", new TextGo("XYText") });
 	texts["XYText"]->SetFont(font);
 	texts["XYText"]->SetString("X");
+	texts["XYText"]->sortLayer = 5;
 	texts["XYText"]->SetCharacterSize(30);
 	texts["XYText"]->SetColor(sf::Color::Black);
 	texts["XYText"]->SetOrigin(Origins::MC);
@@ -141,6 +142,7 @@ void UIAnimatorEditer::Init()
 	texts["AnimationViewText"]->SetCharacterSize(30);
 	texts["AnimationViewText"]->SetColor(sf::Color::Black);
 	texts["AnimationViewText"]->SetOrigin(Origins::MC);
+	texts["AnimationViewText"]->sortLayer = 5;
 	texts["AnimationViewText"]->SetPosition({ FRAMEWORK.GetWindowSize().x
 		- ((sprites["ChangeXY"]->GetGlobalBounds().width / 2))
 		, FRAMEWORK.GetWindowSize().y * 0.65f });
@@ -158,6 +160,7 @@ void UIAnimatorEditer::Init()
 	texts["AngleCountText"]->SetCharacterSize(30);
 	texts["AngleCountText"]->SetColor(sf::Color::Black);
 	texts["AngleCountText"]->SetOrigin(Origins::MC);
+	texts["AngleCountText"]->sortLayer = 5;
 	texts["AngleCountText"]->SetPosition({ FRAMEWORK.GetWindowSize().x
 		- ((sprites["SpriteAngleCount"]->GetGlobalBounds().width / 2))
 		, FRAMEWORK.GetWindowSize().y * 0.85f });
