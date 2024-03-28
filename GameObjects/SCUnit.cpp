@@ -86,6 +86,11 @@ void SCUnit::Update(float dt)
 	SpriteGo::Update(dt);
 	hitBox.setPosition(position);
 
+	if (type == Type::Civilian)
+	{
+		std::cout << (int)currentStatus << std::endl;
+	}
+
 	if (InputMgr::GetKeyUp(sf::Keyboard::Space))
 	{
 		if (isSelectSprite->GetActive() && isSelect)
