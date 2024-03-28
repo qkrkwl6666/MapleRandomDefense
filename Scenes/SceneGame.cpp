@@ -222,6 +222,17 @@ void SceneGame::message(MessageType m)
 	{
 	case SceneGame::MessageType::NONE:
 		break;
+	case SceneGame::MessageType::Warning:
+	{
+		SystemMessage warning;
+		warning.systemMessage->setCharacterSize(20);
+		warning.systemMessage->setFont(RES_MGR_FONT.Get("font/Kostar.ttf"));
+		(*warning.systemMessage) << sfe::Outline{ sf::Color::Red, 0.5f };
+		(*warning.systemMessage) << sf::Color::Red << L"                       !! 경고" << sf::Color::White << L" - 유닛 100마리 초과 " << sf::Color::Red << L"!!";
+		messageContainer.push_front(warning);
+	}
+		break;
+
 	case SceneGame::MessageType::NotEnoughMinerals:
 	{
 		SystemMessage enoughMineral;

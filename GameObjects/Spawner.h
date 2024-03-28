@@ -27,6 +27,9 @@ protected:
 	bool isEnd = false;
 	int killCount = 0;
 
+	float warningTimer = 0;
+	float warningDuration = 12;
+
 public:
 	Spawner(const std::string& name = "");
 	~Spawner() override;

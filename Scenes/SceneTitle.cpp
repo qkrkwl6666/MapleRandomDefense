@@ -43,13 +43,18 @@ void SceneTitle::Init()
 	uiTitle2->SetOrigin(Origins::MC);
 	uiTitle2->SetPosition({ GetViewCenter().x, GetViewCenter().y + 170});
 	AddGo(uiTitle2);
-	Scene::Init();
 
 	uiTitle3 = new TextGo("ToGame");
 	uiTitle3->Set(RES_MGR_FONT.Get("font/NotoSansKR-Regular.otf"), "Press Enter to Game", 70, sf::Color::White);
 	uiTitle3->SetOrigin(Origins::MC);
 	uiTitle3->SetPosition({ GetViewCenter().x, GetViewCenter().y + 280 });
 	AddGo(uiTitle3);
+
+	uiTitle4 = new TextGo("Exit");
+	uiTitle4->Set(RES_MGR_FONT.Get("font/NotoSansKR-Regular.otf"), "Press ESC to Exit", 40, sf::Color::White);
+	uiTitle4->SetOrigin(Origins::MC);
+	uiTitle4->SetPosition({ GetViewCenter().x - 480, GetViewCenter().y - 350 });
+	AddGo(uiTitle4);
 	Scene::Init();
 }
 
@@ -70,6 +75,11 @@ void SceneTitle::Update(float dt)
 	if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
 	{
 		SCENE_MGR.ChangeScene(SceneIds::SceneGame);
+	}
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::Escape))
+	{
+		FRAMEWORK.GetWindow().close();
 	}
 }
 

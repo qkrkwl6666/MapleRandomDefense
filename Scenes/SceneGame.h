@@ -30,6 +30,7 @@ public:
 		NotEnoughMinerals,
 		NoMoreSpace,
 		SellUnit,
+		Warning,
 		count,
 	};
 

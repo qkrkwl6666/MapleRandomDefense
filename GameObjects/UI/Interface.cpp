@@ -294,11 +294,11 @@ void Interface::Init()
 	texts["TextClear1"]->SetActive(false);
 
 	NewTextGo("TextEnd", RES_MGR_FONT.Get("font/Kostar.ttf"), L"Press Enter To Close", 30, sf::Color::White);
-	texts["TextClear"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	texts["TextEnd"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
 	0.5f , FRAMEWORK.GetWindowSize().y * 0.6f });
-	texts["TextClear"]->sortLayer = 15;
-	texts["TextClear"]->SetOrigin(Origins::MC);
-	texts["TextClear"]->SetActive(false);
+	texts["TextEnd"]->sortLayer = 15;
+	texts["TextEnd"]->SetOrigin(Origins::MC);
+	texts["TextEnd"]->SetActive(false);
 
 	// 패배 메세지
 	NewTextGo("TextLose", RES_MGR_FONT.Get("font/Kostar.ttf"), L"메이플 운빨 디펜스", 30, sf::Color::Blue);
@@ -710,7 +710,6 @@ void Interface::Update(float dt)
 	{
 		mouseOnUi = false;
 	}
-
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left) && !isSelecting)
 	{

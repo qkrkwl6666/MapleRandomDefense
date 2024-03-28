@@ -60,7 +60,7 @@ void Spawner::Update(float dt)
 	GameObject::Update(dt);
 
 	spawnTimer += dt;
-
+	warningTimer += dt;
 	// TODO : 공격 탐지 테스트 코드
 	Enemys.reverse();
 
@@ -136,13 +136,14 @@ void Spawner::Update(float dt)
 				isEnd = true;
 				mainInterface->LoseText(true);
 				FRAMEWORK.SetTimeScale(0.f);
+				sceneGame->GetSpawner()->AllRemove();
 			}
 	}
 	if (isEnd)
 	{
 		if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
 		{
-			FRAMEWORK.GetWindow().close();
+			SCENE_MGR.ChangeScene(SceneIds::SceneGame);
 		}
 	}
 
@@ -175,8 +176,11 @@ void Spawner::Update(float dt)
 		break;
 	}
 
-
-
+	if (warningTimer > warningDuration && (Enemys.size() > 100))
+	{
+		sceneGame->message(SceneGame::MessageType::Warning);
+		warningTimer = 0;
+	}
 }
 
 void Spawner::Draw(sf::RenderWindow& window)
@@ -202,6 +206,8 @@ void Spawner::LateUpdate(float dt)
 	{
 		mainInterface->LoseText(true);
 		FRAMEWORK.SetTimeScale(0.f);
+		isEnd = true;
+		sceneGame->GetSpawner()->AllRemove();
 	}
 }
 
