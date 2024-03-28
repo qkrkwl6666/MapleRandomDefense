@@ -1447,24 +1447,26 @@ void Interface::UpdateEnemy(float dt)
 		return;
 	}
 
-
-	Enemy* enemy = dynamic_cast<Enemy*>(UItarget);
-	sprites["Warframe"]->SetTexture(enemy->GetWarframePath());
-	warframeName.clear();
-	warframeName << sf::Color::White << enemy->GetNickName();
-	switch (enemy->GetArmor())
+	if (UItarget != nullptr)
 	{
-	case Enemy::ArmorType::SMALL:
-		texts["UIAttackType"]->SetString(L"★ 소 형");
-	break;
-	case Enemy::ArmorType::MEDIUM:
-		texts["UIAttackType"]->SetString(L"★ 중 형");
-		break;
-	case Enemy::ArmorType::LARGE:
-		texts["UIAttackType"]->SetString(L"★ 대 형");
-		break;
+		Enemy* enemy = dynamic_cast<Enemy*>(UItarget);
+		sprites["Warframe"]->SetTexture(enemy->GetWarframePath());
+		warframeName.clear();
+		warframeName << sf::Color::White << enemy->GetNickName();
+		switch (enemy->GetArmor())
+		{
+			case Enemy::ArmorType::SMALL:
+				texts["UIAttackType"]->SetString(L"★ 소 형");
+				break;
+			case Enemy::ArmorType::MEDIUM:
+				texts["UIAttackType"]->SetString(L"★ 중 형");
+				break;
+			case Enemy::ArmorType::LARGE:
+				texts["UIAttackType"]->SetString(L"★ 대 형");
+				break;
+		}
+		texts["EnemyHP"]->SetString(std::to_wstring(enemy->GetHp()) + L"/" + std::to_wstring(enemy->GetHpMax()));
 	}
-	texts["EnemyHP"]->SetString(std::to_wstring(enemy->GetHp()) + L"/" + std::to_wstring(enemy->GetHpMax()));
 }
 
 void Interface::LateUpdate(float dt)

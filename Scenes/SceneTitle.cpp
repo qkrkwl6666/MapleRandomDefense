@@ -26,9 +26,10 @@ void SceneTitle::Init()
 	SOUND_MGR.SetVolumeBGM(100.f);
 
 	TitleImage = new SpriteGo("titleImage");
-	TitleImage->SetTexture("graphics/Title.png");
+	TitleImage->SetTexture("graphics/TitleBG.png");
 	TitleImage->SetOrigin(Origins::MC);
-	TitleImage->SetPosition({ GetViewCenter().x, GetViewCenter().y - 150 });
+	TitleImage->SetScale({ 2.3f , 2.3f });
+	TitleImage->SetPosition({ GetViewCenter().x, GetViewCenter().y});
 	AddGo(TitleImage);
 
 	uiTitle = new TextGo("ToAnimation");
@@ -54,6 +55,8 @@ void SceneTitle::Init()
 	uiTitle4->SetOrigin(Origins::MC);
 	uiTitle4->SetPosition({ GetViewCenter().x - 480, GetViewCenter().y - 350 });
 	AddGo(uiTitle4);
+
+
 	Scene::Init();
 }
 
