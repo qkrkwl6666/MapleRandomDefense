@@ -3,7 +3,7 @@
 int main()
 {
    // sf::Style::Fullscreen
-    FRAMEWORK.Init(1365, 768, "MapleRandomDefense" , sf::Style::Fullscreen);
+    FRAMEWORK.Init(1365, 768, "MapleRandomDefense" , sf::Style::Default);
     FRAMEWORK.Do();
     FRAMEWORK.Release();
     return 0;

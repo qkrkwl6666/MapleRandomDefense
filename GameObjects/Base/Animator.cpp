@@ -91,6 +91,8 @@ void Animator::Update(float dt)
 		}
 	}
 
+	if (currentFrame >= totalFrame)
+		return;
 
 	SetFrame(currentClip->frames[currentFrame]);
 }
