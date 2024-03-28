@@ -682,11 +682,7 @@ void Interface::Update(float dt)
 				case 13:
 					stageName = L"13´Ü°è : ¿¤³ª½º ±¤»ê - Äð¸®Á»ºñ";
 					break;
-				default:
-					break;
-				}
-				if (currentStage == 14)
-				{
+				case 14:
 					min = 5;
 					gameTimer = 20;
 					uiTimerString = "05:20";
@@ -695,13 +691,18 @@ void Interface::Update(float dt)
 					texts["currentStage"]->SetString(stageName);
 					texts["currentStage"]->SetActive(true);
 					currentStageTimer = 0.f;
+					break;
+				case 15:
+					stageName = L"";
+					break;
+				default:
+					break;
 				}
-				else
+
 				{
 					min = 2;
 					gameTimer = 20;
 					uiTimerString = "02:20";
-
 					texts["currentStage"]->SetString(stageName);
 					texts["currentStage"]->SetActive(true);
 					currentStageTimer = 0.f;

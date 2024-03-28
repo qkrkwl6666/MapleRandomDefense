@@ -614,6 +614,7 @@ void SceneGame::Reset()
 {
 	GetInterface()->Reset();
 	GetSpawner()->Reset();
+	FRAMEWORK.GetMouse()->SetActive(false);
 	for (auto it = AllUnitList.begin(); it != AllUnitList.end();)
 	{
 		SCUnit* scUnit = *it;

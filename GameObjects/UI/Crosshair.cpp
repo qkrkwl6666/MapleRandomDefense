@@ -94,7 +94,7 @@ void Crosshair::Update(float dt)
 		isCursorsMoving = false;
 	}
 
-	if (((SCENE_MGR.GetCurrentScene()) == SCENE_MGR.GetScene(SceneIds::SceneTitle)) || 
+	if (((SCENE_MGR.GetCurrentScene()) == SCENE_MGR.GetScene(SceneIds::SceneTitle)) ||
 		dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetInterface()->GetMouseOnUi())
 	{
 		SetOrigin(Origins::TL);
@@ -106,5 +106,12 @@ void Crosshair::Update(float dt)
 void Crosshair::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
+}
+
+void Crosshair::SetAllCollision(bool active)
+{
+	isCursorsUnitCollision = active;
+	isCursorsBuildingCollision = active;
+	isCursorsEnemyCollision = active;
 }
 

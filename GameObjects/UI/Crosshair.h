@@ -24,5 +24,7 @@ public:
 	{
 		return position;
 	}
+
+	void SetAllCollision(bool active);
 };
 
