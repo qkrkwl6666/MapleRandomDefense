@@ -110,7 +110,7 @@ void DeveloperMode::Update(float dt)
 	if (InputMgr::GetKeyDown(sf::Keyboard::Num8))
 	{
 		sceneGame->BuyUnit(9999);
-
+	}
 }
 
 void DeveloperMode::LateUpdate(float dt)
