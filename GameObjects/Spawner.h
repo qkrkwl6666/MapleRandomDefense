@@ -24,7 +24,7 @@ protected:
 	
 	bool isBoss = false;
 	bool isDead = false;
-	bool isClear = false;
+	bool isEnd = false;
 	int killCount = 0;
 
 public:

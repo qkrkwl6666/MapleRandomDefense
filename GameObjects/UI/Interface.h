@@ -46,7 +46,7 @@ protected:
 	sf::Vector2f worldMousePos;
 	sf::Vector2i screenMousePos;
 	std::unordered_map<std::string, Building*> buildings;
-
+	std::wstring stageName;
 	float uiTimer = 0.f;
 	int gameTimer = 30;
 	int min = 0;
@@ -54,7 +54,7 @@ protected:
 
 	int currentStage = 0;
 	float currentStageTimer = 100.f;
-	float currentStageDuration = 5.f;
+	float currentStageDuration = 12.f;
 
 
 public:
@@ -95,7 +95,7 @@ public:
 	void SetStage(int stage) {currentStage = stage;}
 	void SetUiTarget(GameObject* t) { UItarget = t; }
 	const GameObject* GetUiTarget() const { return UItarget; }
-
+	bool GetMouseOnUi() { return mouseOnUi; }
 	void ClearText(bool active);
 	void LoseText(bool active);
 };

@@ -59,19 +59,16 @@ void SceneTitle::Update(float dt)
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::F1)) 
 	{
-		std::cout << "ChangeScene!!" << std::endl;
 		SCENE_MGR.ChangeScene(SceneIds::SceneAnimatorEditer);
 	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::F2))
 	{
-		std::cout << "ChangeScene!!" << std::endl;
 		SCENE_MGR.ChangeScene(SceneIds::SceneTilemapEditor);
 	}
 
 	if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
 	{
-		std::cout << "ChangeScene!!" << std::endl;
 		SCENE_MGR.ChangeScene(SceneIds::SceneGame);
 	}
 }

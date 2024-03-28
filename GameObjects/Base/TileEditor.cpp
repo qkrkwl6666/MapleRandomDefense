@@ -79,7 +79,6 @@ void TileEditor::Update(float dt)
 			tileSet->SetTileType(worldPos.x / 32 , worldPos.y / 32 , currentType);
 		}
 	}
-	std::cout << (int)worldPos.x /32 << " " << (int)worldPos.y /32 << std::endl;
 
 	//마우스로 뷰 이동
 

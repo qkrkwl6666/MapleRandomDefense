@@ -269,11 +269,11 @@ void Interface::Init()
 	texts["UITimer"]->SetCharacterSize(30);
 	texts["UITimer"]->SetOrigin(Origins::MC);
 
-	NewTextGo("currentStage", RES_MGR_FONT.Get("font/Kostar.ttf"), L"현재 스테이지 : ", 20, sf::Color::White);
+	NewTextGo("currentStage", RES_MGR_FONT.Get("font/Kostar.ttf"), L"현재 스테이지 : ", 30, sf::Color::White);
 	texts["currentStage"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
 	0.5f , FRAMEWORK.GetWindowSize().y * 0.6f });
 	texts["currentStage"]->sortLayer = 13;
-	texts["currentStage"]->SetColor(sf::Color::Green);
+	texts["currentStage"]->SetColor(sf::Color::White);
 	texts["currentStage"]->SetCharacterSize(30);
 	texts["currentStage"]->SetOrigin(Origins::MC);
 	texts["currentStage"]->SetActive(false);
@@ -286,12 +286,19 @@ void Interface::Init()
 	texts["TextClear"]->SetOrigin(Origins::MC);
 	texts["TextClear"]->SetActive(false);
 
-	NewTextGo("TextClear1", RES_MGR_FONT.Get("font/Kostar.ttf"), L"보스 스테이지 *클리어*", 30, sf::Color::Red);
+	NewTextGo("TextClear1", RES_MGR_FONT.Get("font/Kostar.ttf"), L"★☆클리어☆★", 40, sf::Color::Red);
 	texts["TextClear1"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
-	0.5f , FRAMEWORK.GetWindowSize().y * 0.45f });
+	0.6f , FRAMEWORK.GetWindowSize().y * 0.45f });
 	texts["TextClear1"]->sortLayer = 15;
 	texts["TextClear1"]->SetOrigin(Origins::MC);
 	texts["TextClear1"]->SetActive(false);
+
+	NewTextGo("TextEnd", RES_MGR_FONT.Get("font/Kostar.ttf"), L"Press Enter To Close", 30, sf::Color::White);
+	texts["TextClear"]->SetPosition({ FRAMEWORK.GetWindowSize().x *
+	0.5f , FRAMEWORK.GetWindowSize().y * 0.6f });
+	texts["TextClear"]->sortLayer = 15;
+	texts["TextClear"]->SetOrigin(Origins::MC);
+	texts["TextClear"]->SetActive(false);
 
 	// 패배 메세지
 	NewTextGo("TextLose", RES_MGR_FONT.Get("font/Kostar.ttf"), L"메이플 운빨 디펜스", 30, sf::Color::Blue);
@@ -610,21 +617,48 @@ void Interface::Update(float dt)
 				{
 				case 1:
 					SOUND_MGR.PlayBGM("sounds/Henesys.mp3");
+					stageName = L"1단계 : 헤네시스 - 달팽이";
+					break;
+				case 2:
+					stageName = L"2단계 : 헤네시스 사냥터 - 빨간 달팽이";
 					break;
 				case 3:
 					SOUND_MGR.PlayBGM("sounds/perion.mp3");
+					stageName = L"3단계 : 페리온 - 와일드보어";
+					break;
+				case 4:
+					stageName = L"4단계 : 페리온 유적발굴지 - 스켈레톤 장교";
 					break;
 				case 5:
 					SOUND_MGR.PlayBGM("sounds/ellinia.mp3");
+					stageName = L"5단계 : 엘리니아 - 슬라임";
+					break;
+				case 6:
+					stageName = L"6단계 : 엘리니아 솟아오른나무 - 루팡";
 					break;
 				case 7:
 					SOUND_MGR.PlayBGM("sounds/cunning.mp3");
+					stageName = L"7단계 : 커닝시티 - 레이스";
+					break;
+				case 8:
+					stageName = L"8단계 : 커닝시티 추락주의 - 옥토퍼스";
 					break;
 				case 9:
 					SOUND_MGR.PlayBGM("sounds/sleepywood.mp3");
+					stageName = L"9단계 : 슬리피우드 - 좀비버섯";
+					break;
+				case 10:
+					stageName = L"10단계 : 슬리피우드 깊은곳 - 드레이크";
+					break;
+				case 11:
+					stageName = L"11단계 : 슬리피우드 신전 - 콜드아이";
 					break;
 				case 12:
 					SOUND_MGR.PlayBGM("sounds/elnath.mp3");
+					stageName = L"12단계 : 엘나스 - 헥터";
+					break;
+				case 13:
+					stageName = L"13단계 : 엘나스 광산 - 쿨리좀비";
 					break;
 				default:
 					break;
@@ -635,6 +669,10 @@ void Interface::Update(float dt)
 					gameTimer = 20;
 					uiTimerString = "05:20";
 					SOUND_MGR.PlayBGM("sounds/boss.mp3");
+					stageName = L"보스 - 시그너스";
+					texts["currentStage"]->SetString(stageName);
+					texts["currentStage"]->SetActive(true);
+					currentStageTimer = 0.f;
 				}
 				else
 				{
@@ -642,7 +680,7 @@ void Interface::Update(float dt)
 					gameTimer = 20;
 					uiTimerString = "02:20";
 
-					texts["currentStage"]->SetString(L"현재 스테이지 : " + Utils::CP949ToWString(std::to_string(currentStage)));
+					texts["currentStage"]->SetString(stageName);
 					texts["currentStage"]->SetActive(true);
 					currentStageTimer = 0.f;
 				}
@@ -661,10 +699,10 @@ void Interface::Update(float dt)
 	{
 		texts["currentStage"]->SetActive(false);
 	}
-
 	worldMousePos = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetWorldMousePos();
 	screenMousePos = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetScreenMousePos();
-	if ((screenMousePos.x > 950 && screenMousePos.y > 550) || screenMousePos.y > 600)
+
+	if ((screenMousePos.x > 970 && screenMousePos.y > 560) || screenMousePos.y > 600)
 	{
 		mouseOnUi = true;
 	}
@@ -672,6 +710,7 @@ void Interface::Update(float dt)
 	{
 		mouseOnUi = false;
 	}
+
 
 	if (InputMgr::GetMouseButtonDown(sf::Mouse::Left) && !isSelecting)
 	{
@@ -697,8 +736,8 @@ void Interface::Update(float dt)
 		std::list<SCUnit*> allUnit = dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetAllUnitList();
 		for (SCUnit* scUnit : allUnit)
 		{
-			if (scUnit->GetHitBox().getGlobalBounds().intersects(selectBox->GetGlobalBounds())
-				|| scUnit->GetHitBox().getGlobalBounds().contains(selectBox->GetPosition()))
+			if ((scUnit->GetHitBox().getGlobalBounds().intersects(selectBox->GetGlobalBounds())
+				|| scUnit->GetHitBox().getGlobalBounds().contains(selectBox->GetPosition())) && !mouseOnUi)
 			{
 				UItarget = scUnit;
 				SetWarframeView(true);
@@ -914,7 +953,6 @@ void Interface::UpdateUpgrade(float dt)
 		if (sprites["HydraliskUpgrade"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 			InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 		{
-			std::cout << "HydraliskUpgrade!!" << std::endl;
 			Upgrade();
 		}
 		break;
@@ -922,7 +960,6 @@ void Interface::UpdateUpgrade(float dt)
 		if (sprites["DragoonUpgrade"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 			InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 		{
-			std::cout << "DragoonUpgrade!!" << std::endl;
 			Upgrade();
 		}
 		break;
@@ -930,7 +967,6 @@ void Interface::UpdateUpgrade(float dt)
 		if (sprites["GhostUpgrade"]->GetGlobalBounds().contains(FRAMEWORK.GetMouse()->GetPosition()) &&
 			InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 		{
-			std::cout << "GhostUpgrade!!" << std::endl;
 			Upgrade();
 		}
 		break;
@@ -1751,12 +1787,14 @@ void Interface::ClearText(bool active)
 {
 	texts["TextClear"]->SetActive(active);
 	texts["TextClear1"]->SetActive(active);
+	texts["TextEnd"]->SetActive(active);
 }
 
 void Interface::LoseText(bool active)
 {
 	texts["TextLose"]->SetActive(active);
 	texts["TextLose1"]->SetActive(active);
+	texts["TextEnd"]->SetActive(active);
 }
 
 void Interface::SetWeaponInfoView(bool active)

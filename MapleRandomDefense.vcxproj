@@ -19,12 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Civilian.cpp" />
+    <ClCompile Include="GameObjects\Civilian.cpp" />
     <ClCompile Include="GameObjects\UI\DeveloperMode.cpp" />
     <ClCompile Include="GameObjects\Enemy\Defiler.cpp" />
     <ClCompile Include="GameObjects\Enemy\Devourer.cpp" />
     <ClCompile Include="GameObjects\Enemy\DarkTemplar.cpp" />
-    <ClCompile Include="DragoonBullet.cpp" />
+    <ClCompile Include="GameObjects\DragoonBullet.cpp" />
     <ClCompile Include="GameObjects\Dragoon.cpp" />
     <ClCompile Include="GameObjects\Enemy\Enemy.cpp" />
     <ClCompile Include="GameObjects\Building.cpp" />
@@ -48,7 +48,7 @@
     <ClCompile Include="GameObjects\Ghost.cpp" />
     <ClCompile Include="GameObjects\Enemy\InfestedTerran.cpp" />
     <ClCompile Include="GameObjects\Enemy\Guardian.cpp" />
-    <ClCompile Include="Interface.cpp" />
+    <ClCompile Include="GameObjects\UI\Interface.cpp" />
     <ClCompile Include="GameObjects\Enemy\Lurker.cpp" />
     <ClCompile Include="MapleRandomDefense.cpp" />
     <ClCompile Include="GameObjects\Enemy\Mutalisk.cpp" />
@@ -58,7 +58,7 @@
     </ClCompile>
     <ClCompile Include="GameObjects\Projectile.cpp" />
     <ClCompile Include="GameObjects\Enemy\Queen.cpp" />
-    <ClCompile Include="RichText.cpp" />
+    <ClCompile Include="Framework\RichText.cpp" />
     <ClCompile Include="Scenes\SceneAnimatorEditer.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Scenes\SceneGame.cpp" />
@@ -76,12 +76,12 @@
     <ClCompile Include="GameObjects\Enemy\TerranBoss.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Civilian.h" />
+    <ClInclude Include="GameObjects\Civilian.h" />
     <ClInclude Include="GameObjects\UI\DeveloperMode.h" />
     <ClInclude Include="GameObjects\Enemy\Defiler.h" />
     <ClInclude Include="GameObjects\Enemy\Devourer.h" />
     <ClInclude Include="GameObjects\Enemy\DarkTemplar.h" />
-    <ClInclude Include="DragoonBullet.h" />
+    <ClInclude Include="GameObjects\DragoonBullet.h" />
     <ClInclude Include="GameObjects\Dragoon.h" />
     <ClInclude Include="GameObjects\Enemy\Enemy.h" />
     <ClInclude Include="GameObjects\Building.h" />
@@ -111,14 +111,14 @@
     <ClInclude Include="GameObjects\Ghost.h" />
     <ClInclude Include="GameObjects\Enemy\InfestedTerran.h" />
     <ClInclude Include="GameObjects\Enemy\Guardian.h" />
-    <ClInclude Include="Interface.h" />
+    <ClInclude Include="GameObjects\UI\Interface.h" />
     <ClInclude Include="GameObjects\Enemy\Mutalisk.h" />
     <ClInclude Include="GameObjects\Enemy\Overlord.h" />
     <ClInclude Include="GameObjects\Enemy\Lurker.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="GameObjects\Projectile.h" />
     <ClInclude Include="GameObjects\Enemy\Queen.h" />
-    <ClInclude Include="RichText.h" />
+    <ClInclude Include="Framework\RichText.h" />
     <ClInclude Include="Scenes\SceneAnimatorEditer.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneGame.h" />

@@ -44,14 +44,6 @@ void TerranBoss::Update(float dt)
 	{
 		Dead();
 	}
-	if (Dir == 3 || Dir == 6 || Dir == 7)
-	{
-		SetFlipX(true);
-	}
-	else
-	{
-		SetFlipX(false);
-	}
 
 	switch (Dir)
 	{

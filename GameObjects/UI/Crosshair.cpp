@@ -5,6 +5,7 @@
 #include "SceneGame.h"
 #include "Spawner.h"
 #include "Enemy.h"
+#include "Interface.h"
 
 
 Crosshair::Crosshair(const std::string& name)
@@ -80,7 +81,7 @@ void Crosshair::Update(float dt)
 		isCursorsMoving = true;
 		SetOrigin(Origins::MC);
 	}
-	else if ((isCursorsEnemyCollision || isCursorsBuildingCollision) && !isCursorsMoving)
+	else if (isCursorsEnemyCollision && !isCursorsMoving)
 	{
 		animator->Play("EnemyMovingCursor", true);
 		isCursorsMoving = true;
@@ -93,7 +94,8 @@ void Crosshair::Update(float dt)
 		isCursorsMoving = false;
 	}
 
-	if ((SCENE_MGR.GetCurrentScene()) == SCENE_MGR.GetScene(SceneIds::SceneTitle))
+	if (((SCENE_MGR.GetCurrentScene()) == SCENE_MGR.GetScene(SceneIds::SceneTitle)) || 
+		dynamic_cast<SceneGame*>(SCENE_MGR.GetScene(SceneIds::SceneGame))->GetInterface()->GetMouseOnUi())
 	{
 		SetOrigin(Origins::TL);
 		SetTexture(textureId);
