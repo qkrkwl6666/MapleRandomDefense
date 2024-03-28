@@ -530,6 +530,11 @@ void Interface::Init()
 	texts["EnemyHP"]->sortLayer = 14;
 	texts["EnemyHP"]->SetActive(false);
 
+	// 킬 카운트
+	NewTextGo("KillCount", RES_MGR_FONT.Get("font/Kostar.ttf"), L"Kill : ", 30, sf::Color::Yellow);
+	texts["KillCount"]->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.14f , 0.f });
+	texts["KillCount"]->sortLayer = 15;
+
 	UiInit();
 	ObjectsSort();
 }
@@ -1343,6 +1348,9 @@ void Interface::UpdateEnemy(float dt)
 void Interface::LateUpdate(float dt)
 {
 	UIGo::LateUpdate(dt);
+
+	// KillCount
+	texts["KillCount"]->SetString("KillCount : " + std::to_string(enemySpawer->GetKillCount()));
 }
 
 void Interface::Draw(sf::RenderWindow& window)

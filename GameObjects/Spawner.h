@@ -25,6 +25,8 @@ protected:
 	bool isBoss = false;
 	bool isDead = false;
 
+	int killCount = 0;
+
 public:
 	Spawner(const std::string& name = "");
 	~Spawner() override;
@@ -40,6 +42,8 @@ public:
 
 	void SpawnEnemys(Enemy* enemy);
 	void AllRemove();
+
+	int& GetKillCount() { return killCount; }
 
 
 };

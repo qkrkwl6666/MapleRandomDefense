@@ -148,6 +148,7 @@ void Spawner::Update(float dt)
 		{
 			Enemys.remove(data);
 			removeEnemys.push_back(data);
+			killCount++;
 			break;
 		}
 		else
