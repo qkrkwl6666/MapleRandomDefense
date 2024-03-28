@@ -113,7 +113,7 @@ void Spawner::Update(float dt)
 			break;
 		// 보스 스테이지
 		case 14:
-			if (!isBoss)
+			if (!isBoss && !isClear)
 			{
 				TerranBoss* enemy = new TerranBoss();
 				enemy->Init();
@@ -124,6 +124,7 @@ void Spawner::Update(float dt)
 			if (Enemys.size() == 0 && isBoss)
 			{
 				isBoss = false;
+				isClear = true;
 				mainInterface->ClearText(true);
 				FRAMEWORK.SetTimeScale(0.f);
 			}

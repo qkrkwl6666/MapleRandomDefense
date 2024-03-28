@@ -6,7 +6,7 @@
 TerranBoss::TerranBoss(const std::string& name, const std::string& animationName)
 	: Enemy(name, "TerranBoss")
 {
-	hp = 50000.f;
+	hp = 500000.f;
 	armor = ArmorType::LARGE;
 	enemyType = EnemyType::BOSS;
 	nickName = L"시그너스";
@@ -38,7 +38,7 @@ void TerranBoss::Reset()
 void TerranBoss::Update(float dt)
 {
 	SpriteGo::Update(dt);
-	isSelectSprite->SetPosition({ GetPosition().x - 10 , GetPosition().y + 30.f });
+	isSelectSprite->SetPosition({ GetPosition().x , GetPosition().y + 30.f });
 
 	if (hp <= 0)
 	{
