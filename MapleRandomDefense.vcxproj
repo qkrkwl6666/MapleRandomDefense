@@ -19,7 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Crosshair.cpp" />
+    <ClCompile Include="GameObjects\Civilian.cpp" />
+    <ClCompile Include="GameObjects\UI\DeveloperMode.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Defiler.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Devourer.cpp" />
+    <ClCompile Include="GameObjects\Enemy\DarkTemplar.cpp" />
+    <ClCompile Include="GameObjects\DragoonBullet.cpp" />
+    <ClCompile Include="GameObjects\Dragoon.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Enemy.cpp" />
+    <ClCompile Include="GameObjects\Building.cpp" />
+    <ClCompile Include="GameObjects\Hydralisk.cpp" />
+    <ClCompile Include="GameObjects\SCUnit.cpp" />
+    <ClCompile Include="GameObjects\UI\Crosshair.cpp" />
     <ClCompile Include="Framework\Framework.cpp" />
     <ClCompile Include="Framework\Manager\DataTableMgr.cpp" />
     <ClCompile Include="Framework\Manager\InputMgr.cpp" />
@@ -27,28 +38,56 @@
     <ClCompile Include="Framework\Manager\SoundMgr.cpp" />
     <ClCompile Include="Framework\RenderWindowRBR.cpp" />
     <ClCompile Include="Framework\Utils.cpp" />
-    <ClCompile Include="GameObjects\Animator.cpp" />
+    <ClCompile Include="GameObjects\Base\Animator.cpp" />
     <ClCompile Include="GameObjects\Base\GameObject.cpp" />
     <ClCompile Include="GameObjects\Base\SpriteAnimatorGo.cpp" />
     <ClCompile Include="GameObjects\Base\SpriteGo.cpp" />
     <ClCompile Include="GameObjects\Base\TextGo.cpp" />
     <ClCompile Include="GameObjects\Base\UIGo.cpp" />
-    <ClCompile Include="GameObjects\TileEditor.cpp" />
+    <ClCompile Include="GameObjects\Base\TileEditor.cpp" />
+    <ClCompile Include="GameObjects\Ghost.cpp" />
+    <ClCompile Include="GameObjects\Enemy\InfestedTerran.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Guardian.cpp" />
+    <ClCompile Include="GameObjects\UI\Interface.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Lurker.cpp" />
     <ClCompile Include="MapleRandomDefense.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Mutalisk.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Overlord.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="GameObjects\Projectile.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Queen.cpp" />
+    <ClCompile Include="Framework\RichText.cpp" />
     <ClCompile Include="Scenes\SceneAnimatorEditer.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Scenes\SceneGame.cpp" />
     <ClCompile Include="Scenes\SceneTitle.cpp" />
     <ClCompile Include="GameObjects\UI\UIAnimatorEditer.cpp" />
     <ClCompile Include="Scenes\SceneTilemapEditor.cpp" />
-    <ClCompile Include="GameObjects\TileSet.cpp" />
-    <ClCompile Include="SCUnit.cpp" />
+    <ClCompile Include="GameObjects\Base\TileSet.cpp" />
+    <ClCompile Include="GameObjects\UpgradeBuilding.cpp" />
+    <ClCompile Include="GameObjects\SellBuilding.cpp" />
+    <ClCompile Include="GameObjects\Spawner.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Zergling.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Ultralisk.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Scourge.cpp" />
+    <ClCompile Include="GameObjects\Enemy\Zealot.cpp" />
+    <ClCompile Include="GameObjects\Enemy\TerranBoss.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Crosshair.h" />
+    <ClInclude Include="GameObjects\Civilian.h" />
+    <ClInclude Include="GameObjects\UI\DeveloperMode.h" />
+    <ClInclude Include="GameObjects\Enemy\Defiler.h" />
+    <ClInclude Include="GameObjects\Enemy\Devourer.h" />
+    <ClInclude Include="GameObjects\Enemy\DarkTemplar.h" />
+    <ClInclude Include="GameObjects\DragoonBullet.h" />
+    <ClInclude Include="GameObjects\Dragoon.h" />
+    <ClInclude Include="GameObjects\Enemy\Enemy.h" />
+    <ClInclude Include="GameObjects\Building.h" />
+    <ClInclude Include="GameObjects\Hydralisk.h" />
+    <ClInclude Include="GameObjects\SCUnit.h" />
+    <ClInclude Include="GameObjects\UI\Crosshair.h" />
     <ClInclude Include="DataTable\DataTable.h" />
     <ClInclude Include="Framework\Defines.h" />
     <ClInclude Include="Framework\Framework.h" />
@@ -61,23 +100,40 @@
     <ClInclude Include="Framework\RenderWindowRBR.h" />
     <ClInclude Include="Framework\Singleton.h" />
     <ClInclude Include="Framework\Utils.h" />
-    <ClInclude Include="GameObjects\Animator.h" />
+    <ClInclude Include="GameObjects\Base\Animator.h" />
     <ClInclude Include="GameObjects\Base\GameObject.h" />
     <ClInclude Include="GameObjects\Base\ShapeGo.h" />
     <ClInclude Include="GameObjects\Base\SpriteAnimatorGo.h" />
     <ClInclude Include="GameObjects\Base\SpriteGo.h" />
     <ClInclude Include="GameObjects\Base\TextGo.h" />
     <ClInclude Include="GameObjects\Base\UIGo.h" />
+    <ClInclude Include="GameObjects\Base\TileEditor.h" />
+    <ClInclude Include="GameObjects\Ghost.h" />
+    <ClInclude Include="GameObjects\Enemy\InfestedTerran.h" />
+    <ClInclude Include="GameObjects\Enemy\Guardian.h" />
+    <ClInclude Include="GameObjects\UI\Interface.h" />
+    <ClInclude Include="GameObjects\Enemy\Mutalisk.h" />
+    <ClInclude Include="GameObjects\Enemy\Overlord.h" />
+    <ClInclude Include="GameObjects\Enemy\Lurker.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="GameObjects\Projectile.h" />
+    <ClInclude Include="GameObjects\Enemy\Queen.h" />
+    <ClInclude Include="Framework\RichText.h" />
     <ClInclude Include="Scenes\SceneAnimatorEditer.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneGame.h" />
     <ClInclude Include="Scenes\SceneTitle.h" />
     <ClInclude Include="GameObjects\UI\UIAnimatorEditer.h" />
     <ClInclude Include="Scenes\SceneTilemapEditor.h" />
-    <ClInclude Include="GameObjects\TileSet.h" />
-    <ClInclude Include="GameObjects\TileEditor.h" />
-    <ClInclude Include="SCUnit.h" />
+    <ClInclude Include="GameObjects\Base\TileSet.h" />
+    <ClInclude Include="GameObjects\UpgradeBuilding.h" />
+    <ClInclude Include="GameObjects\SellBuilding.h" />
+    <ClInclude Include="GameObjects\Spawner.h" />
+    <ClInclude Include="GameObjects\Enemy\Zergling.h" />
+    <ClInclude Include="GameObjects\Enemy\Ultralisk.h" />
+    <ClInclude Include="GameObjects\Enemy\Scourge.h" />
+    <ClInclude Include="GameObjects\Enemy\Zealot.h" />
+    <ClInclude Include="GameObjects\Enemy\TerranBoss.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -169,9 +225,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\Scenes;.\Framework\Manager;.\Framework;.\GameObjects\Base;.\GameObjects\UI;.\GameObjects;.\DataTable;.\;.\SFML-2.6.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GameObjects\Enemy;.\Scenes;.\Framework\Manager;.\Framework;.\GameObjects\Base;.\GameObjects\UI;.\GameObjects;.\DataTable;.\;.\SFML-2.6.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

@@ -2,17 +2,19 @@
 #include "Framework.h"
 #include "Crosshair.h"
 
-void Framework::Init(int width, int height, const std::string& name)
+void Framework::Init(int width, int height, const std::string& name  , sf::Uint64 style)
 {
 	srand(std::time(NULL));
 
 	windowSize.x = width;
 	windowSize.y = height;
+	screenType = style;
 
-	window.create(sf::VideoMode(windowSize.x, windowSize.y), name);
+	window.create(sf::VideoMode(windowSize.x, windowSize.y), name , style);
 	//window.setFramerateLimit(15);
 	window.setMouseCursorVisible(false);
-	//window.setSize({ 1280, 720 });
+	
+
 	window.setPosition(sf::Vector2i((sf::VideoMode::getDesktopMode().width - window.getSize().x) / 2,
 		(sf::VideoMode::getDesktopMode().height - window.getSize().y) / 2 ));
 
@@ -27,6 +29,8 @@ void Framework::Init(int width, int height, const std::string& name)
 
 void Framework::Do()
 {
+
+
 	while (window.isOpen())
 	{
 		deltaTime = realDeltaTime = clock.restart();
@@ -70,6 +74,9 @@ void Framework::Do()
 			SCENE_MGR.DebugUpdate(GetDT());
 			mouse->DebugUpdate(GetDT());
 		}
+
+		sf::Time asTime = clock.restart();
+		frameRate = 1.f / asTime.asSeconds();
 
 		window.clear(sf::Color::Black);
 		SCENE_MGR.Draw(window);

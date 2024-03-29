@@ -1,21 +1,20 @@
 #pragma once
 #include "SpriteAnimatorGo.h"
-
-class SCUnit : public SpriteAnimatorGo
+class Projectile : public SpriteAnimatorGo
 {
 protected:
-	Angle currentAngle = Angle::TOP;
 
 public:
-	SCUnit(const std::string& name = "");
-	~SCUnit() override;
+	Projectile(const std::string& name = "");
+	~Projectile() override;
 
 	void Init() override;
 	void Reset() override;
 	void Update(float dt) override;
+	void Update(float dt, Angle angle);
 	void LateUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
 
-	const Angle& GetCurrentAngle() { return currentAngle; }
+	std::shared_ptr<Animator> GetAnimator() { return animator; }
 };
 

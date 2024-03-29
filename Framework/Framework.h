@@ -22,7 +22,7 @@ protected:
 	float fixedInterval = 1.f/60.f;
 	Crosshair* mouse;
 	sf::Event event;
-
+	sf::Uint64 screenType;
 	sf::Clock clock;
 	float timeScale = 1.f;
 
@@ -33,6 +33,8 @@ protected:
 	sf::Time deltaTime;
 
 	sf::Time fixedDeltaTime;
+
+	int frameRate = 0;
 
 	bool isFocus = true;
 
@@ -49,6 +51,8 @@ public:
 	float GetTime() const { return time.asSeconds(); }
 	float GetRealDT() const { return realDeltaTime.asSeconds(); }
 	float GetDT() const { return deltaTime.asSeconds(); }
+
+	int GetFrame() const { return frameRate; }
 	
 	float GetTimeScale() const { return timeScale; }
 	void SetTimeScale(float scale) { timeScale = scale; }
@@ -57,12 +61,14 @@ public:
 
 	Crosshair* GetMouse() { return mouse; }
 
-	virtual void Init(int width, int height, const std::string& name = "Game");
+	virtual void Init(int width, int height, const std::string& name = "Game" , 
+		sf::Uint64 style = sf::Style::Default);
 	virtual void Do();
 	virtual void Release();
 
 	sf::Event& GetEvent() { return event; }
 
+	sf::Uint64 GetScreenType() { return screenType; }
 };
 
 #define FRAMEWORK (Singleton<Framework>::Instance())

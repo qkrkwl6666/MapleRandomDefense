@@ -9,29 +9,15 @@
 #include <commdlg.h> 
 #include "rapidjson/document.h"
 
-
 using namespace rapidjson;
 
 TileEditor::TileEditor(const std::string& name) : UIGo(name), font(RES_MGR_FONT.Get("font/NotoSansKR-Regular.otf"))
 {}
 
-
 void TileEditor::Init()
 {
 	sceneTilemapEditor = dynamic_cast<SceneTilemapEditor*>(SCENE_MGR.GetScene(SceneIds::SceneTilemapEditor));
 	tileSet = sceneTilemapEditor->GetTileSet();
-	tileSet->LoadTileTexture("graphics/Tile/Tilemap_Sheet.png");
-
-	tilesInit = tileSet->GetTiles();
-
-	for (size_t y = 0; y < tilesInit.size(); ++y)
-	{
-		for (size_t x = 0; x < tilesInit[y].size(); ++x)
-		{
-			tileSet->SetTileTexture(y, x, currentType);
-		}
-	}
-
 	NewSpriteGo("tilemapSheet", "graphics/Tile/Tilemap_Sheet.png");
 	sprites["tilemapSheet"]->SetPosition({ 50,50 });
 	sprites["tilemapSheet"]->sortLayer = 1;
@@ -58,15 +44,14 @@ void TileEditor::Init()
 
 void TileEditor::Update(float dt)
 {
-	GameObject :: Update(dt);
+	GameObject::Update(dt);
 
 
 	screenPos = SCENE_MGR.GetCurrentScene()->UiToScreen((sf::Vector2f)mouse->GetPosition());
 	worldPos = SCENE_MGR.GetCurrentScene()->ScreenToWorld(screenPos);
 
-	//std::cout << worldPos.x << " " << worldPos.y << std::endl;
 
-	isMouseOutsideAllBoxes = true;
+	isMouseOutsideAllBoxes = true; // 타일박스에 커서 올라가있는것 판단
 
 	for (int i = 0; i < 9; ++i) {
 		if (typeselectBox[i].getGlobalBounds().contains(mouse->GetPosition()))
@@ -75,42 +60,86 @@ void TileEditor::Update(float dt)
 			if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
 			{
 				selectBox.setPosition(typeselectBox[i].getPosition());
-				currentType = (TileSet::TileType)i;
+				currentType = (TileType)i;
 			}
 		}
 	}
 	sprites["currentSelectedBox"]->GetSprite()->setTextureRect({ 0,0,32,32 * (int)currentType });
 
+
+
 	if (isMouseOutsideAllBoxes)
 	{
 		if (InputMgr::GetMouseButton(sf::Mouse::Left))
 		{
-			tileSet->SetTileTexture(screenPos.x / 32, screenPos.y / 32, currentType);
+			if (worldPos.x / 32 < 0 || worldPos.x / 32 > 256 || worldPos.y / 32 < 0 || worldPos.y / 32 > 256)
+			{
+				return;
+			}
+			tileSet->SetTileType(worldPos.x / 32 , worldPos.y / 32 , currentType);
 		}
 	}
 
-	//std::cout << isMouseOutsideAllBoxes << std::endl;
+	//마우스로 뷰 이동
+
+	if (InputMgr::GetMouseButtonDown(sf::Mouse::Middle))
+	{
+		lastMouseWorldPos = worldPos; // 현재 마우스 위치를 저장합니다.
+	}
+
+	// 마우스 휠이 눌린 상태 유지 전에 delta랑 위치가 같지 않을때만
+	if (InputMgr::GetMouseButton(sf::Mouse::Middle) &&
+		delta != lastMouseWorldPos - worldPos)
+	{
+		delta = lastMouseWorldPos - worldPos; // 이동량.
+
+		sceneTilemapEditor->GetWorldView().move(delta);
+	}
+
+	if (InputMgr::GetKeyDown(sf::Keyboard::F1))
+	{
+		tileSet->SaveTileMap("tilejson/");
+		std::cout << "SAVE" << std::endl;
+	}
+	if (InputMgr::GetKeyDown(sf::Keyboard::F2))
+	{
+		TCHAR str_currentPath[1024];
+		GetCurrentDirectory(1024, str_currentPath);
+		tileSet->LoadTileMap(convertToRelativePath(OpenFile()), 0.5f);
+		tileSet->VaSet();
+		std::cout << "LOAD" << std::endl;
+	}
 }
 
 void TileEditor::Draw(sf::RenderWindow& window)
 {
 	GameObject::Draw(window);
-	for (size_t y = 0; y < tilesInit.size(); ++y)
-	{
-		for (size_t x = 0; x < tilesInit[y].size(); ++x)
-		{
-			tileSet->Draw(window,x,y);
-		}
-	}
 	UiDraw(window);
 	window.draw(selectBox);
 }
 
-void TileEditor::typeTextSet()
+std::wstring TileEditor::OpenFile(const wchar_t* filter, HWND owner)
 {
+	OPENFILENAMEW ofn;
+	wchar_t fileName[MAX_PATH] = L"";
+	ZeroMemory(&ofn, sizeof(OPENFILENAMEW));
+	ofn.lStructSize = sizeof(OPENFILENAMEW);
+	ofn.hwndOwner = owner;
+	ofn.lpstrFilter = filter;
+	ofn.lpstrFile = fileName;
+	ofn.nMaxFile = MAX_PATH;
+	ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
+	ofn.lpstrDefExt = L"";
 
+	if (GetOpenFileNameW(&ofn))
+		return fileName;
+
+	return Utils::CP949ToWString(tilePath);
 }
 
-void TileEditor::typeTextDelete()
+std::string TileEditor::convertToRelativePath(const std::wstring& absolutePathW)
 {
+	std::string absolutePath = Utils::WSTRINGToString(absolutePathW);
+
+	return absolutePath;
 }

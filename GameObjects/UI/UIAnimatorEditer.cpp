@@ -5,6 +5,7 @@
 #include "TextGo.h"
 #include "SpriteAnimatorGo.h"
 #include "SCUnit.h"
+#include "Hydralisk.h"
 #include <ostream>
 #include <fstream>
 
@@ -120,6 +121,7 @@ void UIAnimatorEditer::Init()
 	texts.insert({ "XYText", new TextGo("XYText") });
 	texts["XYText"]->SetFont(font);
 	texts["XYText"]->SetString("X");
+	texts["XYText"]->sortLayer = 5;
 	texts["XYText"]->SetCharacterSize(30);
 	texts["XYText"]->SetColor(sf::Color::Black);
 	texts["XYText"]->SetOrigin(Origins::MC);
@@ -140,6 +142,7 @@ void UIAnimatorEditer::Init()
 	texts["AnimationViewText"]->SetCharacterSize(30);
 	texts["AnimationViewText"]->SetColor(sf::Color::Black);
 	texts["AnimationViewText"]->SetOrigin(Origins::MC);
+	texts["AnimationViewText"]->sortLayer = 5;
 	texts["AnimationViewText"]->SetPosition({ FRAMEWORK.GetWindowSize().x
 		- ((sprites["ChangeXY"]->GetGlobalBounds().width / 2))
 		, FRAMEWORK.GetWindowSize().y * 0.65f });
@@ -157,28 +160,37 @@ void UIAnimatorEditer::Init()
 	texts["AngleCountText"]->SetCharacterSize(30);
 	texts["AngleCountText"]->SetColor(sf::Color::Black);
 	texts["AngleCountText"]->SetOrigin(Origins::MC);
+	texts["AngleCountText"]->sortLayer = 5;
 	texts["AngleCountText"]->SetPosition({ FRAMEWORK.GetWindowSize().x
 		- ((sprites["SpriteAngleCount"]->GetGlobalBounds().width / 2))
 		, FRAMEWORK.GetWindowSize().y * 0.85f });
 
-	animator = std::make_shared<Animator>();
-	preViewSprite = new SpriteAnimatorGo();
-	preViewSprite->sortLayer = 5;
-	preViewSprite->SetScale({ 3.f , 3.f });
+	//animator = std::make_shared<Animator>();
+	//preViewSprite = new SpriteAnimatorGo();
+	//preViewSprite->sortLayer = 5;
+	//preViewSprite->SetScale({ 3.f , 3.f });
 
-	SCENE_MGR.GetScene(SceneIds::SceneAnimatorEditer)->AddGo(preViewSprite, Scene::Ui);
+	//SCENE_MGR.GetScene(SceneIds::SceneAnimatorEditer)->AddGo(preViewSprite, Scene::Ui);
 
-	animator->SetTarget(preViewSprite->GetSprite());
-	preViewSprite->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.5f
-		, FRAMEWORK.GetWindowSize().y * 0.5f });
+	//animator->SetTarget(preViewSprite->GetSprite());
+	//preViewSprite->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.5f
+	//	, FRAMEWORK.GetWindowSize().y * 0.5f });
 
-	SCUnit* sc;
+	/*SCUnit* sc;
 	sc = new SCUnit();
 
 	sc->Init();
 	sc->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.5f, FRAMEWORK.GetWindowSize().y * 0.5f });
 	sc->sortLayer = 22;
-	SCENE_MGR.GetScene(SceneIds::SceneAnimatorEditer)->AddGo(sc, Scene::Ui);
+	SCENE_MGR.GetScene(SceneIds::SceneAnimatorEditer)->AddGo(sc, Scene::Ui);*/
+
+	Hydralisk* hydralisk;
+	hydralisk = new Hydralisk("Hydralisk");
+	hydralisk->Init();
+	hydralisk->SetPosition({ FRAMEWORK.GetWindowSize().x * 0.5f,
+	FRAMEWORK.GetWindowSize().y * 0.5f });
+
+	SCENE_MGR.GetScene(SceneIds::SceneAnimatorEditer)->AddGo(hydralisk, Scene::Ui);
 
 	UiInit();
 	ObjectsSort();
@@ -188,7 +200,6 @@ void UIAnimatorEditer::Release()
 {
 	GameObject::Release();
 
-	UiDelete();
 }
 
 void UIAnimatorEditer::Reset()
@@ -239,8 +250,8 @@ void UIAnimatorEditer::LateUpdate(float dt)
 
 			if (MouseSpriteMouseLeftEvent("AnimationView"))
 			{
-				animator->AddClip(RES_MGR_ANIMATIONCLIP.Get(CsvFilePath));
-				animator->Play(Utils::WSTRINGToString(idWstring));
+				//animator->AddClip(RES_MGR_ANIMATIONCLIP.Get(CsvFilePath));
+				//animator->Play(Utils::WSTRINGToString(idWstring));
 			}
 
 			MouseHandle("IdSprite", Types::ID_INPUT);

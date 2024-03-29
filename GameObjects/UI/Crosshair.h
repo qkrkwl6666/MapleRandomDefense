@@ -1,6 +1,6 @@
 #pragma once
-#include "SpriteGo.h"
-class Crosshair : public SpriteGo
+#include "SpriteAnimatorGo.h"
+class Crosshair : public SpriteAnimatorGo
 {
 public:
 	Crosshair(const std::string& name = "crosshair");
@@ -14,12 +14,17 @@ public:
 	void Release();
 	void Reset();
 	void Update(float dt);
-	void Draw(sf::RenderWindow& window);
+	void Draw(sf::RenderWindow& window);	
+	bool isCursorsUnitCollision = false;
+	bool isCursorsBuildingCollision = false;
+	bool isCursorsEnemyCollision = false;
+	bool isCursorsMoving = false;
 
 	sf::Vector2f GetPosition() const
 	{
 		return position;
 	}
 
+	void SetAllCollision(bool active);
 };
 

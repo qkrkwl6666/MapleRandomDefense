@@ -59,8 +59,10 @@ public:
 
 	// 단일 파일
 	static std::wstring OpenSaveFileDialog();
-
+	static std::wstring OpenSaveFileDialogToJson(); //json 경로
 	std::vector<std::wstring> OpenFileDialog();
 
 	static void RemoveStringBeforeKeyWord(std::string& filePath , const std::string& keyWord);
+
+	static float FindNearestAngleconst(const std::vector<float>& angles, float target);
 };

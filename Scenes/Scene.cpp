@@ -8,6 +8,7 @@ Scene::Scene(SceneIds id) :
 	soundResMgr(RES_MGR_SOUND_BUFFER)
 {
 	worldView.setSize((sf::Vector2f)FRAMEWORK.GetWindowSize());
+	worldView.zoom(0.65f);
 	worldView.setCenter((sf::Vector2f)FRAMEWORK.GetWindowSize() * 0.5f);
 	uiView.setSize((sf::Vector2f)FRAMEWORK.GetWindowSize());
 	uiView.setCenter((sf::Vector2f)FRAMEWORK.GetWindowSize() * 0.5f);
@@ -86,6 +87,7 @@ void Scene::Exit()
 }
 
 void Scene::Update(float dt)
+
 {
 	for (auto obj : gameObjects)
 	{

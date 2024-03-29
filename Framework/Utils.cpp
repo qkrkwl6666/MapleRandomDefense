@@ -3,6 +3,8 @@
 #include <string>
 #include <Windows.h>
 
+#pragma warning(disable : 4996)
+
 float Utils::Clamp(float v, float min, float max)
 {
 	if (v < min)
@@ -420,6 +422,32 @@ std::wstring Utils::OpenSaveFileDialog()
 	return L""; // 사용자가 취소하면 빈 문자열을 반환
 }
 
+
+
+std::wstring Utils::OpenSaveFileDialogToJson()
+{
+	OPENFILENAME ofn; // OPENFILENAME 구조체
+	wchar_t szFileName[MAX_PATH] = L""; // 파일 이름을 저장할 배열
+
+	ZeroMemory(&ofn, sizeof(ofn));
+
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFilter = L"JSON Files (*.json)\0*.json\0All Files (*.*)\0*.*\0";
+	ofn.lpstrFile = szFileName;
+	ofn.nMaxFile = MAX_PATH;
+	// 작업 디렉토리 변경 X
+	ofn.Flags = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR;
+	ofn.lpstrDefExt = L"json";
+
+	if (GetSaveFileName(&ofn)) // 파일 저장 대화 상자를 표시
+	{
+		return ofn.lpstrFile; // 사용자가 지정한 파일 경로를 반환
+	}
+
+	return L""; // 사용자가 취소하면 빈 문자열을 반환
+}
+
 std::vector<std::wstring> Utils::OpenFileDialog()
 {
 	OPENFILENAME ofn;
@@ -466,5 +494,42 @@ void Utils::RemoveStringBeforeKeyWord(std::string& filePath
 		filePath = filePath.substr(pos);
 		return;
 	}
+}
+
+float Utils::FindNearestAngleconst(const std::vector<float>& angles, float target)
+{
+	int left = 0;
+	int right = angles.size() - 1;
+
+	while (left < right)
+	{
+		int mid = left + (right - left) / 2;
+
+		if (angles[mid] == target)
+		{
+			return angles[mid];
+		}
+
+		if (mid > 0 && target < angles[mid] && target > angles[mid - 1])
+		{
+			return (std::abs(target - angles[mid]) < std::abs(target - angles[mid - 1])) ? angles[mid] : angles[mid - 1];
+		}
+
+		if (mid < angles.size() - 1 && target > angles[mid] && target < angles[mid + 1])
+		{
+			return (std::abs(target - angles[mid]) < std::abs(target - angles[mid + 1])) ? angles[mid] : angles[mid + 1];
+		}
+
+		if (target < angles[mid])
+		{
+			right = mid - 1;
+		}
+		else
+		{
+			left = mid + 1;
+		}
+	}
+
+	return (std::abs(target - angles[left]) < std::abs(target - angles[right])) ? angles[left] : angles[right];
 }
 

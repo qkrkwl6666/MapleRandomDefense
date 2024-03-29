@@ -42,7 +42,7 @@ public:
 	void DebugUpdate(float dt);
 	void Draw(sf::RenderWindow& window);
 	void DebugDraw(sf::RenderWindow& window);
-
+	void TitleBgm();
 	SceneMgr(const SceneMgr&) = delete;
 	SceneMgr(SceneMgr&&) = delete;
 	SceneMgr& operator=(const SceneMgr&) = delete;

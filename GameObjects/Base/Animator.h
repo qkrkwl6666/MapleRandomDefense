@@ -9,17 +9,15 @@ enum class AnimationLoopTypes
 
 enum class Angle
 {
-	TOP,
-	TOP15,
-	TOP30,
-	TOP60,
-	RIGHT,
-	BOTTOM60,
-	BOTTOM30,
-	BOTTOM15,
+	TOP, // 0
+	TOP15, // 30
+	TOP30, // 45
+	TOP60, // 60
+	RIGHT, // 90 
+	BOTTOM60, // 120
+	BOTTOM30, // 135
+	BOTTOM15, // 150
 	BOTTOM,
-
-
 };
 
 struct AnimationFrame
@@ -112,7 +110,10 @@ public:
 
 	void Update(float dt);
 	void Update(float dt , Angle currentAngle);
-	void Play(const std::string& clipId, bool clearQueue = true, bool isAngle = false);
+	void Play(const std::string& clipId, bool clearQueue = true);
+	void Play(const std::string& clipId, bool clearQueue, bool isAngle, Angle currentAngle);
+
+	void PlayIdle(const std::string& clipId, bool clearQueue = true, Angle currentAngle = Angle::TOP);
 	void PlayQueue(const std::string& clipId);
 	void Stop();
 	void SetFrame(const AnimationFrame& frame);

@@ -4,6 +4,7 @@
 #include "SceneTitle.h"
 #include "SceneAnimatorEditer.h"
 #include "SceneTilemapEditor.h"
+#include "Spawner.h"
 
 SceneMgr::~SceneMgr()
 {
@@ -50,6 +51,7 @@ bool SceneMgr::Update(float dt)
 	if (InputMgr::GetKeyDown(sf::Keyboard::F5))
 	{
 		SCENE_MGR.ChangeScene(SceneIds::SceneTitle);
+		TitleBgm();
 	}
 
 	scenes[(int)currentScene]->Update(dt);
@@ -91,4 +93,9 @@ void SceneMgr::Draw(sf::RenderWindow& window)
 void SceneMgr::DebugDraw(sf::RenderWindow& window)
 {
 	scenes[(int)currentScene]->DebugDraw(window);
+}
+
+void SceneMgr::TitleBgm()
+{
+	SOUND_MGR.PlayBGM("sounds/Lith.mp3");
 }
